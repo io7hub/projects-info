@@ -377,7 +377,7 @@ body, .stApp, p, h1, h2, h3, h4, .stText, .stMarkdown {
     text-align: center;
     color: white;
     /* 기존 margin-bottom 유지 */
-    margin-bottom: 2rem; 
+    margin-bottom: 1rem; 
 }
 .k_header_title {
     font-size: 42px;
