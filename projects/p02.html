@@ -1,47 +1,1143 @@
-<!--
- Copyright (c) Streamlit Inc. (2018-2022) Snowflake Inc. (2022-2025)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <link rel="shortcut icon" href="./favicon.png" />
-    <link
-      rel="preload"
-      href="./static/media/SourceSansVF-Upright.ttf.BsWL4Kly.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대형 유도전동기 예지보전 MLOps 아키텍처</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <title>Streamlit</title>
+        body {
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #0a192f 0%, #112240 50%, #1a365d 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
 
-    <!-- initialize window.prerenderReady to false and then set to true in React app when app is ready for indexing -->
-    <script>
-      window.prerenderReady = false
-    </script>
-    <script type="module" crossorigin src="./static/js/index.CAj-7vWz.js"></script>
-    <link rel="stylesheet" crossorigin href="./static/css/index.BpABIXK9.css">
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-  </body>
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, #0f1629 0%, #1a1f3a 100%);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 100px rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0c1e3a 0%, #1e3a5f 50%, #2d4a7c 100%);
+            color: white;
+            padding: 60px 60px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .header h1 {
+            font-size: 44px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 19px;
+            opacity: 0.85;
+            position: relative;
+            z-index: 1;
+            color: #93c5fd;
+            font-weight: 500;
+        }
+
+        .main-content {
+            padding: 60px;
+            background: linear-gradient(180deg, #0f1629 0%, #1a1f3a 100%);
+        }
+
+        .architecture-section {
+            margin-bottom: 70px;
+        }
+
+        .section-title {
+            font-size: 34px;
+            font-weight: 700;
+            color: #60a5fa;
+            margin-bottom: 45px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            text-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+        }
+
+        .section-title::before {
+            content: '';
+            width: 8px;
+            height: 45px;
+            background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+        }
+
+        .layers-container {
+            display: grid;
+            gap: 35px;
+        }
+
+        .layer {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%);
+            border-radius: 20px;
+            padding: 35px;
+            border: 2px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .layer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+        }
+
+        .layer::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            transition: all 0.4s ease;
+        }
+
+        .layer:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        .layer:hover::after {
+            top: -30%;
+            right: -30%;
+        }
+
+        .layer-header {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .layer-number {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4), inset 0 -2px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .layer-number::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 20px;
+            padding: 3px;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.6;
+        }
+
+        .layer-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #e2e8f0;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .components-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .components-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-top: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .components-grid-5 {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 25px;
+            margin-top: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 1400px) {
+            .components-grid-5 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .components-grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .components-grid-5 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .components-grid-4,
+            .components-grid-5 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .component {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(51, 65, 85, 0.6) 100%);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .component::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .component:hover {
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .component:hover::before {
+            opacity: 1;
+        }
+
+        .component-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #bfdbfe;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .component-icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+            position: relative;
+        }
+
+        .component-icon::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%);
+        }
+
+        .component-details {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+
+        .component-details ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .component-details li {
+            padding-left: 22px;
+            position: relative;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .component-details li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #3b82f6;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+        }
+
+        .component:hover .component-details li {
+            color: #cbd5e1;
+        }
+
+        .specs-section {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.3) 0%, rgba(29, 78, 216, 0.2) 100%);
+            border-radius: 20px;
+            padding: 45px;
+            margin-bottom: 70px;
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .specs-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 25px;
+            margin-top: 35px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .spec-card {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.8) 100%);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spec-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+        }
+
+        .spec-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(59, 130, 246, 0.3);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        .spec-label {
+            font-size: 13px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .spec-value {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .rules-section {
+            margin-bottom: 70px;
+        }
+
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-top: 35px;
+        }
+
+        @media (max-width: 1200px) {
+            .rules-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .rules-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .rule-card {
+            background: linear-gradient(135deg, rgba(194, 65, 12, 0.15) 0%, rgba(234, 88, 12, 0.1) 100%);
+            border-radius: 16px;
+            padding: 30px;
+            border-left: 5px solid #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.15);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rule-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+        }
+
+        .rule-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(245, 158, 11, 0.25);
+            border-color: rgba(245, 158, 11, 0.5);
+        }
+
+        .rule-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 14px;
+            text-shadow: 0 2px 10px rgba(251, 191, 36, 0.3);
+        }
+
+        .rule-content {
+            font-size: 14px;
+            color: #cbd5e1;
+            line-height: 1.8;
+        }
+
+        .workflow-section {
+            background: linear-gradient(135deg, rgba(157, 23, 77, 0.2) 0%, rgba(219, 39, 119, 0.15) 100%);
+            border-radius: 20px;
+            padding: 45px;
+            margin-bottom: 70px;
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .workflow-section::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            right: -100%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
+            animation: rotate 25s linear infinite;
+        }
+
+        .workflow-steps {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 35px;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .workflow-step {
+            flex: 1;
+            min-width: 160px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.8) 100%);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .workflow-step:hover {
+            transform: translateY(-5px);
+            border-color: rgba(236, 72, 153, 0.6);
+            box-shadow: 0 15px 45px rgba(236, 72, 153, 0.25);
+        }
+
+        .workflow-step::after {
+            content: '→';
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 28px;
+            color: #ec4899;
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(236, 72, 153, 0.6);
+            z-index: 2;
+        }
+
+        .workflow-step:last-child::after {
+            display: none;
+        }
+
+        .workflow-number {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            font-weight: 700;
+            font-size: 20px;
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4), inset 0 -2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .workflow-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        .kpi-section {
+            background: linear-gradient(135deg, rgba(29, 78, 216, 0.2) 0%, rgba(37, 99, 235, 0.15) 100%);
+            border-radius: 20px;
+            padding: 45px;
+            margin-bottom: 70px;
+            border: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .kpi-tree {
+            margin-top: 35px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.8) 100%);
+            border-radius: 16px;
+            padding: 35px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .kpi-level {
+            margin-bottom: 30px;
+            padding-left: 35px;
+            border-left: 4px solid #3b82f6;
+            position: relative;
+        }
+
+        .kpi-level::before {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+        }
+
+        .kpi-level-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: #60a5fa;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
+        }
+
+        .kpi-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .kpi-tag {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.15) 100%);
+            color: #93c5fd;
+            padding: 10px 18px;
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .kpi-tag:hover {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(37, 99, 235, 0.25) 100%);
+            border-color: rgba(59, 130, 246, 0.6);
+            color: #bfdbfe;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #0c1e3a 0%, #1e3a5f 100%);
+            color: white;
+            padding: 45px 60px;
+            text-align: center;
+            border-top: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .footer-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-text {
+            font-size: 15px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 35px 30px;
+            }
+
+            .header h1 {
+                font-size: 30px;
+            }
+
+            .main-content {
+                padding: 35px;
+            }
+
+            .section-title {
+                font-size: 26px;
+            }
+
+            .workflow-steps {
+                flex-direction: column;
+            }
+
+            .workflow-step::after {
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -32px;
+                transform: translateX(50%);
+            }
+
+            .components-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>대형 유도전동기 예지보전 MLOps 통합 아키텍처</h1>
+            <p>IoT Master Edge + Cloud MLOps + Streamlit 운영 시스템</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Motor Specifications -->
+            <div class="specs-section">
+                <div class="section-title">전동기 사양</div>
+                <div class="specs-grid">
+                    <div class="spec-card">
+                        <div class="spec-label">전압/상</div>
+                        <div class="spec-value">380V / 3상</div>
+                    </div>
+                    <div class="spec-card">
+                        <div class="spec-label">주파수</div>
+                        <div class="spec-value">60 Hz</div>
+                    </div>
+                    <div class="spec-card">
+                        <div class="spec-label">출력</div>
+                        <div class="spec-value">250 kW</div>
+                    </div>
+                    <div class="spec-card">
+                        <div class="spec-label">회전수</div>
+                        <div class="spec-value">1750 rpm</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Architecture Layers -->
+            <div class="architecture-section">
+                <div class="section-title">5-Layer 아키텍처</div>
+                
+                <div class="layers-container">
+                    <!-- Layer 1 -->
+                    <div class="layer">
+                        <div class="layer-header">
+                            <div class="layer-number">1</div>
+                            <div class="layer-title">Field Layer (현장 설비)</div>
+                        </div>
+                        <div class="components-grid-2">
+                            <div class="component">
+                                <div class="component-title">
+                                    <div class="component-icon"></div>
+                                    대형 유도 전동기
+                                </div>
+                                <div class="component-details">
+                                    <ul>
+                                        <li>380V / 3상 / 60Hz</li>
+                                        <li>250kW / 1750rpm</li>
+                                        <li>산업용 대형 모터</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="component">
+                                <div class="component-title">
+                                    <div class="component-icon"></div>
+                                    센서 시스템
+                                </div>
+                                <div class="component-details">
+                                    <ul>
+                                        <li>진동 (RMS, FFT)</li>
+                                        <li>전류 / 전압</li>
+                                        <li>베어링 온도</li>
+                                        <li>RPM / Load</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 2 -->
+                    <div class="layer">
+                        <div class="layer-header">
+                            <div class="layer-number">2</div>
+                            <div class="layer-title">Edge Layer — IoT Master</div>
+                        </div>
+                        <div class="components-grid-4">
+                            <div class="component">
+                                <div class="component-title">
+                                    <div class="component-icon"></div>
+                                    IoT Master (Raspberry Pi 3)
+                                </div>
+                                <div class="component-details">
+                                    <ul>
+                                        <li>Modbus / RS-485</li>
+                                        <li>MQTT 통신</li>
+                                        <li>Node-RED</li>
+                                        <li>Edge AI Runtime</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="component">
+                                <div class="component-title">
+                                    <div class="component-icon"></div>
+                                    실시간 데이터 전처리
+                                </div>
+                                <div class="component-details">
+                                    <ul>
+                                        <li>Filtering</li>
+                                        <li>Feature Extraction</li>
+                                        <li>Sliding Window</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="component">
+                                <div class="component-title">
+                                    <div class="component-icon"></div>
+                                    Edge Inference
+                                </div>
+                                <div class="component-details">
+                                    <ul>
+                                        <li>Anomaly Detection</li>
+                                        <li>RUL 추정</li>
+                                        <li>지연시간 &lt;200ms</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="component">
+                                <div class="component-title">
+                                    <div class="component-icon"></div>
+                                    로컬 버퍼 저장
+                                </div>
+                                <div class="component-details">
+                                    <ul>
+                                        <li>SQLite / CSV</li>
+                                        <li>통신 장애 대비</li>
+                                        <li>데이터 손실 방지</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 3 -->
+                    <div class="layer">
+                        <div class="layer-header">
+                            <div class="layer-number">3</div>
+                            <div class="layer-title">Cloud MLOps Core</div>
+                        </div>
+                        <div class="components-grid-5">
+                            <div class="component">
+                                <div class="component-title">
+                                    <div class="component-icon"></div>
+                                    Data Lake
+                                </div>
+                                <div class="component-details">
+                                    <ul>
+                                        <li>Time-series 데이터</li>
+                                        <li>KPI 메트릭</li>
+                                        <li>Label 정보</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="component">
+                                <div class="component-title">
+                                    <div class="component-icon"></div>
+                                    Model Training Pipeline
+                                </div>
+                                <div class="component-details">
+                                    <ul>
+                                        <li>Feature Engineering</li>
+                                        <li>Hyperparameter Tuning</li>
+                                        <li>Cross Validation</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="component">
+                                <div class="component-title">
+                                    <div class="component-icon"></div>
+                                    Model Registry (MLflow)
+                                </div>
+                                <div class="component-details">
+                                    <ul>
+                                        <li>버전 관리</li>
+                                        <li>Staging / Production</li>
+                                        <li>메타데이터 추적</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="component">
+                                <div class="component-title">
+                                    <div class="component-icon"></div>
+                                    CI/CD Pipeline
+                                </div>
+                                <div class="component-details">
+                                    <ul>
+                                        <li>Model Validation</li>
+                                        <li>승인 Workflow</li>
+                                        <li>자동 배포</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="component">
+                                <div class="component-title">
+                                    <div class="component-icon"></div>
+                                    Monitoring
+                                </div>
+                                <div class="component-details">
+                                    <ul>
+                                        <li>Accuracy / RMSE</li>
+                                        <li>Drift Detection</li>
+                                        <li>Auto Retrain Trigger</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 4 -->
+                    <div class="layer">
+                        <div class="layer-header">
+                            <div class="layer-number">4</div>
+                            <div class="layer-title">Model Serving</div>
+                        </div>
+                        <div class="components-grid">
+                            <div class="component">
+                                <div class="component-title">
+                                    <div class="component-icon"></div>
+                                    Inference API
+                                </div>
+                                <div class="component-details">
+                                    <ul>
+                                        <li>FastAPI / REST</li>
+                                        <li>Model Update 관리</li>
+                                        <li>실시간 예측 서비스</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 5 -->
+                    <div class="layer">
+                        <div class="layer-header">
+                            <div class="layer-number">5</div>
+                            <div class="layer-title">Streamlit 통합 운영 대시보드</div>
+                        </div>
+                        <div class="components-grid-4">
+                            <div class="component">
+                                <div class="component-title">
+                                    <div class="component-icon"></div>
+                                    제조 KPI 대시보드
+                                </div>
+                                <div class="component-details">
+                                    <ul>
+                                        <li>가동률 (OEE)</li>
+                                        <li>에너지 효율</li>
+                                        <li>부하율 모니터링</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="component">
+                                <div class="component-title">
+                                    <div class="component-icon"></div>
+                                    예지보전 대시보드
+                                </div>
+                                <div class="component-details">
+                                    <ul>
+                                        <li>이상 점수</li>
+                                        <li>RUL 추세</li>
+                                        <li>이벤트 히스토리</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="component">
+                                <div class="component-title">
+                                    <div class="component-icon"></div>
+                                    MLOps 운영 패널
+                                </div>
+                                <div class="component-details">
+                                    <ul>
+                                        <li>모델 비교</li>
+                                        <li>승격/롤백</li>
+                                        <li>재학습 트리거</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="component">
+                                <div class="component-title">
+                                    <div class="component-icon"></div>
+                                    리포트 / 의사결정 지원
+                                </div>
+                                <div class="component-details">
+                                    <ul>
+                                        <li>PNG 내보내기</li>
+                                        <li>DOCX 생성</li>
+                                        <li>PDF 리포트</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Approval Workflow -->
+            <div class="workflow-section">
+                <div class="section-title">MLOps 승인 워크플로우</div>
+                <div class="workflow-steps">
+                    <div class="workflow-step">
+                        <div class="workflow-number">1</div>
+                        <div class="workflow-label">신규 모델 학습</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="workflow-number">2</div>
+                        <div class="workflow-label">자동 성능 평가</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="workflow-number">3</div>
+                        <div class="workflow-label">Staging 등록</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="workflow-number">4</div>
+                        <div class="workflow-label">Streamlit 검토</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="workflow-number">5</div>
+                        <div class="workflow-label">운영 승인</div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="workflow-number">6</div>
+                        <div class="workflow-label">Production 배포</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Governance Rules -->
+            <div class="rules-section">
+                <div class="section-title">MLOps 운영 규칙</div>
+                <div class="rules-grid">
+                    <div class="rule-card">
+                        <div class="rule-title">Rule 1: 모델 등록</div>
+                        <div class="rule-content">
+                            모든 모델은 Model Registry에 등록 필수. 학습 데이터 기간, 사용 센서, KPI 영향 범위 메타데이터 포함.
+                        </div>
+                    </div>
+                    <div class="rule-card">
+                        <div class="rule-title">Rule 2: 모델 상태</div>
+                        <div class="rule-content">
+                            Staging (검증용) → Production (운영 승인) → Archived (사용 중지)
+                        </div>
+                    </div>
+                    <div class="rule-card">
+                        <div class="rule-title">Rule 3: 무단 배포 금지</div>
+                        <div class="rule-content">
+                            Registry를 거치지 않은 모델은 Edge 배포 불가. Streamlit UI에서만 승인 가능.
+                        </div>
+                    </div>
+                    <div class="rule-card">
+                        <div class="rule-title">성능 기준</div>
+                        <div class="rule-content">
+                            예측 정확도 기준 모델 대비 ≥5% 개선. Edge 추론 지연 200ms 이하. 데이터 손실 0.1% 이하.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI Ontology -->
+            <div class="kpi-section">
+                <div class="section-title">온톨로지 기반 KPI 계층</div>
+                <div class="kpi-tree">
+                    <div class="kpi-level">
+                        <div class="kpi-level-title">Level 1: Raw KPI</div>
+                        <div class="kpi-items">
+                            <div class="kpi-tag">RMS 진동</div>
+                            <div class="kpi-tag">평균 전류</div>
+                            <div class="kpi-tag">베어링 온도</div>
+                            <div class="kpi-tag">전압</div>
+                        </div>
+                    </div>
+                    <div class="kpi-level">
+                        <div class="kpi-level-title">Level 2: Derived KPI</div>
+                        <div class="kpi-items">
+                            <div class="kpi-tag">불균형 지수</div>
+                            <div class="kpi-tag">온도 상승률</div>
+                            <div class="kpi-tag">베어링 고장 지수</div>
+                            <div class="kpi-tag">부하율</div>
+                        </div>
+                    </div>
+                    <div class="kpi-level">
+                        <div class="kpi-level-title">Level 3: Health Index</div>
+                        <div class="kpi-items">
+                            <div class="kpi-tag">Motor Health Score</div>
+                            <div class="kpi-tag">RUL (잔여 수명)</div>
+                            <div class="kpi-tag">이상 점수</div>
+                        </div>
+                    </div>
+                    <div class="kpi-level">                           
+                            <div class="kpi-level-title">Level 4: Business KPI
+                            </div>
+                            <div class="kpi-items">
+                                <div class="kpi-tag">OEE (종합 설비 효율)</div>
+                                <div class="kpi-tag">정지 리스크</div>
+                                <div class="kpi-tag">유지보수 비용</div>
+                                <div class="kpi-tag">에너지 효율</div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-title">데이터 기반 가치 전환 전략 |  Powered by Kⁱ⁰⁷ 전략 AI | Edge-Cloud 협업 예지보전 시스템</div>
+            <div class="footer-text">IoT Master (Raspberry Pi) + Cloud MLOps + Streamlit 통합 운영</div>
+        </div>
+
+
+            <!-- Final Insight Footer -->
+    <footer class="text-center py-10">
+      <p style="margin-top: 0px; margin-bottom: 10px; font-weight: 200; color: #b8b4b4;text-align: center;">
+                This work is based on my personal field analysis of data-driven value transformation strategies. <br>
+                © 2023 Kⁱ⁰⁷ All rights reserved. | Generated: 2025-11-26 | 📧 io7hub@naver.com</p>
+      <div class="w-12 h-1 bg-gradient-to-r from-blue-500 to-emerald-500 mx-auto rounded-full"></div>
+    </footer>
+    </div>
+</body>
 </html>
