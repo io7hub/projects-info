@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>26 HR 이직률 감소 전략 로드맵 및 시뮬레이션</title>
+    <!-- Inter 폰트 및 Tailwind CSS 로드 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Mermaid.js for Roadmap Visualization (기존 구성 유지를 위해 남겨둠) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.5.0/dist/mermaid.min.js"></script>
+    <style>
+        /* Inter 폰트 설정 및 기본 다크 테마 */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117; /* Dark background */
+            color: #c9d1d9; /* Light text */
+        }
+        .card {
+            background-color: #161b22; /* Card background */
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 24px;
+        }
+        .section-divider {
+            height: 4px;
+            background: linear-gradient(to right, #58a6ff, #f85149);
+            margin: 40px 0;
+            border-radius: 2px;
+        }
+        .accent-primary { color: #58a6ff; } /* Blue */
+        .accent-secondary { color: #f85149; } /* Red */
+        .mermaid {
+            background-color: #161b22 !important;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        /* Custom styles for the simulation chart */
+        #simulation-chart {
+            background-color: #1e252e;
+            border-radius: 8px;
+            height: 350px; /* 차트 높이 증가 */
+            position: relative;
+        }
+        .success-target {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            background-color: #2da44e;
+            border-radius: 8px;
+            font-weight: 700;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(45, 164, 78, 0.5);
+        }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="mb-10 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2">
+                HR 이직률 감소 전략 로드맵 및 시뮬레이션
+            </h1>
+            <p class="text-xl text-gray-400">데이터 분석 기반의 액션 플랜 및 시뮬레이션 모델</p>
+        </header>
+
+        <!-- ============================================= -->
+        <!-- PAGE 1: STRATEGIC ROADMAP (HTML/CSS Step Flow) -->
+        <!-- ============================================= -->
+        <section class="mb-12 card">
+            <h2 class="text-3xl font-bold mb-6 pb-2 accent-primary">1단계: 핵심 요소 개선 전략 로드맵</h2>
+            
+            <!-- START: New HTML/CSS Roadmap Visualization -->
+            <div class="space-y-8 mt-8">
+                <!-- Step 1: Initial Analysis -->
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 flex-shrink-0 rounded-full bg-red-600 text-white flex items-center justify-center font-bold text-lg border-2 border-red-400 shadow-xl">1</div>
+                    <div class="p-4 bg-gray-800 rounded-lg flex-grow border border-red-700/50">
+                        <p class="text-lg font-semibold accent-secondary">초기 분석 및 목표 설정</p>
+                        <p class="text-sm text-gray-400">현황: 이직률 <span class="text-red-400 font-bold">16.2%</span> / 원인 규명: 3대 핵심 요인</p>
+                    </div>
+                </div>
+
+                <!-- Connector Arrow -->
+                <div class="flex justify-center">
+                    <svg class="w-6 h-6 text-gray-500 transform rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </div>
+
+                <!-- Step 2: The 3 Pillars (Core Elements) -->
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Pillar 1 -->
+                    <div class="p-5 card border-l-4 border-yellow-500 transition duration-300 hover:scale-[1.02]">
+                        <h4 class="text-xl font-bold text-yellow-500 mb-2">Pillar 1: 몰입도</h4>
+                        <p class="text-sm text-gray-300">몰입형 직무 재설계</p>
+                        <p class="text-xs text-gray-400 mt-2">KPI: 직업 만족도 +1.0pt</p>
+                        <p class="text-base font-bold text-green-400 mt-1">기대 효과: -4%p</p>
+                    </div>
+                    <!-- Pillar 2 -->
+                    <div class="p-5 card border-l-4 border-blue-500 transition duration-300 hover:scale-[1.02]">
+                        <h4 class="text-xl font-bold text-blue-500 mb-2">Pillar 2: 관계 안정성</h4>
+                        <p class="text-sm text-gray-300">매니저 관계 코칭</p>
+                        <p class="text-xs text-gray-400 mt-2">KPI: 매니저 근속 1년 미만 이직률 -10%</p>
+                        <p class="text-base font-bold text-green-400 mt-1">기대 효과: -3%p</p>
+                    </div>
+                    <!-- Pillar 3 -->
+                    <div class="p-5 card border-l-4 border-purple-500 transition duration-300 hover:scale-[1.02]">
+                        <h4 class="text-xl font-bold text-purple-500 mb-2">Pillar 3: 경력/보상</h4>
+                        <p class="text-sm text-gray-300">연봉 경쟁력 및 교육 강화</p>
+                        <p class="text-xs text-gray-400 mt-2">KPI: 월 수입 격차 50% 축소</p>
+                        <p class="text-base font-bold text-green-400 mt-1">기대 효과: -2%p</p>
+                    </div>
+                </div>
+                
+                <!-- Connector Arrow -->
+                <div class="flex justify-center">
+                    <svg class="w-6 h-6 text-gray-500 transform rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </div>
+
+                <!-- Step 3: Final Goal -->
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 flex-shrink-0 rounded-full bg-green-600 text-white flex items-center justify-center font-bold text-lg border-2 border-green-400 shadow-xl">2</div>
+                    <div class="p-4 bg-gray-800 rounded-lg flex-grow border border-green-700/50">
+                        <p class="text-lg font-semibold text-green-400">누적 효과 및 최종 목표</p>
+                        <p class="text-xl font-bold text-white">이직률 <span class="text-green-400">7.2%</span> 달성</p>
+                            </p>
+                    </div>
+                </div>
+            </div>
+            <!-- END: New HTML/CSS Roadmap Visualization -->
+
+            <p class="mt-6 text-sm italic text-gray-500">
+                로드맵 인사이트: 이직률 16.2%를 3대 핵심 Pillar에 대한 집중적인 투자를 통해 최종적으로 7.2% 수준까지 낮추는 것을 목표로 함.
+            </p>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- ============================================= -->
+        <!-- PAGE 2: ACTION PLAN AND SIMULATION -->
+        <!-- ============================================= -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 pb-2 accent-primary">2단계: 전략별 세부 액션 플랜 및 이직률 시뮬레이션</h2>
+            
+            <!-- Action Plan Table -->
+            <div class="card mb-8">
+                <h3 class="text-xl font-semibold mb-4 text-white">세부 액션 플랜 (Action Plan Matrix)</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-700">
+                        <thead>
+                            <tr class="text-left text-xs font-medium text-gray-400 uppercase tracking-wider bg-gray-800">
+                                <th class="px-4 py-3">전략 Pillar</th>
+                                <th class="px-4 py-3">핵심 요소</th>
+                                <th class="px-4 py-3">액션 플랜</th>
+                                <th class="px-4 py-3">측정 지표 (KPI)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-800">
+                            <tr class="hover:bg-gray-800/50">
+                                <td class="px-4 py-4 whitespace-nowrap text-red-400 font-bold">Pillar 1</td>
+                                <td class="px-4 py-4 whitespace-nowrap">직무 만족도, 몰입도</td>
+                                <td class="px-4 py-4">월간 '직무 활력' 설문 도입 및 재미없는 요소를 제거하는 워크플로우 자동화 추진</td>
+                                <td class="px-4 py-4">직무 만족도 평균 3.5/4점 이상 달성</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/50">
+                                <td class="px-4 py-4 whitespace-nowrap text-red-400 font-bold">Pillar 2</td>
+                                <td class="px-4 py-4 whitespace-nowrap">신규 입사자-매니저</td>
+                                <td class="px-4 py-4">신규 입사자-매니저 대상 30-60-90일 정기 코칭 세션 의무화 및 매니저 리더십 교육 강화</td>
+                                <td class="px-4 py-4">신규 입사자 1년 이내 이직률 15% 미만 유지</td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/50">
+                                <td class="px-4 py-4 whitespace-nowrap text-red-400 font-bold">Pillar 3</td>
+                                <td class="px-4 py-4 whitespace-nowrap">월 수입, 교육 훈련 기회</td>
+                                <td class="px-4 py-4">시장 임금 벤치마킹 기반 급여 조정 및 개인별 경력 로드맵에 맞춘 외부 교육 지원 확대</td>
+                                <td class="px-4 py-4">이직자 그룹 월 수입 격차 50% 해소</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Simulation Chart Area -->
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-4 text-white">이직률 감소 시뮬레이션: 시나리오별 예상 효과</h3>
+                <div id="simulation-chart">
+                    <div class="success-target">목표: 7.2% 달성<br><span style="font-size: 0.8em;">io7hub@naver.com</span>
+                    </div>
+                    <!-- Canvas/SVG for Simulation will be rendered here -->
+                    <canvas id="attrition-canvas" class="w-full h-full"></canvas>
+                </div>
+                
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4 text-white">최종 인사이트: 투자 대비 효과 (ROI) 관점</h3>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2">
+                        <ul style="list-style-position: outside; padding-left: 0.5em; margin: 0;">
+                        <li style="text-indent: -0.7em; margin-left: 0em;">
+                            <span class="accent-primary font-bold">• Pillar 1 (몰입도) - 높은 ROI:</span>
+                            급여 인상보다 심리적 몰입도를 높이는 '업무 환경/직무 재설계' 투자가 이직률 감소에 가장 큰 기여(4%p)를 하며, 초기 비용 대비 효과가 가장 높음.
+                        </li>
+
+                        <li style="text-indent: -0.7em; margin-left: 0em;">
+                            <span class="accent-primary font-bold">• Pillar 2 (관계) - 비판적 관점:</span>
+                            현 매니저의 근속 1년 미만 직원을 타겟으로 하는 관계 안정성 강화 노력은 조기 이탈 방지에 필수적이며, 이는 이직 비용 절감에 직접 기여 함.
+                        </li>
+
+                        <li style="text-indent: -0.7em; margin-left: 0em;">
+                            <span class="accent-primary font-bold">• Pillar 3 (보상) - 필수 요소:</span>
+                            보상 강화는 필수적인 부분이지만, 단독으로는 몰입도나 관계 개선만큼 큰 이직률 감소 효과를 보이지 않으며 (2%p 기여), 세 전략을 통합적으로 실행할 때 최대 효과를 기대할 수 있음.
+                        </li>
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- Footer -->
+        <div>
+            <p style="text-align: center; font-weight: bold; color: #64f67c; font-size: 0.9em;">
+            데이터 기반 가치 전환 전략 | Kⁱ⁰⁷ 전략 AI | 데이터 기반 인사관리 시뮬레이터</p><br>
+            <p style="text-align: center; color: #f5f9f6; font-size: 0.9em;">
+            This work is based on my personal field analysis of data-driven value transformation strategies. <br>
+            © 2023 Kⁱ⁰⁷ All rights reserved. | 📧 io7hub@naver.com
+        </div>
+    </div>
+
+    <!-- JavaScript for Mermaid Initialization and Simulation Chart -->
+    <script>
+        // 1. Mermaid Initialization (Mermaid 코드를 제거했지만, 초기화 코드는 남겨둡니다.)
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+
+        // 2. Simulation Data
+        const baselineAttrition = 16.2;
+        const simulationData = [
+            { scenario: 'Baseline', attrition: baselineAttrition, drop: 0.0, color: '#f85149' },
+            { scenario: 'P1 적용 (몰입도)', attrition: baselineAttrition - 4.0, drop: 4.0, color: '#ffac33' },
+            { scenario: 'P1 + P2 적용 (관계)', attrition: baselineAttrition - 4.0 - 3.0, drop: 3.0, color: '#58a6ff' },
+            { scenario: '∑Pn 적용 (Total)', attrition: baselineAttrition - 4.0 - 3.0 - 2.0, drop: 2.0, color: '#2da44e' } 
+        ];
+
+        // 3. Canvas Simulation Rendering (Simple Line/Dot Chart)
+        function renderSimulationChart() {
+            const canvas = document.getElementById('attrition-canvas');
+            if (!canvas) return;
+
+            // Set canvas size to match container (Responsive)
+            const parent = canvas.parentElement;
+            canvas.width = parent.clientWidth;
+            canvas.height = parent.clientHeight;
+
+            const ctx = canvas.getContext('2d');
+            const data = simulationData;
+            const padding = 50; // Padding 증가
+            const chartWidth = canvas.width - 2 * padding;
+            const chartHeight = canvas.height - 2 * padding;
+            const maxAttrition = 20; // Max Y-axis for better visual scale
+
+            const xStep = chartWidth / (data.length - 1);
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Y-Axis (Attrition Rate %)
+            ctx.strokeStyle = '#30363d';
+            ctx.fillStyle = '#c9d1d9';
+            ctx.font = '12px Inter';
+            
+            // Y-axis line
+            ctx.beginPath();
+            ctx.moveTo(padding, padding);
+            ctx.lineTo(padding, padding + chartHeight);
+            ctx.stroke();
+
+            // Y-axis labels (0%, 5%, 10%, 15%, 20%)
+            for (let i = 0; i <= 4; i++) {
+                const rate = i * 5;
+                const y = padding + chartHeight - (chartHeight * (rate / maxAttrition));
+                ctx.fillText(`${rate}%`, padding - 35, y + 4);
+                ctx.strokeStyle = (i === 0) ? '#30363d' : '#22272e'; // Darker grid lines
+                ctx.beginPath();
+                ctx.moveTo(padding, y);
+                ctx.lineTo(padding + chartWidth, y);
+                ctx.stroke();
+            }
+
+            // Draw data points and line
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            data.forEach((item, index) => {
+                const x = padding + index * xStep;
+                const y = padding + chartHeight - (chartHeight * (item.attrition / maxAttrition));
+
+                // Draw line segment
+                if (index > 0) {
+                    const prevX = padding + (index - 1) * xStep;
+                    const prevY = padding + chartHeight - (chartHeight * (data[index - 1].attrition / maxAttrition));
+                    
+                    ctx.beginPath();
+                    // 이전 데이터 포인트의 색상으로 라인 시작
+                    ctx.strokeStyle = data[index - 1].color; 
+                    ctx.moveTo(prevX, prevY);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+
+                    // 감소폭 텍스트 (시각적 효과 추가)
+                    ctx.fillStyle = '#2da44e'; // Drop text in green
+                    ctx.font = '16px Inter';
+                    if (item.drop > 0) {
+                        ctx.fillText(`- ${item.drop.toFixed(1)}%p`, prevX + xStep / 2 - 20, (prevY + y) / 2 + 30); // %p 추가
+                        // 화살표 추가 (하향)
+                        ctx.beginPath();
+                        ctx.strokeStyle = '#2da44e';
+                        ctx.lineWidth = 2;
+                        ctx.moveTo(prevX + xStep / 2, (prevY + y) / 2);
+                        ctx.lineTo(prevX + xStep / 2, (prevY + y) / 2 + 15);
+                        ctx.lineTo(prevX + xStep / 2 + 3, (prevY + y) / 2 + 12);
+                        ctx.moveTo(prevX + xStep / 2, (prevY + y) / 2 + 15);
+                        ctx.lineTo(prevX + xStep / 2 - 3, (prevY + y) / 2 + 12);
+                        ctx.stroke();
+                    }
+                }
+                
+                // Draw dots (always in current item's color)
+                ctx.fillStyle = item.color;
+                ctx.beginPath();
+                ctx.arc(x, y, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw label (Attrition Rate)
+                ctx.fillStyle = item.color;
+                ctx.font = '16px Inter Bold';
+                ctx.fillText(`${item.attrition.toFixed(1)}%`, x + 10, y - 15);
+
+                // Draw X-axis label (Scenario)
+                ctx.fillStyle = '#c9d1d9';
+                ctx.font = '12px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText(item.scenario, x, padding + chartHeight + 25);
+            });
+
+            ctx.textAlign = 'left';
+            ctx.lineWidth = 1; // Reset line width
+        }
+
+        // Run on load and on resize for responsiveness
+        window.onload = function() {
+            // Mermaid.js는 이제 사용하지 않지만, 초기화 코드는 남겨둡니다.
+            mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+            renderSimulationChart();
+        }
+
+        window.addEventListener('resize', renderSimulationChart);
+    </script>
+</body>
+</html>

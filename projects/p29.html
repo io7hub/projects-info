@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>29 AI 기반 HPDC 지능형 생산 전략 로드맵 인포그래픽 (다크 모드)</title>
+    <!-- Tailwind CSS (Aesthetics) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for dynamic graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <style>
+        /* --- DARK MODE STYLES --- */
+        :root {
+            --bg-dark: #121212; /* Deep Black Background */
+            --container-bg: #1e1e1e; /* Infographic Container Background */
+            --primary-color: #00e676; /* Neon Green (Titles, Main Accent) */
+            --accent-color: #00aaff; /* Electric Blue (Highlight, Flow) */
+            --danger-color: #ff5722; /* Vivid Red-Orange for alerts */
+            --text-light: #e0e0e0; /* Light Gray Text */
+            --text-muted: #9e9e9e; /* Muted Gray Text */
+        }
+        
+        body { 
+            font-family: 'Malgun Gothic', 'Inter', sans-serif; 
+            background-color: var(--bg-dark); 
+            padding-top: 20px; 
+            color: var(--text-light); /* Default text color */
+        }
+        
+        .main-wrapper { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 0 20px; 
+        }
+        
+        .infographic-container { 
+            background-color: var(--container-bg); 
+            box-shadow: 0 0 40px rgba(0, 230, 118, 0.1); /* Neon Glow Effect */
+            border-radius: 16px; 
+            padding: 40px; 
+            margin-top: 20px;
+            border: 1px solid rgba(0, 230, 118, 0.2);
+        }
+        
+        .header h1 { color: var(--primary-color); font-weight: 900; text-shadow: 0 0 5px rgba(0, 230, 118, 0.5); }
+        
+        .section { 
+            margin-top: 40px; 
+            padding: 25px; 
+            border-radius: 10px; 
+            background-color: #2c2c2c; /* Slightly Lighter section background */
+        }
+        
+        .section h2 { 
+            color: var(--accent-color); 
+            font-weight: 700; 
+            border-bottom: 1px solid var(--accent-color); /* Solid Blue Underline */
+            padding-bottom: 10px; 
+            margin-bottom: 20px; 
+            text-shadow: 0 0 3px rgba(0, 170, 255, 0.3);
+        }
+        
+        .chart-box { 
+            background-color: #1e1e1e; /* Same as container for seamless look */
+            padding: 20px; 
+            border-radius: 10px; 
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.1); /* Subtle blue glow */
+            border: 1px solid #333;
+        }
+
+        /* Gauge Chart */
+        .gauge-container { width: 100%; height: 200px; position: relative; margin: 0 auto; }
+        .gauge-text { position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+        .gauge-text .value { font-size: 2.5rem; font-weight: bold; color: var(--danger-color); }
+        .gauge-text .text-sm { color: var(--text-muted); }
+
+        /* Roadmap Flow */
+        .diagnosis-box { 
+            border: 2px solid var(--primary-color); 
+            padding: 20px 30px; 
+            border-radius: 8px; 
+            font-weight: 700; 
+            color: var(--primary-color); 
+            margin-bottom: 20px; 
+            background-color: #2c2c2c;
+            box-shadow: 0 0 8px rgba(0, 230, 118, 0.4);
+            font-size: 1.1rem;
+        }
+
+        .step-card-v4 { 
+            border: 2px solid var(--accent-color); 
+            padding: 15px; 
+            border-radius: 8px; 
+            background-color: #0a334d; /* Dark Blue for highlight */
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.3); 
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        .step-card-v4:hover { transform: translateY(-5px); box-shadow: 0 0 20px rgba(0, 170, 255, 0.6); }
+        .step-card-v4 .step-num { font-size: 2.2rem; font-weight: 900; color: var(--primary-color); margin-bottom: 5px; text-shadow: 0 0 3px #00e676; }
+        .step-card-v4 h3 { font-size: 1.25rem; font-weight: bold; color: var(--text-light); }
+        .step-card-v4 p { color: var(--text-muted); }
+
+        .execution-box-v4 { 
+            background-color: var(--primary-color); 
+            color: #121212; /* Dark text on neon green */
+            padding: 15px 25px; 
+            border-radius: 8px; 
+            font-size: 1.3rem; 
+            font-weight: bold; 
+            margin: 25px 0;
+            box-shadow: 0 0 15px rgba(0, 230, 118, 0.8);
+        }
+
+        .llm-output-box-v4 { 
+            background-color: #0a0a0a; /* Purest dark */
+            padding: 40px; 
+            border-radius: 12px; 
+            color: white;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.05);
+            border: 1px solid #333;
+        }
+        .llm-output-box-v4 h3 { color: var(--primary-color); font-size: 1.75rem; display: flex; align-items: center; justify-content: center; text-shadow: 0 0 5px #00e676;}
+        .llm-output-box-v4 button { 
+            background-color: var(--accent-color); 
+            color: #121212; 
+            font-weight: 800;
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.6);
+        }
+
+        #memoOutput {
+            white-space: pre-wrap;
+            text-align: left;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            background-color: #2c2c2c;
+            color: var(--text-light);
+            font-family: monospace;
+            min-height: 50px;
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        #memoLoader {
+            display: none;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .memo-footer {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #444; 
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: var(--text-muted); 
+        }
+
+        @media (max-width: 768px) {
+            .kpi-chart-grid, .insight-chart-grid, .roadmap-grid, .advanced-chart-grid { grid-template-columns: 1fr; }
+            .llm-output-box-v4 { padding: 20px; }
+            .roadmap-flow .text-3xl { display: none; }
+            .main-wrapper { padding: 0 10px; }
+            .infographic-container { padding: 20px; }
+        }
+        
+        /* Style for Language Selector (outside container) - Adapted for Dark Mode */
+        .lang-selector button {
+            background-color: #333;
+            color: var(--text-light);
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+        .lang-selector button:hover {
+             background-color: #444;
+        }
+        .lang-selector button.active {
+            background-color: var(--accent-color);
+            color: #121212;
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+        }
+        
+        /* Flow Arrows */
+        .text-4xl.text-blue-500 {
+            color: var(--primary-color) !important;
+        }
+
+        /* Section 2 Card updates for Dark Mode */
+        .advantage-grid .step-card {
+            background-color: #2c2c2c; /* Dark background */
+            border-bottom: 4px solid var(--danger-color); /* Use danger color for emphasis */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Soft shadow */
+        }
+        .advantage-grid .step-card .text-yellow-500 {
+             color: var(--primary-color);
+        }
+        .advantage-grid .step-card .text-blue-800 {
+             color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Language Selector (Moved outside infographic-container) -->
+        <div class="lang-selector flex justify-end gap-2" id="languageSelector">
+            <button id="lang-ko" onclick="setLanguage('ko')" class="active">한국어</button>
+            <button id="lang-en" onclick="setLanguage('en')">English</button>
+            <button id="lang-es" onclick="setLanguage('es')">Español</button>
+        </div>
+
+        <div class="infographic-container">
+            
+            <!-- Header -->
+            <div class="header text-center mb-8">
+                <h1 id="header-h1" class="text-4xl">AI 기반 HPDC 지능형 생산 전략 로드맵</h1>
+                <p id="header-p" class="text-lg mt-2 text-gray-400">LATAM 맞춤형: <b>운영 탄력성 및 기술 내재화</b>를 위한 동적 시각화 전략</p>
+            </div>
+
+            <!-- 1. 핵심 KPI 현황 및 문제 진단 (동적 차트) -->
+            <div class="section">
+                <h2 id="section1-h2" class="text-3xl border-none">1. 현장 KPI 상태 및 문제 진단</h2>
+                <p id="section1-p1" class="text-red-500 font-semibold mb-6">[특이사항] 하절기(5~9월) 고온다습 환경에 의한 냉각 비효율 및 품질 불안정 집중 대응</p>
+                
+                <div class="kpi-chart-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Chart 1: 불량률 현황 (Gauge Chart) -->
+                    <div class="chart-box">
+                        <h3 id="chart1-h3" class="text-xl font-semibold mb-3 text-center">불량률 현황 (KPI-04)</h3>
+                        <div class="gauge-container">
+                            <canvas id="defectRateChart"></canvas>
+                            <div class="gauge-text">
+                                <div class="value">3.1%</div>
+                                <div id="chart1-p" class="text-sm">목표: 1.8% 이하</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart 2: 평균 금형 온도 (Bar Chart - Simulated) -->
+                    <div class="chart-box">
+                        <h3 id="chart2-h3" class="text-xl font-semibold mb-3 text-center">평균 금형 온도 (KPI-01)</h3>
+                        <div class="h-[200px]"><canvas id="moldTempChart"></canvas></div>
+                    </div>
+
+                    <!-- Chart 3: 사출압력 변동성 (Line Chart - New) -->
+                    <div class="chart-box">
+                        <h3 id="chart3-h3" class="text-xl font-semibold mb-3 text-center">사출압력 변동성 (KPI-02)</h3>
+                        <p id="chart3-p" class="text-sm font-medium text-center mb-2 text-red-400">현재 (σ = 35 bar) - 경고 임계치 (30 bar) 초과</p>
+                        <div class="h-[200px]"><canvas id="injectionPressureChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. AI 협업 전략의 핵심 이점 (Knowledge Bridge) -->
+            <div class="section bg-[#222]">
+                <h2 id="section2-h2" class="text-3xl border-none">2. 기술 격차 해소 및 운영 탄력성 확보를 위한 AI 솔루션</h2>
+                <p id="section2-p1" class="text-gray-400 mb-6">AI 시스템은 현장의 <b>고질적인 기술 격차 문제</b>를 해소하고, LATAM 환경에 최적화된 운영 방안을 즉시 제시하여 <b>운영 탄력성</b>을 높이는 핵심 솔루션입니다.</p>
+                <div class="advantage-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Step card style updated slightly for consistency -->
+                    <div class="step-card bg-[#1e1e1e] border-b-4 border-orange-500 p-6 rounded-lg shadow-md">
+                        <span class="text-4xl block mb-2 text-center" style="color: var(--primary-color);">⚡</span>
+                        <h3 id="adv1-h3" class="text-xl font-semibold text-center">신속한 문제 해결</h3>
+                        <p id="adv1-p" class="text-sm text-gray-500 text-center mt-1">KPI 이상 징후 발생 시 <b>5분 이내</b> 실행 가능한 Action Plan 자동 생성.</p>
+                    </div>
+                    <div class="step-card bg-[#1e1e1e] border-b-4 border-orange-500 p-6 rounded-lg shadow-md">
+                        <span class="text-4xl block mb-2 text-center" style="color: var(--primary-color);">📚</span>
+                        <h3 id="adv2-h3" class="text-xl font-semibold text-center">기술 지식 내재화</h3>
+                        <p id="adv2-p" class="text-sm text-gray-500 text-center mt-1">RAG 기반 Knowledge Base로 <b>신입/외국인 운영자</b> 교육 및 기술 전수.</p>
+                    </div>
+                    <div class="step-card bg-[#1e1e1e] border-b-4 border-orange-500 p-6 rounded-lg shadow-md">
+                        <span class="text-4xl block mb-2 text-center" style="color: var(--primary-color);">🌎</span>
+                        <h3 id="adv3-h3" class="text-xl font-semibold text-center">LATAM 현장 맞춤</h3>
+                        <p id="adv3-p" class="text-sm text-gray-500 text-center mt-1">고온다습 환경 및 현지 언어(스페인어) 기반 <b>최적화된 조치 매뉴얼</b> 제공.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. AI Action Insight (동적 차트 - 기존) -->
+            <div class="section">
+                <h2 id="section3-h2" class="text-3xl border-none">3. AI 심층 분석: 문제 원인 규명 및 최적 조치 시뮬레이션</h2>
+                <p id="section3-p1" class="text-gray-400 mb-6">AI는 계절적 요인(온도, 습도)과 공정 데이터 간의 관계를 심층 분석하여 <b>불안정의 근본 원인</b>을 규명하고, 최적의 냉각 및 압력 제어 조치에 따른 <b>KPI 개선 효과</b>를 예측 시뮬레이션합니다.</p>
+                
+                <div class="insight-chart-grid grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Chart 4: 계절별 불량률 추이 (Line Chart) -->
+                    <div class="chart-box">
+                        <h3 id="chart4-h3" class="text-xl font-semibold mb-3 text-center">계절별 불량률 & 냉각 불균형</h3>
+                        <p id="chart4-p" class="text-sm text-gray-500 text-center mb-2">하절기 Mold Temp 205°C 돌파 및 불량률 급증 시뮬레이션</p>
+                        <div class="h-[280px]"><canvas id="seasonalTrendChart"></canvas></div>
+                    </div>
+
+                    <!-- Chart 5: 사출압력 안정화 효과 (Scatter Plot) -->
+                    <div class="chart-box">
+                        <h3 id="chart5-h3" class="text-xl font-semibold mb-3 text-center">AI 조치 후 압력 안정화 (StdDev)</h3>
+                        <p id="chart5-p" class="text-sm text-gray-500 text-center mb-2">AI 추천 설정값 자동 적용에 따른 압력 분산 복원 (115% 목표)</p>
+                        <div class="h-[280px]"><canvas id="pressureStabilizationChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 3-2. HPDC 공정 안정성 심층 분석 (냉각 및 열화 동인) -->
+            <div class="section pt-4">
+                <div class="advanced-chart-grid grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="chart-box">
+                        <h3 id="chart6-h3" class="text-xl font-semibold mb-3 text-center">금형 Hotspot 발생 비율 추이 (KPI-07)</h3>
+                        <p id="chart6-p" class="text-sm text-gray-500 text-center mb-2">계절별/월별 금형 열화 추이 시각화 (Y축: %)</p>
+                        <div class="h-[280px]"><canvas id="hotspotRadarChart"></canvas></div>
+                    </div>
+                    <div class="chart-box">
+                        <h3 id="chart7-h3" class="text-xl font-semibold mb-3 text-center">냉각 유량 변동 (σ) vs. 불량률 (%)</h3>
+                        <p id="chart7-p" class="text-sm text-gray-500 text-center mb-2">버블 크기: 평균 금형 온도. 높은 변동성(σ)이 불량률에 미치는 영향</p>
+                        <div class="h-[280px]"><canvas id="flowDefectBubbleChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 4. AI 협업 기반 4단계 실행 구조 (Flow) -->
+            <div class="section bg-[#222]">
+                <h2 id="section4-h2" class="text-3xl" border-none>4. AI-Driven 공정 안정화 실행 아키텍처</h2>
+                <div class="flex justify-between items-start flex-wrap gap-4 text-center mt-6">
+                    <!-- Phase 1: Data -->
+                    <div class="flex-1 min-w-[200px] p-4 bg-[#1e1e1e] rounded-lg shadow-md border-b-4 border-red-500">
+                        <div id="flow1-h" class="text-2xl font-bold text-gray-200">1. 데이터 입력</div>
+                        <p id="flow1-p" class="text-sm text-gray-500">센서, 품질, 현장 Logs</p>
+                    </div>
+                    <div class="text-4xl text-blue-500" style="color: var(--primary-color);">→</div>
+                    <!-- Phase 2: AI Engine -->
+                    <div class="flex-1 min-w-[200px] p-4 bg-[#1e1e1e] rounded-lg shadow-md border-b-4 border-blue-500">
+                        <div id="flow2-h" class="text-2xl font-bold text-gray-200">2. AI 분석 엔진</div>
+                        <p id="flow2-p" class="text-sm text-gray-500">이상 탐지 &amp; 원인 진단</p>
+                    </div>
+                    <div class="text-4xl text-blue-500" style="color: var(--primary-color);">→</div>
+                    <!-- Phase 3: Action -->
+                    <div class="flex-1 min-w-[200px] p-4 bg-[#1e1e1e] text-white rounded-lg shadow-md border-b-4 border-green-500">
+                        <div id="flow3-h" class="text-2xl font-bold text-gray-200">3. 액션 플랜</div>
+                        <p id="flow3-p" class="text-sm text-gray-500">제어 명령 &amp; 매뉴얼 생성</p>
+                    </div>
+                    <div class="text-4xl text-blue-500" style="color: var(--primary-color);">→</div>
+                    <!-- Phase 4: Feedback -->
+                    <div class="flex-1 min-w-[200px] p-4 bg-[#1e1e1e] rounded-lg shadow-md border-b-4 border-primary-color">
+                        <div id="flow4-h" class="text-2xl font-bold text-gray-200">4. 지식 피드백</div>
+                        <p id="flow4-p" class="text-sm text-gray-500">결과 학습 &amp; 지식 내재화</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 5. 최종 Action Plan 및 전략 로드맵 -->
+            <div class="text-center section bg-[#2c2c2c] p-8 mt-10 rounded-xl">
+                <h2 id="section5-h2" class="text-3xl text-left mb-8 font-extrabold" style="color: var(--primary-color);">
+                    5. 최종 Action Plan 및 전략 로드맵
+                </h2>
+
+                <div class="text-center roadmap-flow w-full border-none">
+                    <!-- 진단 프로세스 종합 -->
+                    <div class="text-center diagnosis-box w-full max-w-4xl mx-auto">
+                        <span id="diag-summary">진단 프로세스 종합: KPI 진단 → 성장 동력 탐색 → 리스크 식별 → 공정 한계 정의</span>
+                    </div>
+
+                    <div class="text-center text-3xl text-gray-700 mb-4" style="color: var(--primary-color);">▼</div>
+
+                    <!-- 3 Step Cards Grid -->
+                    <div class="roadmap-grid grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mx-auto text-center">
+                        <!-- Step 01 -->
+                        <div class="step-card-v4 text-center">
+                            <div class="step-num">01</div>
+                            <h3 id="step1-h3" class="font-bold">HPDC Cooling Defense</h3>
+                            <p id="step1-p1" class="text-sm">하절기 냉각 유량 자동 최적화 및 불량률 방어</p>
+                            <p id="step1-p2" class="text-xs text-green-400 font-medium mt-1">목표: 불량률 1.8% 이하 유지</p>
+                        </div>
+
+                        <!-- Step 02 -->
+                        <div class="step-card-v4 text-center">
+                            <div class="step-num">02</div>
+                            <h3 id="step2-h3" class="font-bold">AI Mold Predictive Maint.</h3>
+                            <p id="step2-p1" class="text-sm">AI 기반 금형 Hotspot 및 설비 교체 시점 예측</p>
+                            <p id="step2-p2" class="text-xs text-green-400 font-medium mt-1">KPI-07 Hotspot 발생률 10% 감소</p>
+                        </div>
+
+                        <!-- Step 03 -->
+                        <div class="step-card-v4 text-center">
+                            <div class="step-num">03</div>
+                            <h3 id="step3-h3" class="font-bold">Knowledge RAG System</h3>
+                            <p id="step3-p1" class="text-sm">현지 운영자 대상 공정 지식 내재화 및 기술 전수</p>
+                            <p id="step3-p2" class="text-xs text-green-400 font-medium mt-1">기술 내재화율 (평가지수) 15%p 증가</p>
+                        </div>
+                    </div>
+
+                    <!-- 전략 로드맵 실행 박스 -->
+                    <div id="exec-box" class="execution-box-v4 w-full max-w-4xl mx-auto text-center">
+                        전략 로드맵 실행 (AI-Driven Implementation)
+                    </div>
+
+                    <!-- AI 기반 전략 문서 초안 생성 박스 -->
+                    <div class="llm-output-box-v4 w-full max-w-4xl mx-auto text-center">
+                        <h3 id="llm-h3" class="font-bold mb-4">
+                            <span class="mr-2">✨</span> AI 기반 전략 보고서 초안 생성 <span class="ml-2">✨</span>
+                        </h3>
+                        <p id="llm-p1" class="text-gray-400 mb-6">
+                            종합 분석 결과(KPI, 리스크, 액션 플랜)를 바탕으로 실행 가능한 전략 메모 초안을 즉시 생성합니다.
+                        </p>
+
+                        <button id="generateMemoButton" onclick="generateStrategyMemo()"
+                            class="hover:opacity-90 font-bold py-3 px-8 rounded-lg text-lg transition duration-150 mb-4 shadow-lg text-gray-800">
+                            전략 메모 생성 <span class="text-xl align-middle">📝</span>
+                        </button>
+
+                        <div id="memoLoader" class="text-center">
+                            <div class="animate-spin inline-block w-6 h-6 border-[3px] border-current border-t-transparent rounded-full"
+                                role="status" style="color: var(--primary-color);">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <p id="loader-text" class="ml-3 inline-block">AI가 전략을 분석 중입니다...</p>
+                        </div>
+
+                        <div class="text-sm text-gray-400 border-t border-gray-700 pt-3 mt-3">
+                            <div id="memoOutput">버튼을 클릭하여 AI 기반 전략 메모를 생성하세요.</div>
+                            <div class="memo-footer text-center mt-3">
+                                <p id="footer-p1">본 문서는 실제 생산 데이터가 반영되는 즉시 귀사의 현장 환경에 맞춰 재작성될 예정입니다.</p>
+                                <p id="footer-p2">최신 데이터를 기반으로 한 맞춤형 AI 전략 문서 생성을 희망하실 경우, 아래 연락처로 문의해주시기 바랍니다.</p>
+                                <p class="font-bold mt-1">📩 io7hub@naver.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <p id="source-p" class="text-center text-gray-500 text-xs mt-10">
+                Source: AI 기반 HPDC 생산 전략 로드맵 수립 자료 (LATAM 기후 및 운영 환경 반영)<br>
+                This work is based on my personal field analysis of data-driven value transformation strategies. <br>
+                © 2023 Kⁱ⁰⁷ All rights reserved. | 📧 io7hub@naver.com
+            </p>
+        </div>
+    </div> <!-- End of main-wrapper -->
+
+    <script>
+        // Set API key for Gemini 
+        const apiKey = ""; 
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        
+        // Chart Config Helper for Dark Mode
+        const CHART_FONT_COLOR = '#e0e0e0';
+        const CHART_GRID_COLOR = 'rgba(255, 255, 255, 0.1)';
+
+        // --- Multi-Language Data (i18n) ---
+        const translations = {
+            'ko': {
+                'title': 'AI 기반 HPDC 지능형 생산 전략 로드맵',
+                'header-h1': 'AI 기반 HPDC 지능형 생산 전략 로드맵',
+                'header-p': 'LATAM 맞춤형: <b>운영 탄력성 및 기술 내재화</b>를 위한 동적 시각화 전략',
+                'section1-h2': '1. 현장 KPI 상태 및 문제 진단',
+                'section1-p1': '[특이사항] 하절기(5~9월) 고온다습 환경에 의한 냉각 비효율 및 품질 불안정 집중 대응',
+                'chart1-h3': '불량률 현황 (KPI-04)',
+                'chart1-p': '목표: 1.8% 이하',
+                'chart2-h3': '평균 금형 온도 (KPI-01)',
+                'chart3-h3': '사출압력 변동성 (KPI-02)',
+                'chart3-p': '현재 (σ = 35 bar) - 경고 임계치 (30 bar) 초과',
+                'section2-h2': '2. 기술 격차 해소 및 운영 탄력성 확보를 위한 AI 솔루션',
+                'section2-p1': 'AI 시스템은 현장의 <b>고질적인 기술 격차 문제</b>를 해소하고, LATAM 환경에 최적화된 운영 방안을 즉시 제시하여 <b>운영 탄력성</b>을 높이는 핵심 솔루션입니다.',
+                'adv1-h3': '신속한 문제 해결',
+                'adv1-p': 'KPI 이상 징후 발생 시 <b>5분 이내</b> 실행 가능한 Action Plan 자동 생성.',
+                'adv2-h3': '기술 지식 내재화',
+                'adv2-p': 'RAG 기반 Knowledge Base로 <b>신입/외국인 운영자</b> 교육 및 기술 전수.',
+                'adv3-h3': 'LATAM 현장 맞춤',
+                'adv3-p': '고온다습 환경 및 현지 언어(스페인어) 기반 <b>최적화된 조치 매뉴얼</b> 제공.',
+                'section3-h2': '3. AI 심층 분석: 문제 원인 규명 및 최적 조치 시뮬레이션',
+                'section3-p1': 'AI는 계절적 요인(온도, 습도)과 공정 데이터 간의 관계를 심층 분석하여 <b>불안정의 근본 원인</b>을 규명하고, 최적의 냉각 및 압력 제어 조치에 따른 <b>KPI 개선 효과</b>를 예측 시뮬레이션합니다.',
+                'chart4-h3': '계절별 불량률 & 냉각 불균형',
+                'chart4-p': '하절기 Mold Temp 205°C 돌파 및 불량률 급증 시뮬레이션',
+                'chart5-h3': 'AI 조치 후 압력 안정화 (StdDev)',
+                'chart5-p': 'AI 추천 설정값 자동 적용에 따른 압력 분산 복원 (115% 목표)',
+                'chart6-h3': '금형 Hotspot 발생 비율 추이 (KPI-07)',
+                'chart6-p': '계절별/월별 금형 열화 추이 시각화 (Y축: %)',
+                'chart7-h3': '냉각 유량 변동 (σ) vs. 불량률 (%)',
+                'chart7-p': '버블 크기: 평균 금형 온도. 높은 변동성(σ)이 불량률에 미치는 영향',
+                'section4-h2': '4. AI-Driven 공정 안정화 실행 아키텍처',
+                'flow1-h': '1. 데이터 입력',
+                'flow1-p': '센서, 품질, 현장 Logs',
+                'flow2-h': '2. AI 분석 엔진',
+                'flow2-p': '이상 탐지 & 원인 진단',
+                'flow3-h': '3. 실행 계획',
+                'flow3-p': '제어 명령 & 매뉴얼 생성',
+                'flow4-h': '4. 지식 피드백',
+                'flow4-p': '결과 학습 & 지식 내재화',
+                'section5-h2': '5. 최종 Action Plan 및 전략 로드맵',
+                'diag-summary': '진단 프로세스 종합: KPI 진단 → 성장 동력 탐색 → 리스크 식별 → 공정 한계 정의',
+                'step1-h3': 'HPDC Cooling Defense',
+                'step1-p1': '하절기 냉각 유량 자동 최적화 및 불량률 방어',
+                'step1-p2': '목표: 불량률 1.8% 이하 유지',
+                'step2-h3': 'AI Mold Predictive Maint.',
+                'step2-p1': 'AI 기반 금형 Hotspot 및 설비 교체 시점 예측',
+                'step2-p2': 'KPI-07 Hotspot 발생률 10% 감소',
+                'step3-h3': 'Knowledge RAG System',
+                'step3-p1': '현지 운영자 대상 공정 지식 내재화 및 기술 전수',
+                'step3-p2': '기술 내재화율 (평가지수) 15%p 증가',
+                'exec-box': '전략 로드맵 실행 (AI-Driven Implementation)',
+                'llm-h3': '✨ AI 기반 전략 보고서 초안 생성 ✨',
+                'llm-p1': '종합 분석 결과(KPI, 리스크, 액션 플랜)를 바탕으로 실행 가능한 전략 메모 초안을 즉시 생성합니다.',
+                'generateMemoButton': '전략 메모 생성 📝',
+                'memoOutputDefault': '버튼을 클릭하여 AI 기반 전략 메모를 생성하세요.',
+                'loader-text': 'AI가 전략을 분석 중입니다...',
+                'footer-p1': '본 문서는 실제 생산 데이터가 반영되는 즉시 귀사의 현장 환경에 맞춰 재작성될 예정입니다.',
+                'footer-p2': '최신 데이터를 기반으로 한 맞춤형 AI 전략 문서 생성을 희망하실 경우, 아래 연락처로 문의해주시기 바랍니다.',
+                'source-p': 'Source: AI 기반 HPDC 생산 전략 로드맵 수립 자료 (LATAM 기후 및 LATAM 운영 환경 반영)',
+            },
+            'en': {
+                'title': 'AI-Driven HPDC Intelligent Production Strategy Roadmap',
+                'header-h1': 'AI-Driven HPDC Intelligent Production Strategy Roadmap',
+                'header-p': 'LATAM Customized: Dynamic Visualization Strategy for <b>Operational Resilience and Technology Internalization</b>',
+                'section1-h2': '1. On-site KPI Status and Problem Diagnosis',
+                'section1-p1': '[Key Finding] Focused response to cooling inefficiency and quality instability due to hot and humid environment in summer (May-Sep)',
+                'chart1-h3': 'Defect Rate Status (KPI-04)',
+                'chart1-p': 'Target: Below 1.8%',
+                'chart2-h3': 'Average Mold Temperature (KPI-01)',
+                'chart3-h3': 'Injection Pressure Variability (KPI-02)',
+                'chart3-p': 'Current (σ = 35 bar) - Exceeded Warning Threshold (30 bar)',
+                'section2-h2': '2. AI Solution for Bridging the Technology Gap and Ensuring Operational Resilience',
+                'section2-p1': 'The AI system is the core solution that resolves <b>chronic technology gaps</b> and immediately proposes optimal operational measures for the LATAM environment, thereby increasing <b>operational resilience</b>.',
+                'adv1-h3': 'Rapid Problem Resolution',
+                'adv1-p': 'Automatic generation of actionable plan within <b>5 minutes</b> upon KPI anomaly detection.',
+                'adv2-h3': 'Technology Knowledge Internalization',
+                'adv2-p': 'RAG-based Knowledge Base for training and knowledge transfer to <b>new/foreign operators</b>.',
+                'adv3-h3': 'LATAM Site Customization',
+                'adv3-p': 'Provision of <b>optimized action manuals</b> based on high temperature/humidity conditions and local language (Spanish).',
+                'section3-h2': '3. AI Deep Analysis: Root Cause Identification and Optimal Action Simulation',
+                'section3-p1': 'AI deeply analyzes the relationship between seasonal factors (temp, humidity) and process data to identify the <b>fundamental causes of instability</b>, and simulates the <b>KPI improvement effects</b> of optimal cooling and pressure control measures.',
+                'chart4-h3': 'Seasonal Defect Rate & Cooling Imbalance',
+                'chart4-p': 'Simulation of Defect Rate surge and Mold Temp breach of 205°C during summer',
+                'chart5-h3': 'Pressure Stabilization After AI Intervention (StdDev)',
+                'chart5-p': 'Pressure variance restoration (115% target) achieved by automatically applying AI-recommended settings.',
+                'chart6-h3': 'Mold Hotspot Occurrence Rate Trend (KPI-07)',
+                'chart6-p': 'Visualization of seasonal/monthly mold degradation trend (Y-axis: %)',
+                'chart7-h3': 'Cooling Flow Variation (σ) vs. Defect Rate (%)',
+                'chart7-p': 'Bubble size: Avg. Mold Temp. Impact of high variability (σ) on defect rate.',
+                'section4-h2': '4. AI-Driven Process Stabilization Execution Architecture',
+                'flow1-h': '1. 데이터 입력',
+                'flow1-p': 'Sensors, Quality, Site Logs',
+                'flow2-h': '2. AI 분석 엔진',
+                'flow2-p': 'Anomaly Detection & Root Cause Diagnosis',
+                'flow3-h': '3. 실행 계획',
+                'flow3-p': 'Control Command & Manual Generation',
+                'flow4-h': '4. 지식 피드백',
+                'flow4-p': 'Result Learning & Knowledge Internalization',
+                'section5-h2': '5. Final Action Plan and Strategy Roadmap',
+                'diag-summary': 'Integrated Diagnosis: KPI Check → Growth Driver Search → Risk Identification → Process Limit Definition',
+                'step1-h3': 'HPDC Cooling Defense',
+                'step1-p1': 'Automatic optimization of cooling flow and defect rate defense in summer',
+                'step1-p2': 'Goal: Maintain Defect Rate below 1.8%',
+                'step2-h3': 'AI Mold Predictive Maint.',
+                'step2-p1': 'AI-based prediction of mold hotspot and equipment replacement timing',
+                'step2-p2': 'KPI-07 Hotspot Occurrence Rate reduced by 10%',
+                'step3-h3': 'Knowledge RAG System',
+                'step3-p1': 'Process knowledge internalization and technology transfer to local operators',
+                'step3-p2': 'Technology Internalization Rate (Assessment Index) increased by 15%p',
+                'exec-box': 'Strategy Roadmap Execution (AI-Driven Implementation)',
+                'llm-h3': '✨ AI-Based Strategy Report Draft Generation ✨',
+                'llm-p1': 'Immediately generate an actionable strategy memo draft based on comprehensive analysis (KPI, Risks, Action Plans).',
+                'generateMemoButton': 'Generate Strategy Memo 📝',
+                'memoOutputDefault': 'Click the button to generate the AI-driven strategy memo.',
+                'loader-text': 'AI is analyzing the strategy...',
+                'footer-p1': 'This document will be rewritten to fit your site environment as soon as actual production data is reflected.',
+                'footer-p2': 'If you wish to generate a customized AI strategy document based on the latest data, please contact us at the address below.',
+                'source-p': 'Source: AI-Driven HPDC Production Strategy Roadmap Development Material (Reflecting LATAM Climate and Operational Environment)',
+            },
+            'es': {
+                'title': 'Hoja de Ruta de Estrategia de Producción Inteligente HPDC Basada en IA',
+                'header-h1': 'Hoja de Ruta de Estrategia de Producción Inteligente HPDC Basada en IA',
+                'header-p': 'Personalizado para LATAM: Estrategia de Visualización Dinámica para <b>Resiliencia Operacional e Internalización de Tecnología</b>',
+                'section1-h2': '1. Estado del KPI en Planta y Diagnóstico del Problema',
+                'section1-p1': '[Observación Clave] Respuesta focalizada a la ineficiencia de enfriamiento e inestabilidad de calidad debido al ambiente cálido y húmedo en verano (mayo-sep)',
+                'chart1-h3': 'Estado de Tasa de Defectos (KPI-04)',
+                'chart1-p': 'Meta: Por debajo del 1.8%',
+                'chart2-h3': 'Temperatura Promedio del Molde (KPI-01)',
+                'chart3-h3': 'Variabilidad de Presión de Inyección (KPI-02)',
+                'chart3-p': 'Actual (σ = 35 bar) - Excedido el Umbral de Advertencia (30 bar)',
+                'section2-h2': '2. Solución de IA para Reducir la Brecha Tecnológica y Garantizar la Resiliencia Operacional',
+                'section2-p1': 'El sistema de IA es la solución central que resuelve los <b>problemas crónicos de brecha tecnológica</b> y propone inmediatamente medidas operacionales óptimas para el entorno LATAM, aumentando así la <b>resiliencia operacional</b>.',
+                'adv1-h3': 'Resolución Rápida de Problemas',
+                'adv1-p': 'Generación automática de Plan de Acción ejecutable en <b>menos de 5 minutos</b> tras la detección de anomalías en el KPI.',
+                'adv2-h3': 'Internalización de Conocimiento Técnico',
+                'adv2-p': 'Base de Conocimiento basada en RAG para entrenamiento y transferencia de conocimiento a <b>operadores nuevos/extranjeros</b>.',
+                'adv3-h3': 'Personalización para Planta LATAM',
+                'adv3-p': 'Suministro de <b>manuales de acción optimizados</b> basados en condiciones de alta temperatura/humedad y el idioma local (español).',
+                'section3-h2': '3. Análisis Profundo de IA: Identificación de la Causa Raíz y Simulación de Acción Óptima',
+                'section3-p1': 'La IA analiza profundamente la relación entre factores estacionales (temp., humedad) y datos del proceso para identificar las <b>causas fundamentales de la inestabilidad</b>, y simula los <b>efectos de mejora del KPI</b> de las medidas óptimas de enfriamiento y control de presión.',
+                'chart4-h3': 'Tasa de Defectos Estacional y Desequilibrio de Enfriamiento',
+                'chart4-p': 'Simulación de aumento de la Tasa de Defectos y superación de 205°C de la Temp. del Molde durante el verano',
+                'chart5-h3': 'Estabilización de Presión Después de la Intervención de IA (Desv. Estándar)',
+                'chart5-p': 'Restauración de la varianza de presión (objetivo 115%) lograda mediante la aplicación automática de configuraciones recomendadas por IA.',
+                'chart6-h3': 'Tendencia de Tasa de Ocurrencia de Puntos Calientes (Hotspots) del Molde (KPI-07)',
+                'chart6-p': 'Visualización de la tendencia de degradación estacional/mensual del molde (Eje Y: %)',
+                'chart7-h3': 'Variación de Flujo de Enfriamiento (σ) vs. Tasa de Defectos (%)',
+                'chart7-p': 'Tamaño de la burbuja: Temp. Promedio del Molde. Impacto de la alta variabilidad (σ) en la tasa de defectos.',
+                'section4-h2': '4. Arquitectura de Ejecución de Estabilización de Procesos Basada en IA',
+                'flow1-h': '1. Entrada de Datos',
+                'flow1-p': 'Sensores, Calidad, Registros de Planta',
+                'flow2-h': '2. Motor de IA',
+                'flow2-p': 'Detección de Anomalías y Diagnóstico de Causa Raíz',
+                'flow3-h': '3. Plan de Acción',
+                'flow3-p': 'Comando de Control y Generación de Manuales',
+                'flow4-h': '4.Retroalimentación de Conocimiento',
+                'flow4-p': 'Aprendizaje de Resultados e Internalización de Conocimiento',
+                'section5-h2': '5. Plan de Acción Final y Hoja de Ruta Estratégica',
+                'diag-summary': 'Diagnóstico Integrado: Verificación de KPI → Búsqueda de Motores de Crecimiento → Identificación de Riesgos → Definición de Límites del Proceso',
+                'step1-h3': 'Defensa de Enfriamiento HPDC',
+                'step1-p1': 'Optimización automática del flujo de enfriamiento y defensa de la tasa de defectos en verano',
+                'step1-p2': 'Meta: Mantener la Tasa de Defectos por debajo del 1.8%',
+                'step2-h3': 'Mantenimiento Predictivo de Molde por IA',
+                'step2-p1': 'Predicción basada en IA de puntos calientes del molde y tiempos de reemplazo de equipos',
+                'step2-p2': 'Tasa de Ocurrencia de Hotspot (KPI-07) reducida en 10%',
+                'step3-h3': 'Sistema RAG de Conocimiento',
+                'step3-p1': 'Internalización de conocimiento del proceso y transferencia de tecnología a operadores locales',
+                'step3-p2': 'Tasa de Internalización de Tecnología (Índice de Evaluación) aumentada en 15%p',
+                'exec-box': 'Ejecución de la Hoja de Ruta Estratégica (Implementación Basada en IA)',
+                'llm-h3': '✨ Generación de Borrador de Informe de Estrategia Basada en IA ✨',
+                'llm-p1': 'Genere inmediatamente un borrador de memo de estrategia accionable basado en un análisis completo (KPI, Riesgos, Planes de Acción).',
+                'generateMemoButton': 'Generar Memo de Estrategia 📝',
+                'memoOutputDefault': 'Haga clic en el botón para generar el memo de estrategia basado en IA.',
+                'loader-text': 'La IA está analizando la estrategia...',
+                'footer-p1': 'Este documento será reescrito para adaptarse al entorno de su sitio tan pronto como se reflejen los datos de producción reales.',
+                'footer-p2': 'Si desea generar un documento de estrategia de IA personalizado basado en los datos más recientes, contáctenos en la dirección a continuación.',
+                'source-p': 'Source: AI-Driven HPDC Production Strategy Roadmap Development Material (Reflejando el Clima y el Entorno Operacional de LATAM)',
+            }
+        };
+
+        let currentLang = 'ko'; // Default language
+
+        // Function to update all text elements based on selected language
+        function updateText(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+
+            // 1. Update Title and Header
+            document.title = t['title'] + ' (다크 모드)';
+            document.getElementById('header-h1').innerHTML = t['header-h1'];
+            document.getElementById('header-p').innerHTML = t['header-p'];
+            
+            // 2. Update Section 1 & KPI
+            document.getElementById('section1-h2').innerHTML = t['section1-h2'];
+            document.getElementById('section1-p1').innerHTML = t['section1-p1'];
+            document.getElementById('chart1-h3').innerHTML = t['chart1-h3'];
+            document.getElementById('chart1-p').innerHTML = t['chart1-p'];
+            document.getElementById('chart2-h3').innerHTML = t['chart2-h3'];
+            document.getElementById('chart3-h3').innerHTML = t['chart3-h3'];
+            document.getElementById('chart3-p').innerHTML = t['chart3-p'];
+            
+            // 3. Update Section 2 & Advantages
+            document.getElementById('section2-h2').innerHTML = t['section2-h2'];
+            document.getElementById('section2-p1').innerHTML = t['section2-p1'];
+            document.getElementById('adv1-h3').innerHTML = t['adv1-h3'];
+            document.getElementById('adv1-p').innerHTML = t['adv1-p'];
+            document.getElementById('adv2-h3').innerHTML = t['adv2-h3'];
+            document.getElementById('adv2-p').innerHTML = t['adv2-p'];
+            document.getElementById('adv3-h3').innerHTML = t['adv3-h3'];
+            document.getElementById('adv3-p').innerHTML = t['adv3-p'];
+            
+            // 4. Update Section 3 & Deep Analysis
+            document.getElementById('section3-h2').innerHTML = t['section3-h2'];
+            document.getElementById('section3-p1').innerHTML = t['section3-p1'];
+            document.getElementById('chart4-h3').innerHTML = t['chart4-h3'];
+            document.getElementById('chart4-p').innerHTML = t['chart4-p'];
+            document.getElementById('chart5-h3').innerHTML = t['chart5-h3'];
+            document.getElementById('chart5-p').innerHTML = t['chart5-p'];
+            document.getElementById('chart6-h3').innerHTML = t['chart6-h3'];
+            document.getElementById('chart6-p').innerHTML = t['chart6-p'];
+            document.getElementById('chart7-h3').innerHTML = t['chart7-h3'];
+            document.getElementById('chart7-p').innerHTML = t['chart7-p'];
+
+            // 5. Update Section 4 & Flow
+            document.getElementById('section4-h2').innerHTML = t['section4-h2'];
+            document.getElementById('flow1-h').innerHTML = t['flow1-h'];
+            document.getElementById('flow1-p').innerHTML = t['flow1-p'];
+            document.getElementById('flow2-h').innerHTML = t['flow2-h'];
+            document.getElementById('flow2-p').innerHTML = t['flow2-p'];
+            document.getElementById('flow3-h').innerHTML = t['flow3-h'];
+            document.getElementById('flow3-p').innerHTML = t['flow3-p'];
+            document.getElementById('flow4-h').innerHTML = t['flow4-h'];
+            document.getElementById('flow4-p').innerHTML = t['flow4-p'];
+
+            // 6. Update Section 5 & Roadmap
+            document.getElementById('section5-h2').innerHTML = t['section5-h2'];
+            document.getElementById('diag-summary').innerHTML = t['diag-summary'];
+            document.getElementById('step1-h3').innerHTML = t['step1-h3'];
+            document.getElementById('step1-p1').innerHTML = t['step1-p1'];
+            document.getElementById('step1-p2').innerHTML = t['step1-p2'];
+            document.getElementById('step2-h3').innerHTML = t['step2-h3'];
+            document.getElementById('step2-p1').innerHTML = t['step2-p1'];
+            document.getElementById('step2-p2').innerHTML = t['step2-p2'];
+            document.getElementById('step3-h3').innerHTML = t['step3-h3'];
+            document.getElementById('step3-p1').innerHTML = t['step3-p1'];
+            document.getElementById('step3-p2').innerHTML = t['step3-p2'];
+            document.getElementById('exec-box').innerHTML = t['exec-box'];
+
+            // 7. Update LLM Box
+            document.getElementById('llm-h3').innerHTML = t['llm-h3'];
+            document.getElementById('llm-p1').innerHTML = t['llm-p1'];
+            document.getElementById('generateMemoButton').innerHTML = t['generateMemoButton'];
+            document.getElementById('memoOutput').innerHTML = t['memoOutputDefault'];
+            document.getElementById('loader-text').innerHTML = t['loader-text'];
+            document.getElementById('footer-p1').innerHTML = t['footer-p1'];
+            document.getElementById('footer-p2').innerHTML = t['footer-p2'];
+            document.getElementById('source-p').innerHTML = t['source-p'];
+
+            // 8. Update active button style
+            document.querySelectorAll('.lang-selector button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.getElementById(`lang-${lang}`).classList.add('active');
+            
+            // If the user selects a new language after generating the memo, the memo text needs to be cleared
+            if (document.getElementById('memoOutput').innerText !== t['memoOutputDefault']) {
+                document.getElementById('memoOutput').innerText = t['memoOutputDefault'];
+            }
+        }
+
+        function setLanguage(lang) {
+            updateText(lang);
+            // Re-render charts to pick up the new locale settings for tooltips/titles
+            // This is primarily for the bubble chart tooltip callback
+            // No need to destroy/recreate all, as long as we define callbacks correctly.
+        }
+
+        // Utility to handle exponential backoff for API calls
+        async function fetchWithRetry(url, options, maxRetries = 5) {
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.status === 429 && i < maxRetries - 1) {
+                        const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        continue;
+                    }
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(`API error: ${response.status} ${response.statusText} - ${JSON.stringify(errorData)}`);
+                    }
+                    return response;
+                } catch (error) {
+                    if (i === maxRetries - 1) throw error;
+                    // Otherwise, the loop continues for retry
+                }
+            }
+        }
+        
+        // Function to generate the strategy memo using Gemini API
+        async function generateStrategyMemo() {
+            const outputDiv = document.getElementById('memoOutput');
+            const loader = document.getElementById('memoLoader');
+            const button = document.getElementById('generateMemoButton');
+            const currentLanguage = currentLang; // Get the currently selected language
+            const memoButtonText = translations[currentLanguage]['generateMemoButton'];
+
+            // Determine the target language for the LLM output (ko, en, or es)
+            let llm_target_lang = '';
+            if (currentLanguage === 'ko') llm_target_lang = '한국어';
+            else if (currentLanguage === 'en') llm_target_lang = 'English';
+            else if (currentLanguage === 'es') llm_target_lang = 'Spanish';
+
+            // 1. Disable button and show loader
+            button.disabled = true;
+            loader.style.display = 'block';
+            outputDiv.innerHTML = translations[currentLanguage]['loader-text'].replace('...', '...'); 
+            
+            // System prompt tailored for the target language
+            const systemPrompt = `You are an HPDC (High Pressure Die Casting) production expert and strategy consultant. Based on the provided diagnosis and roadmap, write a concise, execution-oriented strategy memo for management in ${llm_target_lang}. The core focus must be on securing 'Operational Resilience' and 'Technology Internalization' for the LATAM site. Summarize briefly within 200 words, citing the Defect Rate and Mold Temperature figures to emphasize urgency. The response must be pure text without any markdown symbols (e.g., #, *, **), only line breaks are allowed. The last sentence MUST be: "${
+                currentLanguage === 'ko' ? '단기 대응 체계인 냉각 방어 시스템에 대한 즉각적인 의사 결정을 요청합니다. 이는 현장의 즉각적인 품질 안정화와 장기적 기술 역량 확보의 기반입니다.' : 
+                currentLanguage === 'en' ? 'We request immediate decision-making regarding the short-term Cooling Defense system. This is the foundation for immediate on-site quality stabilization and long-term technological capability securing.' : 
+                'Solicitamos una toma de decisiones inmediata con respecto al sistema de Defensa de Enfriamiento a corto plazo. Esta es la base para la estabilización inmediata de la calidad en el sitio y el aseguramiento de la capacidad tecnológica a largo plazo.'
+            }"`;
+
+            const userQuery = `
+                [HPDC Strategy Infographic Core Diagnosis and Roadmap]
+                1. Current Status Diagnosis: The current defect rate is 3.1% (severe compared to the 1.8% target), the average mold temperature is 205°C (overheated), and injection pressure variability (σ=35 bar) exceeds the warning threshold.
+                2. Root Cause: Hot and humid environment during the LATAM summer and lack of process knowledge internalization among local operators.
+                3. Final Roadmap (3 Steps):
+                    - Step 01 (Short-term): HPDC Cooling Defense (Automatic cooling flow optimization)
+                    - Step 02 (Mid-term): AI Mold Predictive Maint. (Prediction of mold hotspot and equipment)
+                    - Step 03 (Long-term): Knowledge RAG System (Process knowledge transfer to local operators)
+                Write the management strategy memo in ${llm_target_lang} based on the content above.
+            `;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                config: { temperature: 0.5 }
+            };
+
+            try {
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                let generatedText = result.candidates?.[0]?.content?.parts?.[0]?.text || (currentLanguage === 'ko' ? "메모 생성에 실패했습니다. 잠시 후 다시 시도해 주세요." : currentLanguage === 'en' ? "Memo generation failed. Please try again shortly." : "Fallo en la generación del memo. Por favor, inténtelo de nuevo en breve.");
+                
+                // Final sanitization to remove common markdown characters
+                generatedText = generatedText.replace(/\*\*/g, '').replace(/\*/g, '').trim();
+
+                outputDiv.innerText = generatedText;
+
+            } catch (error) {
+                console.error("Gemini API 호출 오류:", error);
+                outputDiv.innerText = `[${currentLanguage === 'ko' ? '오류 발생' : currentLanguage === 'en' ? 'Error Occurred' : 'Error Ocurrido'}] ${currentLanguage === 'ko' ? '전략 메모 생성 중 문제가 발생했습니다. (자세한 내용은 콘솔 확인)' : currentLanguage === 'en' ? 'A problem occurred during strategy memo generation. (Check console for details)' : 'Ocurrido un problema durante la generación del memo. (Ver consola para detalles)'} ${error.message}`;
+            } finally {
+                // 3. Re-enable button and hide loader
+                button.disabled = false;
+                button.innerHTML = memoButtonText; // Restore button text
+                loader.style.display = 'none';
+            }
+        }
+
+        // Chart.js Configuration Function
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { 
+                    labels: { color: CHART_FONT_COLOR } 
+                },
+                title: { display: false }
+            },
+            scales: {
+                x: {
+                    grid: { color: CHART_GRID_COLOR },
+                    ticks: { color: CHART_FONT_COLOR },
+                    title: { display: true, color: CHART_FONT_COLOR }
+                },
+                y: {
+                    grid: { color: CHART_GRID_COLOR },
+                    ticks: { color: CHART_FONT_COLOR },
+                    title: { display: true, color: CHART_FONT_COLOR }
+                }
+            }
+        };
+
+        // 1. 불량률 현황 (Gauge Chart Simulation using Doughnut)
+        function createDefectRateChart() {
+             // Destroy existing chart if it exists
+            if (window.defectRateChartInstance) window.defectRateChartInstance.destroy();
+            
+            const currentRate = 3.1;
+            const maxRate = 5.0; 
+
+            const data = {
+                datasets: [{
+                    data: [currentRate, maxRate - currentRate],
+                    backgroundColor: [
+                        '#ff5722', /* Danger Color */
+                        '#333333'  /* Dark Gray Fill */
+                    ],
+                    borderWidth: 0,
+                    circumference: 180,
+                    rotation: 270,
+                }]
+            };
+
+            window.defectRateChartInstance = new Chart(document.getElementById('defectRateChart').getContext('2d'), {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '80%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    }
+                }
+            });
+        }
+
+        // 2. 평균 금형 온도 (Bar Chart)
+        function createMoldTempChart() {
+            if (window.moldTempChartInstance) window.moldTempChartInstance.destroy();
+
+            const ctx = document.getElementById('moldTempChart').getContext('2d');
+            
+            const options = JSON.parse(JSON.stringify(commonChartOptions));
+            options.scales.y.min = 180;
+            options.scales.y.max = 220;
+            options.scales.y.ticks.stepSize = 10;
+            options.scales.y.title.text = '온도 (°C)';
+            options.scales.x.grid.display = false;
+            
+            window.moldTempChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['목표', '실제', '최대'],
+                    datasets: [{
+                        label: '온도 (°C)',
+                        data: [190, 205, 210],
+                        backgroundColor: [
+                            '#00e676', /* Neon Green */
+                            '#ff5722', /* Vivid Red-Orange */
+                            '#ffb300'  /* Amber/Yellow */
+                        ],
+                        borderRadius: 5,
+                    }]
+                },
+                options: options
+            });
+        }
+        
+        // 3. 사출압력 변동성 (Line Chart)
+        function createInjectionPressureChart() {
+            if (window.injectionPressureChartInstance) window.injectionPressureChartInstance.destroy();
+
+            const ctx = document.getElementById('injectionPressureChart').getContext('2d');
+            
+            const pressureData = [25, 28, 32, 35, 30, 29, 31, 34, 33, 30, 28, 27];
+            const labels = ['9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30'];
+
+            const warningThresholdLine = {
+                id: 'warningThresholdLine',
+                beforeDraw(chart, args, options) {
+                    const { ctx, chartArea: { left, right }, scales: { y } } = chart;
+                    const threshold = 30; // Warning threshold
+                    const yPos = y.getPixelForValue(threshold);
+
+                    ctx.save();
+                    ctx.strokeStyle = '#ff5722'; 
+                    ctx.lineWidth = 1.5;
+                    ctx.setLineDash([8, 8]); 
+                    ctx.beginPath();
+                    ctx.moveTo(left, yPos);
+                    ctx.lineTo(right, yPos);
+                    ctx.stroke();
+
+                    // Add text label for the threshold
+                    ctx.fillStyle = '#ff5722';
+                    ctx.font = '10px Malgun Gothic';
+                    ctx.fillText('경고 임계치 (30 bar)', right - 120, yPos - 5);
+                    ctx.restore();
+                }
+            };
+            
+            const options = JSON.parse(JSON.stringify(commonChartOptions));
+            options.scales.y.min = 20;
+            options.scales.y.max = 40;
+            options.scales.y.title.text = '변동성 (bar)';
+            options.scales.x.title.text = '시간대';
+            options.plugins.legend.display = false;
+
+            window.injectionPressureChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '압력 변동성 (σ)',
+                        data: pressureData,
+                        borderColor: '#00aaff', /* Electric Blue */
+                        backgroundColor: 'rgba(0, 170, 255, 0.1)',
+                        fill: true,
+                        tension: 0.2,
+                        pointRadius: 4,
+                        pointBackgroundColor: pressureData.map(v => v > 30 ? '#ff5722' : '#00e676')
+                    }]
+                },
+                options: options,
+                plugins: [warningThresholdLine]
+            });
+        }
+
+        // 4. 계절별 불량률 추이 (Line Chart)
+        function createSeasonalTrendChart() {
+            if (window.seasonalTrendChartInstance) window.seasonalTrendChartInstance.destroy();
+
+            const ctx = document.getElementById('seasonalTrendChart').getContext('2d');
+            
+            const options = JSON.parse(JSON.stringify(commonChartOptions));
+            options.scales = {
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: { display: true, text: '불량률 (%)', color: '#ff5722' },
+                    min: 0, max: 4,
+                    ticks: { color: CHART_FONT_COLOR },
+                    grid: { color: CHART_GRID_COLOR }
+                },
+                y2: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    title: { display: true, text: '온도 (°C)', color: '#00e676' },
+                    grid: { drawOnChartArea: false, color: CHART_GRID_COLOR },
+                    min: 190, max: 210,
+                    ticks: { color: CHART_FONT_COLOR }
+                },
+                x: {
+                    grid: { color: CHART_GRID_COLOR },
+                    ticks: { color: CHART_FONT_COLOR }
+                }
+            };
+            options.plugins.legend.position = 'top';
+
+            window.seasonalTrendChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['1월', '3월', '5월', '7월', '9월', '11월'],
+                    datasets: [
+                        {
+                            label: '불량률 (%)',
+                            data: [1.5, 1.6, 2.5, 3.1, 2.8, 1.9],
+                            borderColor: '#ff5722', 
+                            backgroundColor: 'rgba(255, 87, 34, 0.1)',
+                            yAxisID: 'y1',
+                            tension: 0.3,
+                            fill: true,
+                            pointRadius: 5,
+                            pointBackgroundColor: '#ff5722'
+                        },
+                        {
+                            label: '평균 금형 온도 (°C)',
+                            data: [195, 198, 202, 205, 203, 196],
+                            borderColor: '#00e676', 
+                            yAxisID: 'y2',
+                            tension: 0.3,
+                            borderDash: [5, 5],
+                            pointRadius: 3,
+                            pointBackgroundColor: '#00e676'
+                        }
+                    ]
+                },
+                options: options
+            });
+        }
+        
+        // 5. 사출압력 안정화 효과 (Scatter Plot)
+        function createPressureStabilizationChart() {
+            if (window.pressureStabilizationChartInstance) window.pressureStabilizationChartInstance.destroy();
+
+            const ctx = document.getElementById('pressureStabilizationChart').getContext('2d');
+
+            const preData = Array.from({ length: 30 }, (_, i) => ({
+                x: i + 1,
+                y: Math.random() * (40 - 25) + 25 
+            }));
+            const postData = Array.from({ length: 30 }, (_, i) => ({
+                x: i + 31,
+                y: Math.random() * (20 - 10) + 10 
+            }));
+
+            const thresholdLine = {
+                id: 'thresholdLine',
+                beforeDraw(chart, args, options) {
+                    const { ctx, chartArea: { left, right }, scales: { y } } = chart;
+                    const threshold = 30;
+                    const yPos = y.getPixelForValue(threshold);
+
+                    ctx.save();
+                    ctx.strokeStyle = '#00aaff'; 
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([6, 6]); 
+                    ctx.beginPath();
+                    ctx.moveTo(left, yPos);
+                    ctx.lineTo(right, yPos);
+                    ctx.stroke();
+                    ctx.restore();
+                }
+            };
+
+            const options = JSON.parse(JSON.stringify(commonChartOptions));
+            options.scales.x.title.text = '사이클 인덱스';
+            options.scales.y.title.text = '압력 편차 (bar)';
+            options.scales.y.min = 0;
+            options.scales.y.max = 50;
+            options.plugins.legend.position = 'top';
+
+            window.pressureStabilizationChartInstance = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [
+                        {
+                            label: 'AI 개입 전',
+                            data: preData,
+                            backgroundColor: 'rgba(255, 87, 34, 0.8)', /* Vivid Red-Orange */
+                        },
+                        {
+                            label: 'AI 개입 후',
+                            data: postData,
+                            backgroundColor: 'rgba(0, 230, 118, 0.8)', /* Neon Green */
+                        }
+                    ]
+                },
+                options: options,
+                plugins: [thresholdLine] 
+            });
+        }
+        
+        // 6. 금형 Hotspot 발생 비율 추이 (Radar Chart)
+        function createHotspotRadarChart() {
+            if (window.hotspotRadarChartInstance) window.hotspotRadarChartInstance.destroy();
+
+            const ctx = document.getElementById('hotspotRadarChart').getContext('2d');
+            
+            const options = JSON.parse(JSON.stringify(commonChartOptions));
+            options.scales = {
+                r: {
+                    angleLines: { color: CHART_GRID_COLOR },
+                    grid: { color: CHART_GRID_COLOR },
+                    pointLabels: { font: { size: 12, color: CHART_FONT_COLOR } },
+                    min: 0,
+                    max: 40,
+                    ticks: { stepSize: 10, display: false }
+                }
+            };
+            options.plugins.legend.position = 'bottom';
+
+            window.hotspotRadarChartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['1월', '3월', '5월', '7월', '9월', '11월'],
+                    datasets: [{
+                        label: 'Hotspot 비율 (%)',
+                        data: [15, 18, 25, 35, 30, 20],
+                        backgroundColor: 'rgba(0, 170, 255, 0.4)', /* Electric Blue Semi-transparent */
+                        borderColor: '#00aaff',
+                        pointBackgroundColor: '#00aaff',
+                        pointBorderColor: '#1e1e1e',
+                        pointHoverBackgroundColor: '#1e1e1e',
+                        pointHoverBorderColor: '#00aaff',
+                        borderWidth: 2,
+                        tension: 0.1
+                    }]
+                },
+                options: options
+            });
+        }
+        
+        // 7. 냉각 유량 변동계수 vs. 불량률 (Bubble Chart)
+        function createFlowDefectBubbleChart() {
+            if (window.flowDefectBubbleChartInstance) window.flowDefectBubbleChartInstance.destroy();
+
+            const ctx = document.getElementById('flowDefectBubbleChart').getContext('2d');
+            const dataPoints = [
+                { x: 1.2, y: 1.5, r: 10 }, 
+                { x: 2.5, y: 2.8, r: 15 }, 
+                { x: 3.2, y: 3.5, r: 25 }, 
+                { x: 1.8, y: 1.9, r: 12 }, 
+                { x: 2.9, y: 3.1, r: 20 },
+                { x: 3.5, y: 4.0, r: 30 }, 
+            ];
+            
+            const options = JSON.parse(JSON.stringify(commonChartOptions));
+            options.scales.x.title.text = '냉각 유량 변동계수 (σ)';
+            options.scales.y.title.text = '불량률 (%)';
+            options.scales.x.min = 1.0;
+            options.scales.x.max = 4.0;
+            options.scales.y.min = 0;
+            options.scales.y.max = 5;
+
+            options.plugins.tooltip = {
+                callbacks: {
+                    label: function(context) {
+                        const p = dataPoints[context.dataIndex];
+                        const temp = Math.round(180 + (p.r / 30) * 30); 
+                        const t = translations[currentLang];
+                        return [
+                            t['chart7-h3'].split(' vs. ')[0].replace(/ \(σ\)/, '') + ` (σ): ${p.x}`, 
+                            t['chart7-h3'].split(' vs. ')[1].replace(/ \(%\)/, '') + ` (%): ${p.y}`, 
+                            t['chart2-h3'].split(' (KPI-01)')[0] + ` (°C): ${temp}`
+                        ];
+                    }
+                },
+                titleFont: { family: 'Malgun Gothic' },
+                bodyFont: { family: 'Malgun Gothic' }
+            };
+
+            window.flowDefectBubbleChartInstance = new Chart(ctx, {
+                type: 'bubble',
+                data: {
+                    datasets: [{
+                        label: '공정 상태 (버블 크기: 온도)',
+                        data: dataPoints,
+                        backgroundColor: 'rgba(0, 230, 118, 0.6)', /* Neon Green */
+                        hoverBackgroundColor: 'rgba(0, 230, 118, 0.8)',
+                    }]
+                },
+                options: options
+            });
+        }
+        
+        // Load all charts on window load
+        window.onload = function() {
+            createDefectRateChart();
+            createMoldTempChart();
+            createInjectionPressureChart();
+            createSeasonalTrendChart();
+            createPressureStabilizationChart();
+            createHotspotRadarChart(); 
+            createFlowDefectBubbleChart(); 
+            // Initialize language to Korean
+            setLanguage('ko'); 
+        };
+
+    </script>
+</body>
+</html>
+
+
+
+

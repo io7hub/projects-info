@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15 Kⁱ⁰⁷ | AAB 시제품 생산 시스템 구축</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.8s ease;
+        }
+        
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .project-info {
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-top: 20px;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            animation: fadeInUp 0.8s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.12);
+        }
+        
+        .section h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background: #764ba2;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8eaf6 100%);
+            padding: 28px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e3f2fd 100%);
+        }
+        
+        .card h3 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .card p {
+            color: #555;
+            line-height: 1.7;
+        }
+        
+        .icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+        
+        .highlight-box h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .highlight-box p {
+            font-size: 1.05em;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .stat-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .stat-box:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.8em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin-top: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 35px;
+            padding-left: 35px;
+            padding-bottom: 15px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -28px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: white;
+            border: 4px solid #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item:hover::before {
+            transform: scale(1.3);
+            box-shadow: 0 0 0 6px rgba(102, 126, 234, 0.3);
+        }
+        
+        .timeline-item h4 {
+            color: #667eea;
+            font-size: 1.25em;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .timeline-item p {
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        .budget-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        
+        .budget-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 18px;
+            text-align: left;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        .budget-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid #e0e0e0;
+            background: white;
+        }
+        
+        .budget-table tbody tr {
+            transition: background 0.2s ease;
+        }
+        
+        .budget-table tbody tr:hover {
+            background: #f8f9ff;
+        }
+        
+        .budget-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .budget-total {
+            background: linear-gradient(135deg, #764ba2, #667eea) !important;
+            color: black !important;
+            font-weight: 700;
+            font-size: 1.15em;
+        }
+        
+        .advantage-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+        
+        .advantage-list li {
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .advantage-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.1), transparent);
+            transition: width 0.3s ease;
+        }
+        
+        .advantage-list li:hover {
+            background: #e8eaf6;
+            transform: translateX(8px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+        }
+        
+        .advantage-list li:hover::before {
+            width: 100%;
+        }
+        
+        .advantage-list li strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .component-item {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 22px;
+            border-radius: 12px;
+            color: #333;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.05em;
+            box-shadow: 0 6px 20px rgba(168, 237, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .component-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(168, 237, 234, 0.4);
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            color: white;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 0.8;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .subtitle {
+                font-size: 1.1em;
+            }
+            
+            .section {
+                padding: 25px 20px;
+            }
+            
+            .section h2 {
+                font-size: 1.6em;
+            }
+            
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .project-info {
+                padding: 12px 20px;
+                font-size: 0.9em;
+            }
+            
+            .card {
+                padding: 22px;
+            }
+            
+            .highlight-box {
+                padding: 25px;
+            }
+            
+            .budget-table {
+                font-size: 0.9em;
+            }
+            
+            .budget-table th,
+            .budget-table td {
+                padding: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 15px;
+            }
+            
+            h1 {
+                font-size: 1.7em;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-number {
+                font-size: 2.3em;
+            }
+        }
+        footer {
+                text-align: center;
+                font-size: 16px;
+                color: #fdfeff;
+                padding: 50px;
+                margin-top: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔋 알루미늄-공기전지(AAB)</h1>
+            <div class="subtitle">시제품 생산 시스템 구축 사업제안</div>
+            <div class="project-info">
+                <strong>사업기간:</strong> 2025.06 ~ 2026.05 (12개월) | 
+                <strong>총예산:</strong> 4억원 | 
+                <strong>기업:</strong> Kⁱ⁰⁷
+            </div>
+        </header>
+
+        <div class="section">
+            <h2>📊 사업 개요</h2>
+            <div class="highlight-box">
+                <h3>사업 목표</h3>
+                <p>고에너지 밀도, 경량, 친환경 알루미늄-공기전지의 파일럿 생산 시스템 구축 및 시장 진출 기반 마련</p>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-number">8배</div>
+                    <div class="stat-label">리튬이온 대비<br>에너지 밀도</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">12V</div>
+                    <div class="stat-label">스택 단위<br>출력 전압</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">600W</div>
+                    <div class="stat-label">목표 시스템<br>출력</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">50회+</div>
+                    <div class="stat-label">셀 수명<br>반복시험</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚡ AAB 기술의 핵심 장점</h2>
+            <ul class="advantage-list">
+                <li><strong>높은 에너지 밀도:</strong> 이론상 리튬이온 배터리보다 8배 높은 에너지 밀도</li>
+                <li><strong>원재료 안정성:</strong> 알루미늄의 가격 안정성 및 우수한 재활용성</li>
+                <li><strong>공기극 활용:</strong> 산소 환원 반응을 통한 고출력 구현</li>
+                <li><strong>친환경성:</strong> 저탄소 기반 이차 에너지 시스템</li>
+                <li><strong>경제성:</strong> 단위 Wh당 제조단가 500원 이하 목표</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🔧 주요 구성 모듈</h2>
+            <div class="component-grid">
+                <div class="component-item">알루미늄 양극판 성형</div>
+                <div class="component-item">흑연계 복합 분리막</div>
+                <div class="component-item">공기극 (Air Cathode)</div>
+                <div class="component-item">유닛 셀 → 스택 조립</div>
+                <div class="component-item">순환형 KOH 전해질</div>
+                <div class="component-item">출력 측정 시스템</div>
+                <div class="component-item">전압 안정화 제어</div>
+                <div class="component-item">일체형 냉각 시스템</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div>
+                    <h2 style="border-bottom: none; padding-bottom: 0; margin-bottom: 25px;">🎯 4대 산업 응용 전략</h2>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+                        <div class="card">
+                            <h3><span class="icon">1</span>제품화 전략</h3>
+                            <p>"충전형 배터리"가 아닌 <strong>"교체형 에너지 연료"</strong> 개념으로 재정의</p>
+                        </div>
+                        <div class="card">
+                            <h3><span class="icon">2</span>서비스화 전략</h3>
+                            <p>에너지 카트리지 공급+회수를 결합한 <strong>순환형 공급 모델</strong> 구축</p>
+                        </div>
+                        <div class="card">
+                            <h3><span class="icon">3</span>하이브리드 전략</h3>
+                            <p>리튬이온 배터리와 병행 탑재하여 <strong>고효율·장거리 운용</strong> 가능</p>
+                        </div>
+                        <div class="card">
+                            <h3><span class="icon">4</span>ESG 연계 전략</h3>
+                            <p>재활용/저탄소 기반 시스템으로 <strong>ESG 투자 연계</strong> 가능</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h2 style="border-bottom: none; padding-bottom: 0; margin-bottom: 25px;">📅 사업 추진 4단계</h2>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <h4>1단계 (1~3개월): 설계 및 부품 조달</h4>
+                            <p>• AAB 셀 구성요소 설계 (양극, 공기극, 분리막)<br>
+                               • 주요 부품 국내외 조달 및 시제품 조립</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>2단계 (4~7개월): 파일럿 라인 구축</h4>
+                            <p>• 반자동 조립 jig 시스템 설계<br>
+                               • 순환형 전해질 모듈 및 출력 계측 포함</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>3단계 (8~10개월): 출력 실험 및 테스트</h4>
+                            <p>• 500W급 스택 설계 및 전력 테스트<br>
+                               • 셀 수명 50회 이상 반복시험 통과</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>4단계 (11~12개월): 실증 및 기술 고도화</h4>
+                            <p>• 캠핑카 비상전원 및 선박 보조전원 연계 실증<br>
+                               • 응용처 테스트 및 사업화 검증</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💰 예산 계획</h2>
+            <table class="budget-table">
+                <thead>
+                    <tr>
+                        <th>항목</th>
+                        <th>금액 (백만원)</th>
+                        <th>세부내역</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>장비구축비</td>
+                        <td>150</td>
+                        <td>셀 조립 jig, 출력측정기, 전해질 순환 모듈</td>
+                    </tr>
+                    <tr>
+                        <td>재료비</td>
+                        <td>80</td>
+                        <td>알루미늄판, 공기극, 분리막, KOH 전해질 등</td>
+                    </tr>
+                    <tr>
+                        <td>인건비</td>
+                        <td>120</td>
+                        <td>연구개발 인력 2~3명 × 12개월</td>
+                    </tr>
+                    <tr>
+                        <td>기타</td>
+                        <td>50</td>
+                        <td>외부시험, 시제품 포장, 기술자문 등</td>
+                    </tr>
+                    <tr class="budget-total">
+                        <td>합계</td>
+                        <td>400</td>
+                        <td>총 사업비</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>🎯 주요 적용 분야</h2>
+            <div class="grid-3" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="card">
+                    <h3>소형 전력기기</h3>
+                    <p>드론, 캠핑카, 로봇 등의 이동형 전원</p>
+                </div>
+                <div class="card">
+                    <h3>비상 전원</h3>
+                    <p>UPS 시스템 및 재난 대응 전력 공급</p>
+                </div>
+                <div class="card">
+                    <h3>군수·해양</h3>
+                    <p>군사 장비 및 선박 보조 전원</p>
+                </div>
+                <div class="card">
+                    <h3>산간·오지</h3>
+                    <p>독립 전원 시스템 및 이동식 발전</p>
+                </div>
+                <div class="card">
+                    <h3>전기자전거</h3>
+                    <p>장거리 운행용 보조 배터리</p>
+                </div>
+                <div class="card">
+                    <h3>ESS</h3>
+                    <p>에너지 저장 및 분산 전원 시스템</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🚀 경제성 확보 전략</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>부품 국산화</h3>
+                    <p>흑연계 분리막 또는 대체 소재의 국내 <br>시험생산 연계</p>
+                </div>
+                <div class="card">
+                    <h3>공정 개선</h3>
+                    <p>양극판 성형 및 셀 조립 공정의 반자동 jig 도입</p>
+                </div>
+                <div class="card">
+                    <h3>원가 절감</h3>
+                    <p>공기극 소재의 반복 사용 실증 및 표면 <br>재활성화 기술</p>
+                </div>
+                <div class="card">
+                    <h3>순환 시스템</h3>
+                    <p>KOH 전해질 재사용 위한 정제모듈 설계</p>
+                </div>
+                <div class="card">
+                    <h3>모듈화 설계</h3>
+                    <p>소형 스택 단위로 설계하여 병렬/직렬 <br>구성 유연화</p>
+                </div>
+                <div class="card">
+                    <h3>실증 연계</h3>
+                    <p>선박 비상전원, 캠핑카 전력원 등 소형 <br>적용처 실증</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h2>✨ 기대효과</h2>
+                    <div class="highlight-box">
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li style="margin-bottom: 25px;">✓ 국내 순수 기술 기반 Al-Air Battery 기술 확보</li>
+                            <li style="margin-bottom: 25px;">✓ 리튬이온 기술의 보완으로 장거리 운용 가능한 시스템 구축</li>
+                            <li style="margin-bottom: 25px;">✓ 소재 국산화 및 부품 조립 jig 개발로 향후 양산 대응 가능</li>
+                            <li style="margin-bottom: 25px;">✓ 군수, 해양, 오지용 독립 전원 시스템 시장 선점 가능</li>
+                            <li style="margin-bottom: 25px;">✓ 탄소 배출 저감형 에너지 공급 인프라 실현</li>
+                            <li>✓ ESG 투자 연계 가능한 그린 에너지 사업 모델 구축</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <h2>🔵 향후 추진 방향</h2>
+                    <div>
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 0px;"></div>
+                        <div class="card">
+                            <p>
+                            <strong>양산 시스템 확대</strong><br>
+                            실증 후 민간 투자를 통한 연간 5MWh급 양산 시스템 구축<br><br>
+                            <strong>전략적 파트너십</strong><br>
+                            국방부·해양수산부·캠핑카 업체 등과 MOU 체결 추진<br><br>
+                            <strong>수출 시장 진출</strong><br>
+                            수출형 모듈(소형 전력시스템) 패키지 개발<br><br>
+                            <strong>기술 고도화</strong><br>
+                            에너지 밀도 향상 및 수명 연장을 위한 지속적 R&D</p>
+                        </div>
+                    </div>    
+                </div>                        
+            </div>
+        </div> 
+    </div>
+    <footer>
+        <div>
+            데이터 기반 가치 전환 전략 | Kⁱ⁰⁷ Aluminum-Air Battery Research Framework
+            <p><br>
+            This work is based on my personal field analysis of data-driven value transformation strategies. <br>
+            © 2023 Kⁱ⁰⁷ All rights reserved. | 📧 io7hub@naver.com
+            </p>        
+        </div>
+    </footer>   
+</body>
+
+</html>

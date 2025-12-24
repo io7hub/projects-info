@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 에콰도르 농기계 ODA 사업 전략</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            background-color: #F3F4F6;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="sticky-nav">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-center items-center h-16 space-x-4 md:space-x-8 overflow-x-auto">
+                <a href="#section-1" class="text-sm md:text-base font-medium text-gray-600 hover:text-green-700 whitespace-nowrap">사업 타당성</a>
+                <a href="#section-2" class="text-sm md:text-base font-medium text-gray-600 hover:text-green-700 whitespace-nowrap">시장 및 경쟁 분석</a>
+                <a href="#section-3" class="text-sm md:text-base font-medium text-gray-600 hover:text-green-700 whitespace-nowrap">ODA 전략: 틈새 공략</a>
+                <a href="#section-4" class="text-sm md:text-base font-medium text-gray-600 hover:text-green-700 whitespace-nowrap">타겟 농기계 사양</a>
+                <a href="#section-5" class="text-sm md:text-base font-medium text-gray-600 hover:text-green-700 whitespace-nowrap">지속가능성 전략</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-8">
+
+        <section class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-green-800 mb-4"><img src="https://flagcdn.com/ec.svg" alt="에콰도르 국기" class="flag w-10 h-auto inline-block mr-2"> 에콰도르 안데스 고산지대 농기계 ODA 사업</h1>
+            <p class="text-xl md:text-2xl font-light text-gray-700">지속가능한 농업 발전을 위한 종합 전략</p>
+        </section>
+
+        <section id="section-1" class="mb-12">
+            <h2 class="text-3xl font-bold text-center mb-10 text-green-700">1. 사업 타당성: 왜 안데스 고산지대인가?</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-center mb-4">지역별 농업용 토지 분포 (총 520만 Ha)</h3>
+                    <p class="text-sm text-gray-600 mb-4 text-center">시에라(고산지대)는 전체 농지의 31%를 차지하며, 험준한 산악 지형과 감자, 퀴노아, 옥수수 및 특수 작물 재배가 특징, 이는 해안(코스타, 56.8%) 및 아마존 (12.2%)와는 다른 맞춤형 기계화 전략이 필요함 <strong class="text-xs text-red-500">(보급률 통계는 화훼 포함 전체 농가 기준)</strong></p>
+                    <div class="chart-container">
+                        <canvas id="landUseChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-center mb-4">기계화 격차: 수확 후 처리의 실종</h3>
+                    <p class="text-sm text-gray-600 mb-4 text-center">살포기(89.2%) 보급은 과잉 수준이나, 생산성에 직결되는 <strong class="text-red-600">탈곡기(1.3%)</strong> 및 트랙터(3.8%) 보급률은 처참히 낮은 수준. 이는 ODA가 집중해야 할 명확한 <strong class="text-red-600">'수확 후 처리 기술 공백'</strong>을 의미함</p>
+                    <div class="chart-container">
+                        <canvas id="gapChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-2" class="mb-12">
+            <h2 class="text-3xl font-bold text-center mb-10 text-green-700">2. 시장 및 경쟁 분석: ODA의 전략적 틈새</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-center mb-4">주요 트랙터 브랜드 시장 점유율</h3>
+                    <p class="text-sm text-gray-600 mb-4 text-center">시장은 Kubota, John Deere 등 고가/고마력 브랜드가 주도하고 있다. ODA는 이들과의 직접 경쟁을 피하고, <strong class="text-green-700">'기타/틈새(47%)'</strong> 시장의 영세 농가를 타겟으로 함</p>
+                    <div class="chart-container">
+                        <canvas id="brandChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-center mb-4">트랙터 시장 용량(HP)별 분석</h3>
+                    <p class="text-sm text-gray-600 mb-4 text-center">기존 시장은 40HP 이상 중대형 트랙터(85%)에 집중되어 있다. ODA의 전략적 틈새는 <strong class="text-green-700">'40HP 미만 소형(15%)'</strong> 시장이며, 이는 고산지대 영세농가의 수요와 일치시킴</p>
+                    <div class="chart-container">
+                        <canvas id="hpChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-3" class="mb-12">
+            <h2 class="text-3xl font-bold text-center mb-10 text-green-700">3. ODA 전략: 🎯 기존 유통망 저항 회피</h2>
+            <p class="text-lg text-gray-700 text-center max-w-4xl mx-auto mb-10">Kubota 등 기존 딜러와의 마찰 회피, 사업효과를 극대화하기 위해, ODA는 '경쟁'이 아닌 '시장 창출'과 '공익'에 집중하는 3대 전략 추진</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center border-t-4 border-green-600">
+                    <span class="text-5xl mb-4 block"></span>
+                    <h3 class="text-xl font-bold mb-3">시장 분리 (Segmentation)</h3>
+                    <p class="text-sm text-gray-600">딜러의 주력 시장(고마력, 대농)이 아닌 <strong class="text-green-700">수익성 낮은 틈새시장</strong>(40HP 미만 영세농, 급경사지)에만 ODA 자원 집중</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center border-t-4 border-amber-500">
+                    <span class="text-5xl mb-4 block"></span>
+                    <h3 class="text-xl font-bold mb-3">비경쟁 품목 집중</h3>
+                    <p class="text-sm text-gray-600">기존 시장에 없는 <strong class="text-amber-600">'다목적 탈곡기'(보급률 1.3%)</strong> 등 수확 후 처리장비에 집중, 딜러 매출 잠식 없는 <strong class="text-amber-600">신규 시장 창출</strong></p>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center border-t-4 border-blue-600">
+                    <span class="text-5xl mb-4 block"></span>
+                    <h3 class="text-xl font-bold mb-3">유통 채널 차별화</h3>
+                    <p class="text-sm text-gray-600">'판매'가 아닌 <strong class="text-blue-700">'공유 센터'</strong> 방식 채택. <strong class="text-blue-700">농업 협동조합 및 지방정부</strong>를 통해 장비를 배포하여 상업적 유통망과 충돌 자체를 차단</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="section-4" class="mb-12">
+            <h2 class="text-3xl font-bold text-center mb-10 text-green-700">4. ODA 핵심 투입: 🚜 타겟 농기계 사양 정의</h2>
+            <p class="text-lg text-gray-700 text-center max-w-4xl mx-auto mb-10">위의 전략에 따라 ODA는 고산지대 지형과 영세농의 특수성과 비경쟁 시장에 초점을 맞춘 다음 4대 핵심 품목에 집중</p>
+            <div class="bg-white rounded-lg shadow-lg overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-green-700 text-white">
+                        <tr>
+                            <th class="p-4 text-sm md:text-base font-bold">타겟 농기계</th>
+                            <th class="p-4 text-sm md:text-base font-bold">주요 목적</th>
+                            <th class="p-4 text-sm md:text-base font-bold">핵심 목표 사양 (ODA 집중)</th>
+                            <th class="p-4 text-sm md:text-base font-bold">현지화 특이사항</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-4 font-medium"><strong class="text-green-700">1. 경량 트랙터</strong></td>
+                            <td class="p-4 text-sm">경운, 사료 재배, 운반 (다목적)</td>
+                            <td class="p-4 text-sm"><strong class="text-red-600">25~40 마력 (HP)</strong>, 4WD 필수</td>
+                            <td class="p-4 text-sm"><strong class="text-red-600">경사지 안정성 (저중심 설계)</strong>, 고산지대(3000m+) 출력 저하 방지</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-4 font-medium"><strong class="text-green-700">2. 동력 경운기</strong></td>
+                            <td class="p-4 text-sm">트랙터 진입 불가 급경사지, 소규모 밭</td>
+                            <td class="p-4 text-sm">5~15 마력 (HP), 경량, 조작 용이성</td>
+                            <td class="p-4 text-sm">트레일러 연결 기능, 높은 지상고, 내구성 강화</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-4 font-medium"><strong class="text-amber-600">3. 다목적 탈곡기</strong></td>
+                            <td class="p-4 text-sm"><strong class="text-red-600">수확 후 손실률 해결 (Gap 1.3%)</strong></td>
+                            <td class="p-4 text-sm">소형, 이동식, <strong class="text-amber-600">다수 작물 대응</strong></td>
+                            <td class="p-4 text-sm">감자, 퀴노아, 옥수수 등 작물별 부품 간편 교체, 건조 기술 연계</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-4 font-medium"><strong class="text-green-700">4. 특수 정밀 장비</strong></td>
+                            <td class="p-4 text-sm">화훼류, 목초지 관리 및 고부가가치 농업</td>
+                            <td class="p-4 text-sm">정밀 파종기, 소형 사료 절단기</td>
+                            <td class="p-4 text-sm">고부가가치 작물(화훼)의 정밀 농업 및 센서 기술 수요 충족</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="section-5" class="mb-12">
+            <h2 class="text-3xl font-bold text-center mb-10 text-green-700">5. 지속가능성 전략: 🤝 현지화 파트너십</h2>
+            <p class="text-lg text-gray-700 text-center max-w-4xl mx-auto mb-10">단순한 장비 공여를 넘어, ODA 종료 후에도 지속가능한 생태계 구축을 위해 현지 파트너와의 기술 이전 및 A/S 협력 필요</p>
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="flex flex-col md:flex-row justify-between items-center text-center">
+                    
+                    <div class="flex flex-col items-center mb-6 md:mb-0">
+                        <div class="bg-green-700 text-white rounded-lg p-6 w-50">
+                            <h4 class="font-bold text-lg">🇰🇷 한국 ODA</h4>
+                            <p class="text-sm">기술 이전 및 장비 지원</p>
+                        </div>
+                    </div>
+
+                    <div class="text-5xl text-green-700 mx-8 hidden md:block">→</div>
+                    <div class="text-5xl text-green-700 my-4 md:hidden">↓</div>
+
+                    <div class="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div class="bg-gray-100 rounded-lg p-4">
+                            <span class="text-4xl block mb-2">🏭</span>
+                            <h5 class="font-bold text-green-800">현지 조립/제조사</h5>
+                            <p class="text-xs text-gray-600">현지 조립, A/S 및 부품 공급 허브</p>
+                        </div>
+                        <div class="bg-gray-100 rounded-lg p-4">
+                            <span class="text-4xl block mb-2">🔬</span>
+                            <h5 class="font-bold text-green-800">현지 연구소/대학</h5>
+                            <p class="text-xs text-gray-600">경사지 R&D, 실증 테스트, 기술 자문</p>
+                        </div>
+                        <div class="bg-gray-100 rounded-lg p-4">
+                            <span class="text-4xl block mb-2">🎯</span>
+                            <h5 class="font-bold text-green-800">기존 딜러(선택적)</h5>
+                            <p class="text-xs text-gray-600">A/S 파트너 역할, ODA 종료후 민간 시장 교두보</p>
+                        </div>
+                    </div>
+
+                    <div class="text-5xl text-green-700 mx-8 hidden md:block">→</div>
+                    <div class="text-5xl text-green-700 my-4 md:hidden">↓</div>
+
+                    <div class="flex flex-col items-center mt-6 md:mt-0">
+                        <div class="bg-amber-500 text-white rounded-lg p-6 w-60">
+                            <h4 class="font-bold text-lg">🇪🇨 지속가능한 생태계</h4>
+                            <p class="text-sm">자체 A/S, 현지 맞춤형 개조, 민간 시장 확장</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center p-6 bg-gray-800 text-gray-300 text-sm">
+        <p>@2021 에콰도르 농기계 ODA 사업 타당성 분석<br><br></p>
+        <p class="text-teal-500"><strong>데이터 기반 가치 전환 전략가</strong></p>
+        <p class="text-sm text-gray-500">
+                This work is based on my personal field analysis of data-driven value transformation strategies. <br>
+                © 2023 Kⁱ⁰⁷ All rights reserved. | 📧 io7hub@naver.com
+        </p>
+    </footer>
+
+    <script>
+        const chartTooltipTitleCallback = function(tooltipItems) {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: chartTooltipTitleCallback
+                    },
+                    backgroundColor: '#1F2937',
+                    titleFont: { size: 14 },
+                    bodyFont: { size: 12 },
+                    padding: 12,
+                    cornerRadius: 6,
+                },
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            size: 12,
+                            family: "'Noto Sans KR', 'Inter', sans-serif"
+                        },
+                        padding: 15
+                    }
+                }
+            }
+        };
+
+        const landUseChartCtx = document.getElementById('landUseChart').getContext('2d');
+        new Chart(landUseChartCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['코스타 (해안)', '시에라 (고산지대)', '아마존'],
+                datasets: [{
+                    label: '농업용 토지 분포',
+                    data: [56.8, 31.0, 12.2],
+                    backgroundColor: [
+                        '#059669', 
+                        '#F59E0B', 
+                        '#D1D5DB', 
+                    ],
+                    borderColor: '#FFFFFF',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                ...commonChartOptions,
+                plugins: {
+                    ...commonChartOptions.plugins,
+                    tooltip: {
+                        ...commonChartOptions.plugins.tooltip,
+                        callbacks: {
+                            ...commonChartOptions.plugins.tooltip.callbacks,
+                             label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += context.parsed + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const gapChartCtx = document.getElementById('gapChart').getContext('2d');
+        new Chart(gapChartCtx, {
+            type: 'bar',
+            data: {
+                labels: ['다목적 탈곡기', '트랙터', '분무기/살포기'],
+                datasets: [{
+                    label: '주요 기계 보급률 (추정치)',
+                    data: [1.3, 3.8, 89.2],
+                    backgroundColor: [
+                        '#EF4444', 
+                        '#F59E0B', 
+                        '#059669', 
+                    ],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                ...commonChartOptions,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%'
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    ...commonChartOptions.plugins,
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                         ...commonChartOptions.plugins.tooltip,
+                        callbacks: {
+                            ...commonChartOptions.plugins.tooltip.callbacks,
+                             label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.x !== null) {
+                                    label += context.parsed.x + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const brandChartCtx = document.getElementById('brandChart').getContext('2d');
+        new Chart(brandChartCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['기타 / 틈새 시장', 'Kubota', 'John Deere', 'New Holland'],
+                datasets: [{
+                    label: '브랜드 점유율',
+                    data: [47, 20, 18, 15],
+                    backgroundColor: [
+                        '#059669', 
+                        '#F59E0B', 
+                        '#1F2937', 
+                        '#6B7280', 
+                    ],
+                    borderColor: '#FFFFFF',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                ...commonChartOptions,
+                plugins: {
+                    ...commonChartOptions.plugins,
+                    tooltip: {
+                        ...commonChartOptions.plugins.tooltip,
+                        callbacks: {
+                            ...commonChartOptions.plugins.tooltip.callbacks,
+                             label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += context.parsed + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const hpChartCtx = document.getElementById('hpChart').getContext('2d');
+        new Chart(hpChartCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['ODA 타겟: 40HP 미만', '40-70HP (중형)', '70HP 이상 (대형)'],
+                datasets: [{
+                    label: '트랙터 용량별 시장',
+                    data: [15, 35, 50],
+                    backgroundColor: [
+                        '#059669', 
+                        '#F59E0B', 
+                        '#1F2937', 
+                    ],
+                    borderColor: '#FFFFFF',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                ...commonChartOptions,
+                plugins: {
+                    ...commonChartOptions.plugins,
+                    tooltip: {
+                        ...commonChartOptions.plugins.tooltip,
+                        callbacks: {
+                            ...commonChartOptions.plugins.tooltip.callbacks,
+                             label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += context.parsed + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

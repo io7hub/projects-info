@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Master Architecture</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .architecture {
+            padding: 60px 40px;
+            background: #f8f9fa;
+        }
+        
+        .layer {
+            margin-bottom: 60px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .layer-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid;
+        }
+        
+        .layer-title h2 {
+            font-size: 1.8em;
+            margin-left: 15px;
+        }
+        
+        .layer-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+        }
+        
+        /* Field Layer */
+        .field .layer-title {
+            border-color: #3498db;
+        }
+        
+        .field .layer-number {
+            background: #3498db;
+        }
+        
+        /* Edge Layer */
+        .edge .layer-title {
+            border-color: #e74c3c;
+        }
+        
+        .edge .layer-number {
+            background: #e74c3c;
+        }
+        
+        /* Cloud Layer */
+        .cloud .layer-title {
+            border-color: #2ecc71;
+        }
+        
+        .cloud .layer-number {
+            background: #2ecc71;
+        }
+        
+        .components {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .field .components {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        
+        @media (max-width: 1024px) {
+            .components {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .field .components {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .components, .field .components {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .component {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid;
+        }
+        
+        .component:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .field .component {
+            border-color: #3498db;
+        }
+        
+        .edge .component {
+            border-color: #e74c3c;
+        }
+        
+        .cloud .component {
+            border-color: #2ecc71;
+        }
+        
+        .component-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        
+        .component h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .component p {
+            font-size: 0.95em;
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+        
+        .iot-master-highlight {
+            background: linear-gradient(135deg, #5f9fd8 0%, #4a90e2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.3);
+        }
+        
+        .iot-master-highlight h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .specs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 1024px) {
+            .specs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .specs {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .spec-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .spec-item strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+        
+        .flow-diagram {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+        
+        .flow-diagram h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #2c3e50;
+            font-size: 2em;
+        }
+        
+        .flow-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .flow-step {
+            flex: 1;
+            min-width: 160px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .flow-step-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .flow-step h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .flow-step p {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+        
+        .flow-arrow {
+            font-size: 2em;
+            color: #667eea;
+            margin: 0 10px;
+        }
+        
+        .benefits {
+            background: linear-gradient(135deg,  #5f9fd8 0%, #4a90e2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+        
+        .benefits h2 {
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .benefit-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        @media (max-width: 1024px) {
+            .benefit-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .benefit-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .benefit-item {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .benefit-item h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .benefit-item h3::before {
+            content: "✓";
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .flow-steps {
+                flex-direction: column;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏭 Kⁱ⁰⁷ | Industrial Edge Architecture</h1>
+            <p>중남미 중소 제조업 맞춤형 DX 모델</p>
+        </div>
+        
+        <div class="architecture">
+            <!-- Field Layer -->
+            <div class="layer field">
+                <div class="layer-title">
+                    <div class="layer-number">1</div>
+                    <h2>Field Layer - 현장 센서 계층</h2>
+                </div>
+                <div class="components">
+                    <div class="component">
+                        <div class="component-icon">🌡️</div>
+                        <h3>온도 센서</h3>
+                        <p>실시간 온도 모니터링 및 공정 온도 제어</p>
+                    </div>
+                    <div class="component">
+                        <div class="component-icon">📊</div>
+                        <h3>압력 센서</h3>
+                        <p>압력 측정 및 안전 관리</p>
+                    </div>
+                    <div class="component">
+                        <div class="component-icon">⚡</div>
+                        <h3>PLC (기존 장비)</h3>
+                        <p>레거시 제어 시스템 통합 연동</p>
+                    </div>
+                    <div class="component">
+                        <div class="component-icon">🔌</div>
+                        <h3>Modbus RS485</h3>
+                        <p>저비용 범용 산업 통신 프로토콜</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- IoT Master Highlight -->
+            <div class="iot-master-highlight">
+                <h2>🎯 IoT Master - Industrial Edge Terminal</h2>
+                <p style="font-size: 1.1em; margin-bottom: 20px;">현장 Edge + 실시간 HMI + Mini MES 통합 솔루션</p>
+                <div class="specs">
+                    <div class="spec-item">
+                        <strong>기반</strong>
+                        IoT Master : Raspberry Pi CM3
+                    </div>
+                    <div class="spec-item">
+                        <strong>디스플레이</strong>
+                        10.1" 터치스크린 (1280x800)
+                    </div>
+                    <div class="spec-item">
+                        <strong>통신</strong>
+                        RS485/RS232/GPIO
+                    </div>
+                    <div class="spec-item">
+                        <strong>네트워크</strong>
+                        Ethernet, Wi-Fi, USB 3ea
+                    </div>
+                    <div class="spec-item">
+                        <strong>소프트웨어</strong>
+                        Python/Node-RED/Streamlit
+                    </div>
+                    <div class="spec-item">
+                        <strong>독립 운영</strong>
+                        Cloud 연결 불안정 시에도 작동
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Edge Layer -->
+            <div class="layer edge">
+                <div class="layer-title">
+                    <div class="layer-number">2</div>
+                    <h2>Edge Layer - 로컬 처리 및 HMI</h2>
+                </div>
+                <div class="components">
+                    <div class="component">
+                        <div class="component-icon">📥</div>
+                        <h3>데이터 수집 (DAQ)</h3>
+                        <p>RS485 → Modbus Parser → Edge Buffer</p>
+                    </div>
+                    <div class="component">
+                        <div class="component-icon">⚙️</div>
+                        <h3>데이터 전처리</h3>
+                        <p>Noise 제거, 단위 변환, 샘플링</p>
+                    </div>
+                    <div class="component">
+                        <div class="component-icon">📱</div>
+                        <h3>Streamlit UI</h3>
+                        <p>작업자용 실시간 대시보드 제공</p>
+                    </div>
+                    <div class="component">
+                        <div class="component-icon">📝</div>
+                        <h3>이벤트 기록</h3>
+                        <p>작업 시작/종료, 알람, 휴지 시간</p>
+                    </div>
+                    <div class="component">
+                        <div class="component-icon">💾</div>
+                        <h3>Local SQLite DB</h3>
+                        <p>저비용 Mini-MES 구성</p>
+                    </div>
+                    <div class="component">
+                        <div class="component-icon">📡</div>
+                        <h3>MQTT Publisher</h3>
+                        <p>저비용 고효율 데이터 전송</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cloud Layer -->
+            <div class="layer cloud">
+                <div class="layer-title">
+                    <div class="layer-number">3</div>
+                    <h2>Cloud Layer - 중앙 분석 및 통합</h2>
+                </div>
+                <div class="components">
+                    <div class="component">
+                        <div class="component-icon">☁️</div>
+                        <h3>Cloud Gateway</h3>
+                        <p>AWS EC2 / Firebase / IoT Core</p>
+                    </div>
+                    <div class="component">
+                        <div class="component-icon">🔄</div>
+                        <h3>Node-RED (Cloud)</h3>
+                        <p>데이터 라우팅 및 통합</p>
+                    </div>
+                    <div class="component">
+                        <div class="component-icon">📊</div>
+                        <h3>SCADA / MES</h3>
+                        <p>생산 관리 시스템 통합</p>
+                    </div>
+                    <div class="component">
+                        <div class="component-icon">📈</div>
+                        <h3>BI / Analytics</h3>
+                        <p>KPI 분석, 품질 이상 탐지</p>
+                    </div>
+                    <div class="component">
+                        <div class="component-icon">🤖</div>
+                        <h3>MLOps</h3>
+                        <p>예지보전 모델 적용</p>
+                    </div>
+                    <div class="component">
+                        <div class="component-icon">🔗</div>
+                        <h3>REST API</h3>
+                        <p>외부 시스템 연동</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Flow Diagram -->
+            <div class="flow-diagram">
+                <h2>📋 데이터 흐름 프로세스</h2>
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="flow-step-icon">🏭</div>
+                        <h3>STEP 1</h3>
+                        <p>현장 센서들이<br>데이터 생성</p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="flow-step-icon">💻</div>
+                        <h3>STEP 2</h3>
+                        <p>IoT Master가<br>수집 및 표시</p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="flow-step-icon">📡</div>
+                        <h3>STEP 3</h3>
+                        <p>MQTT로<br>클라우드 전송</p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="flow-step-icon">📊</div>
+                        <h3>STEP 4</h3>
+                        <p>본사/관리자<br>실시간 모니터링</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Benefits -->
+            <div class="benefits">
+                <h2>🌟 중남미 중소 제조업 최적화 포인트</h2>
+                <div class="benefit-list">
+                    <div class="benefit-item">
+                        <h3>네트워크 독립성</h3>
+                        <p>Cloud 연결 불안정 상황에도 Edge에서 독립 운영 가능</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h3>저비용 구축</h3>
+                        <p>범용 Modbus 센서 + IoT Master 기반 저비용 설계</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h3>레거시 통합</h3>
+                        <p>기존 PLC 및 장비와 쉽게 연동 가능</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h3>확장성</h3>
+                        <p>공장 규모에 관계없이 유연한 확장 가능</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h3>실시간 HMI</h3>
+                        <p>작업자 친화적 인터페이스</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h3>데이터 주권</h3>
+                        <p>Local DB로 중요 데이터 현장 보관</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Footer -->
+        <div>
+            <p style="padding: 35px; text-align: center; font-weight: bold; color: #51abf6; font-size: 0.9em;">
+            데이터 기반 가치 전환 전략 | Kⁱ⁰⁷ 전략 AI | IoT Platform Service</p>
+            <p style="text-align: center; color: #f5f9f6; font-size: 0.9em;">
+            This work is based on my personal field analysis of data-driven value transformation strategies. <br>
+            © 2023 Kⁱ⁰⁷ All rights reserved. | 📧 io7hub@naver.com
+        </div>
+</body>
+</html>

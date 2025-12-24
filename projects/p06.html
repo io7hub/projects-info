@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06 Kⁱ⁰⁷ | LATAM IoT Platform Infographic</title>
+    <!-- Tailwind CSS (CDN for demonstration) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* --- New Premium Industrial Palette --- */
+        .color-primary-dark { color: #0A2A47; } /* Deep Navy - Primary Text */
+        .color-primary-light { color: #2A607C; } /* Medium Blue - Secondary */
+        .color-accent-orange { color: #F26419; } /* Bright Orange - Data Flow / Key Accent */
+
+        /* --- Overall Container Styling --- */
+        .container-infographic { 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            padding: 60px; 
+            font-family: 'Inter', sans-serif; 
+            background-color: #ffffff; 
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); 
+        }
+
+        /* --- Header --- */
+        .header-fancy {
+            border-bottom: 10px solid #F26419;
+            background: linear-gradient(135deg, #E8F0F5, #FFFFFF); 
+        }
+        
+        /* --- Layer Styles --- */
+        .layer-title-field { color: #2A607C; }
+        .layer-title-edge { color: #0A2A47; }
+        .layer-title-cloud { color: #5A6A79; }
+
+        /* Custom Arrow SVG Style */
+        .flow-arrow-svg {
+            margin: 0 auto;
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container-infographic shadow-2xl">
+
+    <!-- Title Section -->
+    <header class="text-center mb-16 p-8 border-b-8 border-[#F26419] rounded-b-lg header-fancy shadow-lg">
+        <h1 class="text-5xl sm:text-6xl font-extrabold text-[#0A2A47]">
+            중남미 중소 제조업 맞춤형 DX 모델
+        </h1>
+        <h2 class="text-4xl sm:text-4xl font-black mt-3 text-[#2A607C]">
+            <strong>Industrial Edge Architecture</strong>(IoT Master)
+        </h2>
+        <p class="mt-6 text-2xl text-gray-600">네트워크 불안정성 극복 및 저비·고효율 지향 <strong class="text-[#F26419] font-extrabold">Edge-Cloud 통합 솔루션</strong></p>
+    </header>
+
+    <!-- Visual Architecture Diagram (Card-type) - Replaced SVG for clarity -->
+    <section class="mb-20">
+        <h3 class="text-4xl font-extrabold color-primary-dark mb-10 text-center border-b-4 border-gray-200 pb-4">
+            <strong class="font-extrabold">🔗 전체 구조 개요</strong>: 3계층 Edge-Cloud 아키텍처
+        </h3>
+        
+        <!-- Vertical Flow Container (Max width for visual focus) -->
+        <div class="max-w-xl mx-auto space-y-8">
+            
+            <!-- 1. Field Layer Card (Data Generation) -->
+            <div class="bg-[#EBF5F9] border-4 border-[#2A607C] p-6 rounded-2xl shadow-xl">
+                <div class="text-3xl font-extrabold text-[#2A607C] mb-3">1. Field Layer (현장 데이터)</div>
+                <p class="text-lg font-semibold text-[#0A2A47] mb-4">데이터 소스 및 물리 신호 수집</p>
+                <div class="flex flex-wrap justify-center gap-2 text-sm">
+                    <span class="bg-white text-gray-700 px-3 py-1 rounded-full border border-gray-300 font-bold">Sensors / PLC</span>
+                    <span class="bg-white text-gray-700 px-3 py-1 rounded-full border border-gray-300 font-bold">RS485 DAQ</span>
+                    <span class="bg-white text-gray-700 px-3 py-1 rounded-full border border-gray-300 font-bold">물리 신호 (온도, 압력, 유량 등)</span>
+                </div>
+            </div>
+            
+            <!-- Flow Arrow 1: Field -> Edge (Modbus/RS485) -->
+            <div class="flex justify-center">
+                <div class="text-center">
+                    <div class="text-xl font-bold text-[#2A607C] mb-1">Modbus / RS485</div>
+                    <svg height="40" width="20" viewBox="0 0 20 40" class="flow-arrow-svg">
+                        <line x1="10" y1="0" x2="10" y2="30" stroke="#2A607C" stroke-width="4" />
+                        <polygon points="10,40 4,30 16,30" fill="#2A607C" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 2. Edge Layer Card (IoT Master) - Central Focus -->
+            <div class="bg-[#D9EAF7] border-4 border-[#F26419] p-8 rounded-2xl shadow-2xl scale-105">
+                <div class="text-3xl font-extrabold mb-3 text-white bg-[#0A2A47] rounded-full p-2 text-center shadow-lg">2. Edge Layer (IoT Master)</div>
+                <p class="text-2xl font-black text-[#0A2A47] mb-6 text-center">IoT Master Industrial Edge Terminal</p>
+                
+                <div class="grid grid-cols-1 gap-3 text-base font-medium">
+                    <div class="p-3 bg-white rounded-lg shadow border border-gray-300 text-center font-extrabold text-[#F26419]">Python Engine (Parser/Processor)</div>
+                    <div class="p-3 bg-white rounded-lg shadow border border-gray-300 text-center">SQLite Local Database (Mini MES)</div>
+                    <div class="p-3 bg-white rounded-lg shadow border border-gray-300 text-center">Streamlit Local UI (HMI / Display)</div>
+                </div>
+                <p class="mt-5 text-center text-lg font-extrabold text-red-600">
+                    <span class="text-2xl mr-2">⚠️</span> 네트워크 불안정 시 독립 운영 가능
+                </p>
+            </div>
+
+            <!-- Flow Arrow 2: Edge -> Cloud (MQTT) -->
+            <div class="flex justify-center">
+                <div class="text-center">
+                    <div class="text-2xl font-black text-[#F26419] mb-1">MQTT (High Efficiency)</div>
+                    <svg height="40" width="20" viewBox="0 0 20 40" class="flow-arrow-svg">
+                        <line x1="10" y1="0" x2="10" y2="30" stroke="#F26419" stroke-width="6" />
+                        <polygon points="10,40 0,30 20,30" fill="#F26419" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 3. Cloud Layer Card (Analysis/Integration) -->
+            <div class="bg-[#F8F8F8] border-4 border-[#A0B9C6] p-6 rounded-2xl shadow-xl">
+                <div class="text-3xl font-extrabold text-[#5A6A79] mb-3">3. Cloud Layer (분석/통합)</div>
+                <p class="text-lg font-semibold text-[#0A2A47] mb-4">중앙 집중식 관리 및 확장 분석</p>
+                <div class="flex flex-wrap justify-center gap-2 text-sm">
+                    <span class="bg-white text-gray-700 px-3 py-1 rounded-full border border-gray-300 font-bold">Cloud Gateway (AWS/IoT Core)</span>
+                    <span class="bg-white text-gray-700 px-3 py-1 rounded-full border border-gray-300 font-bold">Analytics / MLOps / BI</span>
+                    <span class="bg-white text-gray-700 px-3 py-1 rounded-full border border-gray-300 font-bold">Cloud Dashboard / SCADA / API</span>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- 3-Layer Architecture Overview - Refined Styling (Unchanged content, kept for detailed explanation) -->
+    <section class="mb-20">
+        <h3 class="text-4xl font-bold color-primary-dark mb-10 border-b-4 border-gray-200 pb-4">
+            ✅ 3계층 구조 상세 역할
+        </h3>
+        <div class="grid md:grid-cols-3 gap-1 text-center">
+            <!-- Field Layer -->
+            <div class="layer-box color-field-bg rounded-xl shadow-lg p-6 bg-[#EBF5F9]">
+                <div class="text-3xl font-extrabold mb-3 layer-title-field">1. Field Layer</div>
+                <div class="text-xl font-semibold mb-4 text-gray-700">(센서·PLC 계층)</div>
+                <p class="text-base text-gray-700">
+                    <strong>현장의 물리 신호를 디지털(Modbus/RS485)로 변환</strong>합니다.<br>
+                    <strong>저비용 센서</strong>부터 <strong>기존 PLC</strong>까지 모두 유연하게 연동 가능
+                </p>
+                <div class="mt-6 flex flex-wrap justify-center gap-2">
+                    <span class="inline-block bg-blue-300 text-blue-900 text-sm px-4 py-1 rounded-full font-bold">Sensor</span>
+                    <span class="inline-block bg-blue-300 text-blue-900 text-sm px-4 py-1 rounded-full font-bold">PLC</span>
+                    <span class="inline-block bg-blue-300 text-blue-900 text-sm px-4 py-1 rounded-full font-bold">Actuator</span>
+                </div>
+            </div>
+
+            <!-- Edge Layer (IoT Master) - Highlighted -->
+            <div class="layer-box color-edge-bg shadow-2xl scale-105 rounded-xl border-4 border-[#F26419] p-6 bg-[#D9EAF7]">
+                <div class="text-3xl font-extrabold mb-3 text-white bg-[#0A2A47] rounded-full p-2 shadow-lg">2. Edge Layer</div>
+                <div class="text-xl font-semibold mb-4 layer-title-edge">(<strong>IoT Master</strong>: Local Processing + HMI + Gateway)</div>
+                <p class="text-base text-gray-700">
+                    <strong>데이터 수집·전처리·로컬 저장 기능 통합</strong><br>
+                    <strong>네트워크 불안정 시에도</strong> <strong class="text-red-600 font-extrabold">독립 실행 가능</strong>하여 운영 연속성을 확보가능
+                </p>
+                <div class="mt-6 flex flex-wrap justify-center gap-2">
+                    <span class="inline-block bg-[#F26419] text-white text-sm px-4 py-1 rounded-full font-bold">Local Dashboard (Streamlit)</span>
+                    <span class="inline-block bg-[#F26419] text-white text-sm px-4 py-1 rounded-full font-bold">Mini MES (SQLite)</span>
+                </div>
+            </div>
+
+            <!-- Cloud Layer -->
+            <div class="layer-box color-cloud-bg shadow-lg rounded-xl p-6 bg-[#F8F8F8]">
+                <div class="text-3xl font-extrabold mb-3 layer-title-cloud">3. Cloud Layer</div>
+                <div class="text-xl font-semibold mb-4 text-gray-600">(Analysis, SCADA, MES, BI)</div>
+                <p class="text-base text-gray-700">
+                    Edge에서 올라온 MQTT 데이터를 받아 <strong>확장 분석 및 중앙 집중 관리</strong> 수행<br>
+                    기업 본사, 관리자, 고객사 등 <strong>다양한 이해관계자</strong>에게 정보 제공
+                </p>
+                <div class="mt-6 flex flex-wrap justify-center gap-2">
+                    <span class="inline-block bg-gray-400 text-gray-900 text-sm px-4 py-1 rounded-full font-bold">Analytics</span>
+                    <span class="inline-block bg-gray-400 text-gray-900 text-sm px-4 py-1 rounded-full font-bold">MLOps</span>
+                    <span class="inline-block bg-gray-400 text-gray-900 text-sm px-4 py-1 rounded-full font-bold">Cloud Dashboard</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Flow and Storyline - Refined Styling (Retained from V2 as structure was solid) -->
+    <section class="mb-20 p-10 bg-gray-50 rounded-xl shadow-2xl">
+        <h3 class="text-4xl font-bold color-primary-dark mb-10 border-b-4 border-gray-300 pb-4">
+            🚀 IoT Master 기반 데이터 파이프라인 구축
+        </h3>
+        <div class="grid md:grid-cols-4 gap-1">
+            <!-- STEP 1 -->
+            <div class="step-card border-l-8 border-[#F26419] p-4">
+                <div class="text-6xl font-extrabold color-accent-orange mb-3">01</div>
+                <div class="text-xl font-extrabold text-blue-700 mb-2">현장의 센서들이 <br>만든 데이터를...</div>
+                <p class="text-sm text-gray-600">
+                    IoT Master는 현장 설비·센서들의 온도, 압력, 중량, 주파수, 속도, 진동, 소음, 전류·전압 등 다양한 시그널들을
+                    Modbus· RS485를 통해 <strong>현장 설비 센서</strong>와 쉽게 연결 가능
+                </p>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="step-card border-l-8 border-[#F26419] p-4">
+                <div class="text-6xl font-extrabold color-accent-orange mb-3">02</div>
+                <div class="text-xl font-extrabold text-blue-700 mb-2">IoT Master가 <br>모아서 보여주고,</div>
+                <p class="text-sm text-gray-600">
+                    <strong>데이터 수집/전처리</strong><br> (Noise 제거, 단위 변환)
+                    Streamlit Dashboard 및 SQLite 기반 <strong>MES lite</strong>구현
+                </p>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="step-card border-l-8 border-[#F26419] p-4">
+                <div class="text-6xl font-extrabold color-accent-orange mb-3">03</div>
+                <div class="text-xl font-extrabold text-blue-700 mb-2">IoT Master는 또한<br> 클라우드로 전송하면,</div>
+                <p class="text-sm text-gray-600">
+                    <strong>MQTT</strong> 프로토콜을 사용하여 Cloud Gateway로 낮은 유지 비용으로 안정적 고효율 전송이 가능하며,
+                    KPI 분석, 품질 이상 탐지 등 <strong>확장 분석 기반</strong> 마련
+                </p>
+            </div>
+
+            <!-- STEP 4 -->
+            <div class="step-card border-l-8 border-[#F26419] p-4">
+                <div class="text-6xl font-extrabold color-accent-orange mb-3">04</div>
+                <div class="text-xl font-extrabold text-blue-700 mb-2">관리자·고객이 실시간 데이터 공유 가능</div>
+                <p class="text-sm text-gray-600">
+                    Cloud Dashboard, SCADA, API를 통해 데이터를 공유하고,
+                    <strong>설비 가동률(OEE)</strong>, 생산, 품질 지표 등 <strong>핵심 KPIs 모니터링</strong>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- IoT Master Technical Definition & Value Proposition -->
+    <section class="p-8 bg-gray-50 rounded-lg shadow-inner">
+        <h3 class="text-3xl font-bold color-primary mb-8 border-b-2 pb-2">
+            ✨ IoT Master의 기술 정의 및 핵심 가치
+        </h3>
+        <div class="grid md:grid-cols-2 gap-2">
+            <!-- Definition -->
+            <div class="p-4 bg-white rounded-lg shadow-md border-l-4 border-orange-500">
+                <h4 class="text-2xl font-bold mb-4 text-blue-700">
+                    IoT Master Industrial Edge Terminal
+                </h4>
+                <ul class="list-disc list-inside space-y-3 text-gray-700 ml-4">
+                    <li>
+                        <strong>Raspberry Pi CM3 기반</strong> 산업용 Edge 장비
+                    </li>
+                    <li>
+                        10.1" 터치스크린 <strong>(1280x800)</strong>
+                    </li>
+                     <li>
+                        <strong>RS485/RS232/GPIO</strong> 지원
+                    </li>
+                    <li>
+                        Python/Node-RED/Streamlit 실행 가능
+                    </li>
+                    <li>
+                        Cloud 연결 불안정 환경에서도 <strong class="text-green-600">독립 운영 가능</strong>
+                    </li>
+                </ul>
+            </div>
+            <!-- Operation Value -->
+            <div class="p-4 bg-white rounded-lg shadow-md border-l-4 border-orange-500">
+                <h4 class="text-2xl font-bold mb-4 text-blue-700">
+                    시장 맞춤형 최적의 운용 방식
+                </h4>
+                <ul class="list-disc list-inside space-y-3 text-gray-700 ml-4">
+                    <li>
+                        <strong>IoT Master</strong> = 현장 Edge + 실시간 HMI + Mini MES
+                    </li>
+                    <li>
+                        <strong>Streamlit UI</strong> = 작업자 인터페이스 / 공정 대시보드
+                    </li>
+                    <li>
+                        <strong>Cloud</strong> = 저장·분석·통합 대시보드
+                    </li>
+                    <li>
+                        <strong class="text-orange-600">핵심 가치</strong>: 공장 규모와 무관한 <strong>맞춤형 서비스</strong> 구현 가능
+                    </li>
+                    <li>
+                        <strong>중남미 중소 제조업에 최적화된 DX 모델</strong>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+        <!-- Footer -->
+        <div class="p-8 text-center">
+            <p style="font-weight: bold; color: #6475f6; font-size: 0.9em;">
+            데이터 기반 가치 전환 전략 | Kⁱ⁰⁷ 전략 AI | IoT Platform Service
+            </p>
+        <p class="text-sm text-gray-500">
+                This work is based on my personal field analysis of data-driven value transformation strategies. <br>
+                © 2023 Kⁱ⁰⁷ All rights reserved. | 📧 io7hub@naver.com
+        </div>
+</body>
+</html>

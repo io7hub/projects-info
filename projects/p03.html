@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03 ALSASA 생산 최적화 전략: 핵심 요소 명확화</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght300;500;700;900&display=swap" rel="stylesheet">
+    
+    
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* --- NEW CLEAN & MODERN GLASSMORPHISM STYLE --- */
+        :root {
+            --bg-light: #F8F9FB; /* Soft light background */
+            --color-teal: #00ADB5; /* T Factor / Primary Accent (Time) */
+            --color-primary-dark: #3A4E6C; /* O Factor / Deep Blue/Grey (Operation) */
+            --color-coral: #FF6B6B; /* R Factor / Danger (Resource/Reward) */
+            --color-text-dark: #333333;
+            --color-text-grey: #666666;
+            --color-card-bg: rgba(255, 255, 255, 0.7); /* Translucent white */
+            --color-border: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--color-text-dark);
+            overflow-x: hidden;
+            background-image: linear-gradient(135deg, #f0f4f8 0%, #e0e7f1 100%);
+        }
+
+        .dashboard-module {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            height: 100%;
+        }
+
+        .module-header {
+            font-weight: 900;
+            font-size: 1.65rem;
+            color: var(--color-primary-dark);
+            border-bottom: 2px solid var(--color-border);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .highlight-teal { color: var(--color-teal); font-weight: 900; }
+        .highlight-coral { color: var(--color-coral); font-weight: 900; }
+        .highlight-primary { color: var(--color-primary-dark); font-weight: 900; }
+        
+        /* Chart container - BASE SIZE */
+        .chart-container-small { 
+            position: relative;
+            width: 100%;
+            height: 250px; 
+            padding: 0.5rem 0 0;
+        }
+        
+        /* T Factor Chart - Larger height */
+        .chart-container-large { 
+            position: relative;
+            width: 100%;
+            height: 380px; 
+            padding: 0.5rem 0 0;
+        }
+        
+        /* O Factor Scatter Chart - Doubled height (500px) */
+        .chart-container-o-factor { 
+            position: relative;
+            width: 100%;
+            height: 500px; 
+            padding: 0.5rem 0 0;
+        }
+        
+        /* T Factor specific metrics */
+        .metric-box {
+            background-color: rgba(0, 173, 181, 0.05); /* Light teal background */
+            border-radius: 12px;
+            padding: 1.5rem 1rem; /* Slightly increased padding */
+            text-align: center;
+            border: 1px solid rgba(0, 173, 181, 0.2);
+            display: flex; /* Flexbox for vertical centering */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%; 
+            min-height: 120px; 
+        }
+        .metric-value {
+            font-size: 2.2rem; 
+            font-weight: 900;
+            line-height: 1.1; 
+            color: var(--color-teal);
+        }
+        .metric-label {
+            font-size: 0.9rem; 
+            font-weight: 500;
+            color: var(--color-text-grey);
+            margin-top: 0.5rem;
+        }
+
+        .pipeline-item {
+            position: relative;
+            padding: 1rem 1rem 1rem 2.5rem;
+            margin-bottom: 0.75rem; 
+            border-left: 3px solid var(--color-teal);
+            background-color: rgba(0, 0, 0, 0.03);
+            border-radius: 12px;
+        }
+        .pipeline-item::before {
+            content: "";
+            position: absolute;
+            top: 1.5rem; 
+            left: -8px;
+            width: 16px;
+            height: 16px;
+            background-color: var(--color-teal);
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(0, 173, 181, 0.5);
+            z-index: 10;
+        }
+
+        .pipeline-title {
+            color: var(--color-primary-dark); 
+            font-size: 1.2rem; 
+            font-weight: 900;
+            margin-bottom: 0.25rem;
+        }
+        .pipeline-item .text-sm {
+            color: var(--color-text-grey);
+        }
+
+        #downloadButton {
+            background-color: var(--color-coral);
+            color: white;
+            font-weight: 700;
+            padding: 0.75rem 2rem;
+            border-radius: 12px;
+            transition: background-color 0.3s, transform 0.1s;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+        #downloadButton:hover {
+            background-color: #E05858;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    
+
+<div class="container mx-auto max-w-7xl mb-6 text-right">
+        <button id="downloadButton" onclick="triggerPrint()">
+            <i class="fas fa-file-pdf mr-2"></i> 보고서 PDF 저장 (Print)
+        </button>
+    </div>
+
+    <div class="container mx-auto max-w-7xl">
+        <header class="text-center mb-10 pb-4 border-b-4" style="border-color: var(--color-teal);">
+            <h1 class="text-6xl font-extrabold mb-2 tracking-tight" style="color: var(--color-primary-dark);">
+                제조 AI 기반 생산 최적화 전략
+            </h1>
+            
+
+<p class="text-xl font-medium mt-2" style="color: var(--color-text-grey);">
+                데이터 기반 진단(시간/할당/인력) 및 <strong class="highlight-coral">성과 레버리지</strong>를 통한 <strong class="highlight-primary">고성장 모색</strong>
+            </p>
+        </header>
+
+        
+
+<div class="dashboard-module lg:col-span-2 mb-8">
+            <h2 class="module-header" style="color: var(--color-teal);">
+                <i class="fas fa-clock mr-2" style="color: var(--color-teal);"></i> 
+                1. 진단: 시간 효율성 분석 및 최적화
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-stretch"> 
+                
+                
+
+<div class="md:col-span-1 flex flex-col space-y-4">
+                    
+
+<div class="metric-box">
+                        <div class="metric-value">25.3%</div>
+                        <div class="metric-label">평균 Cycle Time 지연율</div>
+                    </div>
+                    
+
+<div class="metric-box">
+                        <div class="metric-value">4.5h</div>
+                        <div class="metric-label">최적화 목표 (시간)</div>
+                    </div>
+                </div>
+                
+                
+
+<div class="chart-container-large md:col-span-3"> 
+
+<canvas id="tFactorScatterChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="mt-4 p-4 rounded-xl border-l-4" style="border-color: var(--color-coral); background-color: rgba(255, 107, 107, 0.05);">
+                <p class="text-base leading-relaxed" style="color: var(--color-text-grey);">
+                    <strong class="highlight-teal">핵심 진단:</strong> 평균 사이클 타임이 목표 대비 <span class="highlight-coral">25.3%</span> 지연되고 있으며, 특히 <strong class="highlight-coral">101-TORNO</strong> 부서가 타임 지연의 주 원인으로 확인되었습니다. <strong>시간 효율성(T Factor) 개선</strong>은 자원 운영 및 역량 강화의 선행 조건입니다.
+                </p>
+            </div>
+        </div>
+
+        <main class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            
+
+<div class="dashboard-module h-full flex flex-col">
+                <h2 class="module-header"><i class="fas fa-chart-area mr-2" style="color: var(--color-primary-dark);"></i> 2. 진단: 자원 운영 균형 비효율성</h2>
+                
+                <div class="mb-4">
+                    <ul class="list-none space-y-3 text-base">
+                        <li class="p-3 border-l-4 rounded-lg flex items-start" style="border-color: var(--color-coral); background-color: rgba(0, 0, 0, 0.02);">
+                            <i class="fas fa-fire mr-3 mt-1" style="color: var(--color-coral);"></i> 
+                            <div>
+                                <strong>번아웃 리스크:</strong> 직원 <span class="highlight-coral">F, I</span>는 <span class="highlight-coral">250% 초과 할당</span> 상태이며, T-Cycle 지연을 심화시키는 <strong>운영 리스크</strong>입니다.
+                            </div>
+                        </li>
+                        <li class="p-3 border-l-4 rounded-lg flex items-start" style="border-color: var(--color-teal); background-color: rgba(0, 0, 0, 0.02);">
+                            <i class="fas fa-water-ladder mr-3 mt-1" style="color: var(--color-teal);"></i> 
+                            <div>
+                                <strong>저활용 리스크:</strong> 낮은 할당률 (<span class="highlight-primary">B, E, G</span>)은 <strong>자원 낭비</strong>를 초래하며, T-Cycle 최적화 후 재배치가 필요합니다.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                
+
+<div class="flex flex-col gap-10 pt-4 flex-grow">
+                    
+
+<div class="chart-container-small">
+                        <canvas id="allocationRatioBarChart"></canvas>
+                    </div>
+
+                    
+
+<div class="chart-container-o-factor"> 
+
+<canvas id="allocationScatterChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            
+
+<div class="h-full flex flex-col space-y-8">
+                
+                
+
+<div class="dashboard-module flex-1">
+                    <h2 class="module-header text-left">
+                        <i class="fas fa-users-cog mr-2" style="color: var(--color-coral);"></i> 
+                        3. 진단: 역량 및 보상 레버리지 분석 <br>
+                        (Factor Pareto Analysis)
+                    </h2>
+                    
+                    <div class="p-4 mb-4 rounded-xl border-l-4" style="border-color: var(--color-teal); background-color: rgba(0, 0, 0, 0.05);">
+                        <p class="text-base leading-relaxed" style="color: var(--color-text-grey);">
+                            <span class="highlight-primary">효율 가중치(Factor)</span> 분석 결과, 비효율성은 <strong>파레토 법칙</strong>을 따릅니다. 
+                            <strong class="highlight-primary">전체 인력의 25% 미만</strong>이 <strong class="highlight-coral">총 비효율성 갭의 75% 이상</strong>을 유발하며, 이는 <strong>시간 효율성(T Factor)</strong> 지연의 근본 원인으로, <strong>타겟 집중 멘토링</strong>의 근거가 됩니다.
+                        </p>
+                    </div>
+                    
+                    <div class="chart-container-small"><canvas id="factorParetoChart"></canvas></div>
+                    <p class="text-center text-xs mt-2" style="color: var(--color-text-grey);">인력 그룹별 누적 비효율 기여도 (파레토 원칙 적용)</p>
+                </div>
+                
+                
+
+<div class="dashboard-module flex-1">
+                    <h2 class="module-header" style="color: var(--color-coral);"><i class="fas fa-cogs mr-2" style="color: var(--color-coral);"></i> 4. 해결 방안: 3대 핵심 요소 전략 파이프라인</h2>
+                    
+                    <div class="space-y-3 pt-2">
+                        <div class="pipeline-item" style="border-left-color: var(--color-teal);">
+                            <div class="pipeline-title" style="color: var(--color-teal);">P1: 시간 효율성 (T) 우선 최적화 (Cycle Time)</div>
+                            <p class="text-sm">AI 모델을 활용하여 <strong class="highlight-teal">101-TORNO 부서</strong>의 병목 공정을 식별하고, <strong class="highlight-teal">설정 시간을 최소 10% 단축</strong>하여 T-Cycle 지연을 선행 해소.</p>
+                        </div>
+                        <div class="pipeline-item" style="border-left-color: var(--color-primary-dark);">
+                            <div class="pipeline-title" style="color: var(--color-primary-dark);">P2: 자원 운영 균형 (O) 동적 재할당</div>
+                            <p class="text-sm">T Factor 개선 후, 자원 할당 비율을 실시간 추적 및 <strong class="highlight-primary">90% 이상 목표치로 자동 조정</strong>하여 번아웃/저활용 해소.</p>
+                        </div>
+                        <div class="pipeline-item" style="border-left-color: var(--color-coral);">
+                            <div class="pipeline-title" style="color: var(--color-coral);">P3: 역량 레버리지 (R) 집중 멘토링 및 보상 연동</div>
+                            <p class="text-sm">파레토 원칙에 따라 <strong class="highlight-coral">고위험 그룹 (Top 25%)</strong>에 맞춤형 멘토링을 집중 투입하고, <strong class="highlight-coral">개인 성과에 비례한 보상</strong>을 연동하여 <strong class="highlight-coral">T-Cycle 목표 달성 능력</strong>을 향상.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+<div class="dashboard-module lg:col-span-2 mt-2">
+                <h2 class="module-header" style="color: var(--color-teal);"><i class="fas fa-tachometer-alt mr-2" style="color: var(--color-teal);"></i> 5. KPI 목표 달성 현황 및 잠재 ROI</h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 items-center">
+                    <div class="md:col-span-1 text-center">
+                        <div class="w-full max-w-xs mx-auto"><canvas id="efficiencyGauge" class="mb-[0px]"></canvas></div>
+                        <p class="text-lg mt-[0px] highlight-primary leading-tight">현재 조직 종합 효율성</p>
+                    </div>
+                    <div class="md:col-span-3">
+                        <p class="text-xl mb-4 leading-relaxed border-l-4 pl-4 py-2" style="border-color: var(--color-coral);">
+                            <strong class="highlight-teal">잠재 ROI:</strong> 3대 핵심 요소 전략의 순차적 실행을 통해, 현재 <span class="highlight-primary">82%</span>인 조직의 종합 효율성을 <strong class="highlight-teal">95%</strong>까지 상향시키는 것이 목표입니다.
+                        </p>
+                        <ul class="list-none space-y-3 text-base ml-4" style="color: var(--color-text-grey);">
+                            <li class="flex items-start">
+                                <i class="fas fa-hourglass-half mr-2 mt-1" style="color: var(--color-teal);"></i> 
+                                <div>
+                                    <strong>시간 효율성 (T) 개선:</strong> 101-TORNO 부서 Cycle Time <strong class="highlight-teal">10% 단축</strong>, 전사 <strong class="highlight-teal">총 생산 시간 3.5% 감소</strong> 효과.
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-arrow-up mr-2 mt-1" style="color: var(--color-primary-dark);"></i> 
+                                <div>
+                                    <strong>자원 운영 균형 (O) 개선:</strong> 고위험 그룹 (G1) 효율 가중치 10% 상승 시, <strong class="highlight-primary">총 생산량 3.1% 증가</strong> 예상.
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-handshake mr-2 mt-1" style="color: var(--color-coral);"></i> 
+                                <div>
+                                    <strong>역량/보상 레버리지 (R) 개선:</strong> 번아웃 해소 및 T-Cycle 예측 정확도 상승으로 <strong class="highlight-coral">납기 지연 리스크 최소화</strong>.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            
+
+<div class="dashboard-module lg:col-span-2 text-left p-6 mt-4 border-4" style="border-color: var(--color-teal); box-shadow: 0 0 20px rgba(0, 173, 181, 0.2);">
+                <h2 class="text-3xl font-black mb-3" style="color: var(--color-teal);"><i class="fas fa-trophy mr-3"></i> 6. 3대 핵심 요소 전략 요약 및 지속 가능한 성장 목표</h2>
+                
+                
+
+<div class="text-left mb-6 p-4 rounded-xl bg-white shadow-lg">
+                    <h3 class="text-xl font-bold mb-3" style="color: var(--color-primary-dark);">3대 핵심 요소 (T, O, R) 정의 및 핵심 인사이트</h3>
+                    <ul class="space-y-3">
+                        <li class="border-b pb-2">
+                            <strong class="highlight-teal">T (시간 효율성):</strong> Cycle Time 최적화 및 병목 공정 해소를 통한 생산 속도 확보.
+                            <p class="text-sm pl-4 text-gray-600">→ <strong>인사이트:</strong> 101-TORNO 부서의 25.3% 지연 해소가 최우선 병목 개선 과제입니다.</p>
+                        </li>
+                        <li class="border-b pb-2">
+                            <strong class="highlight-primary">O (자원 운영 균형):</strong> 인력의 과부하(번아웃) 및 저활용 해소를 통한 운영 안정화.
+                            <p class="text-sm pl-4 text-gray-600">→ <strong>인사이트:</strong> F, I 직원 초과 할당 등 자원 불균형이 심각하며, T 개선 후 재배치 및 균형 회복이 필수적입니다.</p>
+                        </li>
+                        <li class="pb-2">
+                            <strong class="highlight-coral">R (역량/보상 레버리지):</strong> 역량 격차 해소 및 성과에 대한 공정한 보상 시스템 구축.
+                            <p class="text-sm pl-4 text-gray-600">→ <strong>인사이트:</strong> 파레토 분석 기반 고위험 그룹 (Top 25%)에 대한 타겟 멘토링이 가장 큰 효율성 레버리지를 제공합니다.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <p class="text-xl font-medium leading-relaxed" style="color: var(--color-text-dark);">
+                    <span class="highlight-teal">투명한 AI 기반 플랫폼</span>을 통해 최적화된 성과를 <strong class="highlight-teal">즉각적이고 공정하게 보상</strong>하며, 이는 직원들의 <strong>자기 주도적 효율성 향상</strong>을 위한 강력한 <strong class="highlight-primary">내부 동기 부여</strong> 시스템으로 작동할 것입니다.
+                </p>
+            </div>
+        </main>
+
+        <!-- FOOTER 추가 -->
+        <div style="padding-top: 4em; text-align: center;">
+            <div style="font-weight: 900; color: #6d84f6;">
+                데이터 기반 가치 전환 전략 | Kⁱ⁰⁷ 전략 AI | AI + Ontology 융합 BIZ Intelligence
+                <p style="margin-bottom: 2em; font-weight: 300; color: #1d1d1d;text-align: center;">
+                This work is based on my personal field analysis of data-driven value transformation strategies. <br>
+                © 2023 Kⁱ⁰⁷ All rights reserved. | 📧 io7hub@naver.com
+                </p>        
+            </div>
+        </div>        
+        <!-- FOOTER 끝 -->
+
+    </div>
+
+    <script>
+        function triggerPrint() {
+            window.print();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const colors = {
+                primary: '#3A4E6C', 
+                teal: '#00ADB5', 
+                coral: '#FF6B6B', 
+                warning: '#F39C12',
+                textDark: '#333333',
+                textGrey: '#666666',
+                gridLine: 'rgba(0, 0, 0, 0.1)',
+                optimalBar: '#7CBB48'
+            };
+            
+            const lightChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: { color: colors.textGrey }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#FFFFFF',
+                        bodyColor: '#FFFFFF',
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                let label = tooltipItems[0].chart.data.labels[tooltipItems[0].dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            }
+                        }
+                    },
+                },
+                scales: {
+                    x: {
+                        grid: { color: colors.gridLine },
+                        ticks: { color: colors.textGrey },
+                        title: { color: colors.textDark }
+                    },
+                    y: {
+                        grid: { color: colors.gridLine },
+                        ticks: { color: colors.textGrey },
+                        title: { color: colors.textDark }
+                    }
+                }
+            };
+
+            // --- 1. T Factor Scatter Chart ---
+            const tFactorData = {
+                labels: ['101-TORNO', '108-TORNO', '105-PRENSA', '201-ENSAMBLE', '302-PINTURA'],
+                cycleTimeDelay: [32, 18, 10, 15, 6], // Delay Percentage
+                standardDeviation: [5, 3, 1, 2, 0.5] // Consistency
+            };
+
+            const ctxT = document.getElementById('tFactorScatterChart').getContext('2d');
+            new Chart(ctxT, {
+                type: 'bubble',
+                data: {
+                    datasets: [{
+                        label: '부서별 Cycle Time 지연도 (T Factor)',
+                        data: tFactorData.labels.map((label, i) => ({
+                            x: tFactorData.cycleTimeDelay[i],
+                            y: tFactorData.standardDeviation[i],
+                            r: 15 + tFactorData.cycleTimeDelay[i] * 0.8, // Increased size for visibility
+                            name: label
+                        })),
+                        backgroundColor: (context) => {
+                            // Highlight the highest delay (101-TORNO)
+                            if (context.dataIndex === 0) return colors.coral;
+                            return colors.teal;
+                        },
+                        pointStyle: 'circle'
+                    }]
+                },
+                options: {
+                    ...lightChartOptions,
+                    plugins: {
+                        ...lightChartOptions.plugins,
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: 'Cycle Time 지연 vs 작업 일관성 (버블 크기는 지연율)',
+                            font: { size: 18, weight: 'bold' },
+                            color: colors.textDark 
+                        },
+                        tooltip: {
+                            ...lightChartOptions.plugins.tooltip,
+                            callbacks: {
+                                label: function(context) {
+                                    const data = context.raw;
+                                    return `${data.name}: 지연 ${data.x}%, 편차 ${data.y}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ...lightChartOptions.scales.x,
+                            min: 0, max: 40,
+                            title: { display: true, text: '평균 Cycle Time 지연율 (%)' }
+                        },
+                        y: {
+                            ...lightChartOptions.scales.y,
+                            min: 0, max: 6,
+                            title: { display: true, text: '작업 일관성 (표준편차)' }
+                        }
+                    }
+                }
+            });
+
+            // --- 2. O Factor Data ---
+            const scatterData = [
+                { name: 'A', x: 140.27, y: 136.71 }, 
+                { name: 'B', x: 189.23, y: 139.48 }, 
+                { name: 'C', x: 176.77, y: 157.40 }, 
+                { name: 'D', x: 169.45, y: 163.97 }, 
+                { name: 'E', x: 101.18, y: 91.09 },  
+                { name: 'F', x: 189.08, y: 250.95 }, // High Overload
+                { name: 'G', x: 182.62, y: 120.51 }, 
+                { name: 'H', x: 221.68, y: 230.40 }, 
+                { name: 'I', x: 188.55, y: 241.32 } // High Overload
+            ];
+            
+            // 2-1. Allocation Ratio Distribution Bar Chart
+            let underCount = 0;
+            let optimalCount = 0;
+            let warningCount = 0;
+            let dangerCount = 0;
+
+            scatterData.forEach(d => {
+                const ratio = d.y / d.x;
+                if (ratio > 1.30) {
+                    dangerCount++;
+                } else if (ratio > 1.05) {
+                    warningCount++;
+                } else if (ratio < 0.90) {
+                    underCount++;
+                } else {
+                    optimalCount++;
+                }
+            });
+
+            const ctxNew = document.getElementById('allocationRatioBarChart').getContext('2d');
+            new Chart(ctxNew, {
+                type: 'bar',
+                data: {
+                    labels: ['저활용 (Under < 0.9)', '최적 (0.9 ~ 1.05)', '과부하 (1.05 ~ 1.3)', '번아웃 (Danger > 1.3)'],
+                    datasets: [{
+                        label: '직원 수',
+                        data: [underCount, optimalCount, warningCount, dangerCount],
+                        backgroundColor: [colors.primary, colors.optimalBar, colors.warning, colors.coral],
+                        borderColor: 'rgba(255, 255, 255, 0.8)', 
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    ...lightChartOptions,
+                    plugins: {
+                        ...lightChartOptions.plugins,
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: '인력 할당 상태 분포',
+                            font: { size: 16, weight: 'bold' },
+                            color: colors.textDark 
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ...lightChartOptions.scales.x,
+                            grid: { display: false },
+                            title: { display: false }
+                        },
+                        y: {
+                            ...lightChartOptions.scales.y,
+                            beginAtZero: true,
+                            title: { display: true, text: '직원 수 (명)' },
+                            ticks: { stepSize: 1, color: colors.textGrey }
+                        }
+                    }
+                }
+            });
+
+            // 2-2. Allocation Scatter Chart
+            const ctx1 = document.getElementById('allocationScatterChart').getContext('2d');
+            
+            const pointColors = scatterData.map(d => {
+                const ratio = d.y / d.x;
+                if (ratio > 1.30) return colors.coral;
+                if (ratio > 1.05) return colors.warning;
+                if (ratio < 0.90) return colors.primary;
+                return colors.optimalBar;
+            });
+
+            new Chart(ctx1, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: '직원별 할당률 (Scatter)',
+                        data: scatterData,
+                        backgroundColor: pointColors, 
+                        pointRadius: 8,
+                        pointHoverRadius: 10
+                    }, {
+                        type: 'line',
+                        label: '최적 할당선 (1:1 Ratio)',
+                        data: [{x: 100, y: 100}, {x: 270, y: 270}],
+                        borderColor: colors.teal,
+                        borderWidth: 2,
+                        fill: false,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    ...lightChartOptions,
+                    plugins: {
+                        ...lightChartOptions.plugins,
+                        tooltip: {
+                            ...lightChartOptions.plugins.tooltip,
+                            callbacks: {
+                                label: function(context) {
+                                    const data = context.raw;
+                                    const ratio = (data.y / data.x).toFixed(2);
+                                    return `직원 ${data.name}: 할당률 ${ratio} (X:${data.x}, Y:${data.y})`;
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: '가용 시간 대비 할당 시간 불균형 (1.0 = 최적)',
+                            font: { size: 18, weight: 'bold' },
+                            color: colors.textDark 
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ...lightChartOptions.scales.x,
+                            min: 100, max: 270,
+                            title: { display: true, text: '가용 시간 (Horas Disponibles)' }
+                        },
+                        y: {
+                            ...lightChartOptions.scales.y,
+                            min: 90, max: 270,
+                            title: { display: true, text: '할당 시간 (Horas Asignadas)' }
+                        }
+                    }
+                }
+            });
+
+            // --- 3. R Factor Pareto Chart ---
+            const ctx2 = document.getElementById('factorParetoChart').getContext('2d');
+            
+            const efficiencyGroups = ['G1 (High Risk)', 'G2', 'G3', 'G4', 'G5 (Low Risk)'];
+            const employeeCount = [10, 8, 12, 15, 5]; 
+            const cumulativeInefficiency = [45, 68, 85, 95, 100]; 
+
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: efficiencyGroups,
+                    datasets: [{
+                        type: 'bar',
+                        label: '그룹별 직원 수',
+                        data: employeeCount,
+                        backgroundColor: colors.primary, 
+                        yAxisID: 'y'
+                    }, {
+                        type: 'line',
+                        label: '누적 비효율 기여도 (%)',
+                        data: cumulativeInefficiency,
+                        borderColor: colors.coral,
+                        borderWidth: 4, 
+                        fill: false,
+                        yAxisID: 'y1',
+                        pointRadius: 6 
+                    }]
+                },
+                options: {
+                    ...lightChartOptions,
+                    plugins: {
+                        ...lightChartOptions.plugins,
+                        legend: { position: 'bottom', labels: { color: colors.textGrey } },
+                        title: {
+                            display: true,
+                            text: '인력 역량 격차: 파레토 효율성 분석',
+                            font: { size: 16, weight: 'bold' },
+                            color: colors.textDark
+                        }
+                    },
+                    scales: {
+                        x: lightChartOptions.scales.x,
+                        y: {
+                            ...lightChartOptions.scales.y,
+                            type: 'linear',
+                            position: 'left',
+                            title: { display: true, text: '직원 수 (명)' }
+                        },
+                        y1: {
+                            ...lightChartOptions.scales.y,
+                            type: 'linear',
+                            position: 'right',
+                            grid: { drawOnChartArea: false },
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                            ,
+                            title: { display: true, text: '누적 기여도 (%)' }
+                        }
+                    }
+                }
+            });
+
+            // --- 4. Efficiency Gauge (Radial Chart) ---
+            const ctx3 = document.getElementById('efficiencyGauge').getContext('2d');
+            
+            const targetEfficiency = 100;
+            const currentEfficiency = 82; 
+
+            const gaugeChart = new Chart(ctx3, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Current Efficiency', 'Gap'],
+                    datasets: [{
+                        data: [currentEfficiency, targetEfficiency - currentEfficiency],
+                        backgroundColor: [colors.teal, 'rgba(0, 0, 0, 0.05)'],
+                        borderColor: [colors.teal, 'transparent'],
+                        borderWidth: 0,
+                        circumference: 180,
+                        rotation: 270,
+                        hoverOffset: 0
+                    }]
+                },
+                options: {
+                    ...lightChartOptions,
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    },
+                    cutout: '80%',
+                    plugins: {
+                        ...lightChartOptions.plugins,
+                        legend: { display: false },
+                        title: { display: false }
+                    },
+                    tooltips: { enabled: false },
+                    maintainAspectRatio: true,
+                    layout: { padding: 0 }
+                },
+                plugins: [{
+                    id: 'gaugeText',
+                    beforeDatasetsDraw(chart, args, options) {
+                        const { ctx, data, chartArea: { top, bottom, left, right, width, height } } = chart;
+                        const efficiency = data.datasets[0].data[0];
+                        
+                        ctx.save();
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.font = '900 32px "Noto Sans KR"';
+                        ctx.fillStyle = colors.textDark;
+                        ctx.fillText(`${efficiency}%`, width / 2 + 5, height / 2 + top + 10); 
+
+                        ctx.font = '500 12px "Noto Sans KR"';
+                        ctx.fillStyle = colors.textGrey;
+                        ctx.fillText('종합 효율성', width / 2 + 5, height / 2 + top + 35); 
+                        ctx.restore();
+                    }
+                }]
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+

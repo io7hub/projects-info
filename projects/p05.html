@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05 Kⁱ⁰⁷ | AI + 온톨로지 알루미늄 제조 전략 플래너</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            color: #2d3748;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .header .icon {
+            font-size: 1.2em;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.8em;
+            color: #2d3748;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .card h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card p {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+        
+        .workflow {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .workflow-step {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+        }
+        
+        .workflow-step:hover {
+            background: #edf2f7;
+            transform: translateX(10px);
+        }
+        
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+        
+        .step-content h4 {
+            color: #2d3748;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+        
+        .step-content p {
+            color: #718096;
+            font-size: 0.9em;
+        }
+        
+        .ontology {
+            background: #f7fafc;
+            padding: 30px;
+            border-radius: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+        }
+        
+        .ontology-line {
+            color: #2d3748;
+            padding: 3px 0;
+        }
+        
+        .ontology-process {
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .ontology-challenge {
+            color: #764ba2;
+            font-weight: bold;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .feature-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+        
+        .feature-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+        
+        .feature-item strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .market-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .market-card {
+            background: linear-gradient(135deg, #8392e6 0%, #4d41f5 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .market-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+        
+        .market-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .market-card li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .market-card li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+            padding: 30px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 25px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f7fafc;
+        }
+        
+        .comparison-table .label {
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .comparison-table .ai-col {
+            color: #667eea;
+        }
+        
+        .comparison-table .traditional-col {
+            color: #718096;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .section-title {
+                font-size: 1.4em;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <span class="icon">⚙️</span>
+                AI + 온톨로지 엔진 기반 제조 전략 플래너
+                <span class="icon"></span>
+            </h1>
+            <h1>[알루미늄 가공]</h1>
+            <p>📦 Prototype v1.0 - 차세대 스마트 제조 솔루션</p>
+        </div>
+
+        <!-- 5대 알루미늄 공정 -->
+        <div class="section">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div><p><h2 class="section-title">⚙️ 5대 알루미늄 공정</h2></p>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 40px;">
+                        <div class="card">
+                            <h3>1️⃣ 압출 (Extrusion)</h3>
+                            <p>빌렛을 다이로 밀어내어 단면 형상을 만드는 공정</p>
+                        </div>
+                        <div class="card">
+                            <h3>2️⃣ 고압 주조 (Die Casting)</h3>
+                            <p>용융 알루미늄을 고압으로 금형에 주입하는 공정</p>
+                        </div>
+                        <div class="card">
+                            <h3>3️⃣ 딥드로잉 (Deep Drawing)</h3>
+                            <p>판재를 소성 변형시켜 깊은 형상을 성형하는 공정</p>
+                        </div>
+                        <div class="card">
+                            <h3>4️⃣ 스피닝 (Spinning)</h3>
+                            <p>회전하는 맨드렐에 판재를 눌러 성형하는 공정</p>
+                        </div>
+                        <div class="card">
+                            <h3>5️⃣ 공기전지 (Air Battery)</h3>
+                            <p>차세대 알루미늄 기반 배터리 제조 기술</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 7단계 워크플로우 -->
+
+                <div><p><h2 class="section-title">📊 7단계 지능형 워크플로우</h2></p>
+                    <div class="workflow">
+                        <div class="workflow-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>기업 정보 입력</h4>
+                                <p>매출, 직원 수, 생산능력, 주요 시장 정보 수집</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>공정 선택</h4>
+                                <p>5대 공정 중 선택 + 자동화 수준 설정</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>과제 분석</h4>
+                                <p>공정별 8대 핵심 과제 자동 식별</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>온톨로지 매핑</h4>
+                                <p>지식 그래프 기반 자동 규칙 매핑</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h4>AI 전략 도출</h4>
+                                <p>맞춤형 제조 전략 및 솔루션 생성</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">6</div>
+                            <div class="step-content">
+                                <h4>KPI 대시보드</h4>
+                                <p>예상 효과 및 ROI 시각화</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">7</div>
+                            <div class="step-content">
+                                <h4>실행 계획 생성</h4>
+                                <p>우선순위 기반 액션 플랜 및 타임라인</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </div>    
+        </div>
+
+        <!-- 알루미늄 온톨로지 | AI vs 규칙 엔진 비교 -->
+        <div class="section">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div><h2 class="section-title">🧬 알루미늄 온톨로지 구조</h2>
+                    <div class="ontology">
+                        <div class="ontology-line">알루미늄 온톨로지</div>
+                        <div class="ontology-line">├── <span class="ontology-process">공정 (Processes)</span></div>
+                        <div class="ontology-line">│   ├── 압출 (Extrusion)</div>
+                        <div class="ontology-line">│   ├── 고압주조 (Die Casting)</div>
+                        <div class="ontology-line">│   ├── 딥드로잉 (Deep Drawing)</div>
+                        <div class="ontology-line">│   ├── 스피닝 (Spinning)</div>
+                        <div class="ontology-line">│   └── 공기전지 (Air Battery)</div>
+                        <div class="ontology-line">│</div>
+                        <div class="ontology-line">└── <span class="ontology-challenge">과제 (Challenges)</span></div>
+                        <div class="ontology-line">    ├── 품질 일관성 (Quality Consistency)</div>
+                        <div class="ontology-line">    ├── 불량률 감소 (Defect Reduction)</div>
+                        <div class="ontology-line">    ├── 에너지 효율 (Energy Efficiency)</div>
+                        <div class="ontology-line">    ├── 원가 최적화 (Cost Optimization)</div>
+                        <div class="ontology-line">    ├── 자동화 고도화 (Automation Upgrade)</div>
+                        <div class="ontology-line">    ├── 수율 향상 (Yield Improvement)</div>
+                        <div class="ontology-line">    ├── 리드타임 단축 (Lead Time Reduction)</div>
+                        <div class="ontology-line">    └── 지속가능성 (Sustainability)</div>
+                    </div>
+                </div>    
+        
+
+        
+        
+                <div><h2 class="section-title">🔬 AI 분석 vs 규칙 엔진 비교</h2>
+                    <div class="comparison-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>분석 항목</th>
+                                    <th>AI 분석</th>
+                                    <th>규칙 엔진</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="label">분석 방법</td>
+                                    <td class="ai-col">머신러닝 + 대규모 데이터</td>
+                                    <td class="traditional-col">전문가 지식 규칙 구조</td>
+                                </tr>
+                                <tr>
+                                    <td class="label">인사이트 수</td>
+                                    <td class="ai-col">3개 (깊이 있는 분석)</td>
+                                    <td class="traditional-col">3개 (구조화된 분석)</td>
+                                </tr>
+                                <tr>
+                                    <td class="label">추천 솔루션 수</td>
+                                    <td class="ai-col">4개</td>
+                                    <td class="traditional-col">3개</td>
+                                </tr>
+                                <tr>
+                                    <td class="label">측정 가능성</td>
+                                    <td class="ai-col">높음 (85%)</td>
+                                    <td class="traditional-col">매우 높음 (95%)</td>
+                                </tr>
+                                <tr>
+                                    <td class="label">맞춤화 정도</td>
+                                    <td class="ai-col">맞춤 솔루션</td>
+                                    <td class="traditional-col">중간</td>
+                                </tr>
+                                <tr>
+                                    <td class="label">예상 정확도</td>
+                                    <td class="ai-col">85-90%</td>
+                                    <td class="traditional-col">95-98%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 종합 분석 -->
+        <div class="section">
+            <h2 class="section-title">✨ 주요 특징 및 장점</h2>
+            <div class="features-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="feature-item">
+                    <strong>✅ 창의적이고 유연한 접근</strong>
+                    <p>예상치 못한 인사이트 도출</p>
+                </div>
+                <div class="feature-item">
+                    <strong>✅ 데이터 기반 예측</strong>
+                    <p>85-95%의 높은 정확도</p>
+                </div>
+                <div class="feature-item">
+                    <strong>✅ 맞춤형 솔루션</strong>
+                    <p>기업별 특화 전략 제공</p>
+                </div>
+                <div class="feature-item">
+                    <strong>✅ 실시간 최적화</strong>
+                    <p>공정 파라미터 자동 조정</p>
+                </div>
+                <div class="feature-item">
+                    <strong>✅ 지속적인 학습</strong>
+                    <p>best practice 자동 업데이트</p>
+                </div>
+                <div class="feature-item">
+                    <strong>✅ 통합 대시보드</strong>
+                    <p>전사 KPI 한눈에 파악</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 확장 가능성 -->
+        <div class="section">
+            <h2 class="section-title">🔧 프로덕션 확장 기능</h2>
+            <div class="features-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="feature-item">
+                    <strong>1. AI API 연동</strong>
+                    <p>실시간 AI 분석 엔진</p>
+                </div>
+                <div class="feature-item">
+                    <strong>2. 공정 파라미터 DB</strong>
+                    <p>상세 기술 데이터베이스</p>
+                </div>
+                <div class="feature-item">
+                    <strong>3. 시뮬레이션 엔진</strong>
+                    <p>공정 최적화 시뮬레이션</p>
+                </div>
+                <div class="feature-item">
+                    <strong>4. IoT 데이터 연동</strong>
+                    <p>실시간 공정 모니터링</p>
+                </div>
+                <div class="feature-item">
+                    <strong>5. 다국어 PDF 생성</strong>
+                    <p>언어별 분석 리포트</p>
+                </div>
+                <div class="feature-item">
+                    <strong>6. 업계 벤치마크</strong>
+                    <p>경쟁사 비교 분석</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 타겟 시장 -->
+        <div class="section">
+            <h2 class="section-title">🌍 글로벌 타겟 시장</h2>
+            <div class="market-section">
+                <div class="market-card">
+                    <h3>🇰🇷 한국</h3>
+                    <ul>
+                        <li>현대/기아자동차 협력사</li>
+                        <li>중소 알루미늄 가공업체</li>
+                        <li>전자부품 제조사</li>
+                    </ul>
+                </div>
+                <div class="market-card">
+                    <h3>🇺🇸🇪🇺 미국/유럽</h3>
+                    <ul>
+                        <li>Alcoa, Novelis 등 글로벌 기업</li>
+                        <li>자동차 OEM 제조사</li>
+                        <li>항공우주 산업</li>
+                    </ul>
+                </div>
+                <div class="market-card">
+                    <h3>🌎 중남미</h3>
+                    <ul>
+                        <li>멕시코/브라질 자동차 부품사</li>
+                        <li>스페인어 지원 제공</li>
+                        <li>신흥 제조업 시장</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+    <div style="padding-top: 2em; text-align: center;">
+        <div style="font-weight: 900; color: #6d84f6;">
+            데이터 기반 가치 전환 전략 | Kⁱ⁰⁷ 전략 AI | AI + 온톨로지 기반 제조 전략 플래너
+            <p style="font-weight: 300; color: #020202;text-align: center;">
+            This work is based on my personal field analysis of data-driven value transformation strategies. <br>
+            © 2023 Kⁱ⁰⁷ All rights reserved. | 📧 io7hub@naver.com
+            </p>        
+        </div>
+    </div>
+</html>

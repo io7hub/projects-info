@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 AI 기반 제조 품질 Storyboard 분석 대시보드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0F172A; /* Slate-900 */
+            color: #E2E8F0; /* Slate-200 */
+            line-height: 1.6;
+        }
+        .header-title {
+            text-shadow: 0 0 10px rgba(45, 212, 191, 0.5);
+        }
+        .section-title {
+            color: #2DD4BF; /* Teal-400 */
+            border-left: 4px solid #14B8A6; /* Teal-600 */
+            padding-left: 1rem;
+            margin-bottom: 2rem;
+        }
+        .card {
+            background-color: #1E293B; /* Slate-800 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+        .kpi-card-value {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+        .status-badge-red { background-color: #B91C1C; } /* Red-700 */
+        .status-badge-orange { background-color: #D97706; } /* Amber-700 */
+        .status-badge-green { background-color: #059669; } /* Emerald-600 */
+        
+        /* Custom styles for pseudo-graph (Mermaid replacement) */
+        .graph-container {
+            position: relative;
+            padding: 1rem;
+            background: #141B2B;
+            border: 1px solid #1E293B;
+            border-radius: 0.5rem;
+        }
+        .line-chart-svg {
+            width: 100%;
+            height: 150px;
+        }
+        .kpi-line {
+            stroke: #2DD4BF; /* Teal-400 */
+            stroke-width: 2;
+            fill: none;
+        }
+        .target-line {
+            stroke: #FBBF24; /* Amber-400 */
+            stroke-dasharray: 4 2;
+            stroke-width: 1;
+        }
+        .alert-area {
+            fill: rgba(239, 68, 68, 0.1); /* Red-500 with opacity */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mx-auto p-4 sm:p-8 lg:p-12">
+        
+        <!-- Header: Title and Subtitle -->
+        <header class="text-center mb-16 pt-8">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-2 header-title text-teal-400">
+                AI Storyboard & Action Planner <strong>품질 대시보드</strong>
+            </h1>
+            <h2 class="text-xl sm:text-2xl text-gray-400 font-light">
+                제조 <strong>품질 리스크 사전 예측</strong> 및 <strong>개선 조치 자동화</strong> 시뮬레이션
+            </h2>
+        </header>
+
+        <!-- Section 1: Core KPI Metrics (KPI 카드) -->
+        <section class="mb-16">
+            <h3 class="text-3xl font-bold section-title">01. 실시간 예방 KPI 현황 (Top 4 Risk)</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- KPI Card 1: Leak Rate -->
+                <div class="card p-6 rounded-xl border-t-4 border-red-600">
+                    <p class="text-sm font-semibold text-gray-400">Booster Shell</p>
+                    <p class="text-xl font-bold mb-2 text-red-400">Leak Rate (%)</p>
+                    <div class="kpi-card-value font-extrabold text-red-300">0.8%</div>
+                    <p class="text-xs text-red-400 mt-1"><strong>경고 한계 초과</strong> (> 0.7%)</p>
+                    <p class="text-xs text-gray-500 mt-2">목표: ≤ 0.5% | 상태: <strong>Risk Detected</strong></p>
+                </div>
+
+                <!-- KPI Card 2: Torque Deviation -->
+                <div class="card p-6 rounded-xl border-t-4 border-red-600">
+                    <p class="text-sm font-semibold text-gray-400">Seat Frame</p>
+                    <p class="text-xl font-bold mb-2 text-red-400">Torque Deviation (%)</p>
+                    <div class="kpi-card-value font-extrabold text-red-300">±6%</div>
+                    <p class="text-xs text-red-400 mt-1"><strong>경고 한계 근접</strong> (> ±7%)</p>
+                    <p class="text-xs text-gray-500 mt-2">목표: ≤ ±5% | 상태: <strong>Needs Improvement</strong></p>
+                </div>
+
+                <!-- KPI Card 3: Lock Force -->
+                <div class="card p-6 rounded-xl border-t-4 border-green-600">
+                    <p class="text-sm font-semibold text-gray-400">Safety Belt</p>
+                    <p class="text-xl font-bold mb-2 text-green-400">Lock Force (N)</p>
+                    <div class="kpi-card-value font-extrabold text-green-300">260 N</div>
+                    <p class="text-xs text-green-400 mt-1"><strong>목표치 상회</strong> (≥ 250 N)</p>
+                    <p class="text-xs text-gray-500 mt-2">목표: ≥ 250 N | 상태: <strong>OK / Monitoring</strong></p>
+                </div>
+
+                <!-- KPI Card 4: Coating Thickness -->
+                <div class="card p-6 rounded-xl border-t-4 border-amber-600">
+                    <p class="text-sm font-semibold text-gray-400">Booster Shell</p>
+                    <p class="text-xl font-bold mb-2 text-amber-400">Coating Thickness (µm)</p>
+                    <div class="kpi-card-value font-extrabold text-amber-300">85 µm</div>
+                    <p class="text-xs text-amber-400 mt-1"><strong>경고 한계 근접</strong> (< 80 µm)</p>
+                    <p class="text-xs text-gray-500 mt-2">목표: ≥ 95 µm | 상태: <strong>Caution</strong></p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 2: Quality Diagnosis Graph (Mermaid 대체 시각화) -->
+        <section class="mb-16">
+            <h3 class="text-3xl font-bold section-title">02. 품질 리스크 예측 및 진단 시뮬레이션 (Leak Rate)</h3>
+            <div class="graph-container">
+                <p class="text-lg font-bold text-teal-300 mb-4">Leak Rate 변화 추이 (최근 10 배치)</p>
+                
+                <!-- SVG Line Chart Simulation -->
+                <svg class="line-chart-svg" viewBox="0 0 1000 150" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background Grid Lines (Simplified) -->
+                    <line x1="50" y1="130" x2="950" y2="130" stroke="#374151" stroke-width="1"/>
+                    <line x1="50" y1="80" x2="950" y2="80" stroke="#374151" stroke-width="1" stroke-dasharray="2 2"/>
+                    <line x1="50" y1="30" x2="950" y2="30" stroke="#374151" stroke-width="1" stroke-dasharray="2 2"/>
+
+                    <!-- Alert Area (Above 0.7% - assuming Y=50 is 0.7%) -->
+                    <rect x="50" y="0" width="900" height="50" class="alert-area"/>
+
+                    <!-- Target Line (0.5% - Y=80) -->
+                    <line x1="50" y1="80" x2="950" y2="80" class="target-line"/>
+                    <text x="960" y="85" fill="#FBBF24" font-size="12">Target 0.5%</text>
+
+                    <!-- Leak Rate Data Line (Simulated data: 0.4, 0.5, 0.6, 0.7, 0.8, 0.75, 0.8, 0.65, 0.7, 0.85) -->
+                    <!-- Points mapped to Y: 110, 80, 50, 35, 15, 25, 15, 65, 35, 5 (Higher Leak Rate = Lower Y value) -->
+                    <polyline class="kpi-line" points="50,110 150,80 250,50 350,35 450,15 550,25 650,15 750,65 850,35 950,5"/>
+
+                    <!-- X-Axis Labels (Batches) -->
+                    <text x="50" y="145" fill="#9CA3AF" font-size="10">Batch -9</text>
+                    <text x="450" y="145" fill="#9CA3AF" font-size="10">Batch -5</text>
+                    <text x="950" y="145" fill="#9CA3AF" font-size="10" text-anchor="end">Batch 0</text>
+
+                    <!-- Y-Axis Labels (Leak Rate %) -->
+                    <text x="40" y="35" fill="#9CA3AF" font-size="10" text-anchor="end">0.7% (Alert)</text>
+                    <text x="40" y="85" fill="#9CA3AF" font-size="10" text-anchor="end">0.5% (Target)</text>
+                    <text x="40" y="115" fill="#9CA3AF" font-size="10" text-anchor="end">0.3%</text>
+                </svg>
+
+                <p class="text-sm text-gray-400 mt-4">
+                    <strong>AI 예측 인사이트:</strong> Leak Rate가 3회 이상 경고 한계(0.7%)를 초과하며 <strong>결함 발생 위험도가 임계점(High)에 도달</strong>했음을 예측. 즉각적인 <strong>액션 플랜 자동 할당</strong>이 필요.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 3: Action Plan Tracker (개선 조치 및 검증) -->
+        <section class="mb-16">
+            <h3 class="text-3xl font-bold section-title">03. AI Action Planner: 개선 조치 트래커</h3>
+            
+            <div class="card p-6 rounded-xl overflow-x-auto">
+                <table class="min-w-full divide-y divide-slate-700">
+                    <thead class="bg-slate-700">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-300 uppercase tracking-wider">No.</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-300 uppercase tracking-wider">부품군 / KPI</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-300 uppercase tracking-wider">목표 / 현재값</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-300 uppercase tracking-wider">AI 자동 할당 조치</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-300 uppercase tracking-wider">담당자 / 예정일</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-300 uppercase tracking-wider">상태 / 검증 결과</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800">
+                        <!-- Row 1: Risk (Leak Rate) -->
+                        <tr class="hover:bg-slate-700 transition duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-teal-300">1</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white"><strong>Booster Shell</strong> / Leak Rate</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-red-400">0.5% / <strong>0.8%</strong></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">Leak Test 주기 단축 / 자동검출 시스템 적용</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">J. Hernandez / 2025-01-30</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full status-badge-red text-white">
+                                    Risk / Pending
+                                </span>
+                            </td>
+                        </tr>
+                        <!-- Row 2: Improvement (Torque Deviation) -->
+                        <tr class="hover:bg-slate-700 transition duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-teal-300">2</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white"><strong>Seat Frame</strong> / Torque Deviation</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-amber-400">±5% / <strong>±6%</strong></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">자동 토크센서 적용 및 로그 시스템 도입</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">L. Kim / 2025-02-15</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full status-badge-orange text-white">
+                                    Testing / 개선 중
+                                </span>
+                            </td>
+                        </tr>
+                        <!-- Row 3: OK (Lock Force) -->
+                        <tr class="hover:bg-slate-700 transition duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-teal-300">3</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white"><strong>Safety Belt</strong> / Lock Force</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-green-400">250 N / <strong>260 N</strong></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">주기 점검 유지 및 데이터 검증 (LLM Agent)</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">R. Lopez / 2025-02-05</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full status-badge-green text-white">
+                                    Approved / OK
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="text-xs text-gray-500 mt-4">
+                    <strong>LLM Agent 연동:</strong> Safety Belt의 Lock Force처럼 <strong>안정적인 KPI</strong>에 대해서는 주기적 검증 및 모니터링 조치를 자동 할당하고 검증 결과를 Approved 처리.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Section 4: Data Flow & System Connection -->
+        <section class="mb-16">
+            <h3 class="text-3xl font-bold section-title">04. AI Quality Storyboard 데이터 흐름 및 연동 시스템</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Component 1: Booster Shell (IoT) -->
+                <div class="card p-5 rounded-xl border border-teal-700 flex flex-col items-center text-center">
+                    <div class="text-amber-400 text-3xl mb-2">
+                        <svg class="w-8 h-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4m-4 4l-4 4M6 16l-4-4"/></svg>
+                    </div>
+                    <p class="text-lg font-bold text-white mb-1">Booster Shell (Leak, Coating)</p>
+                    <p class="text-sm text-gray-400"><strong>IoT Leak Sensor</strong> 연동 (매 Batch)</p>
+                    <p class="text-xs text-teal-400 mt-2"><strong>초기 단계</strong> 실시간 데이터 수집</p>
+                </div>
+
+                <!-- Component 2: Seat Frame (MES) -->
+                <div class="card p-5 rounded-xl border border-teal-700 flex flex-col items-center text-center">
+                    <div class="text-amber-400 text-3xl mb-2">
+                        <svg class="w-8 h-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-6h6m-5 4h-2M12 3v1m0 16v1m9-9h1M3 12h1M4 4l.707.707M19.293 19.293l.707.707M4 19.293l.707-.707M19.293 4.707l.707-.707"/></svg>
+                    </div>
+                    <p class="text-lg font-bold text-white mb-1">Seat Frame (Torque, Weld)</p>
+                    <p class="text-sm text-gray-400"><strong>MES Data Logger</strong> 연동 (실시간)</p>
+                    <p class="text-xs text-teal-400 mt-2"><strong>핵심 공정</strong> 데이터 추적</p>
+                </div>
+
+                <!-- Component 3: Safety Belt (LLM Agent) -->
+                <div class="card p-5 rounded-xl border border-teal-700 flex flex-col items-center text-center">
+                    <div class="text-amber-400 text-3xl mb-2">
+                        <svg class="w-8 h-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m-3 6h6m-6 6h6"/></svg>
+                    </div>
+                    <p class="text-lg font-bold text-white mb-1">Safety Belt (Force, Trace)</p>
+                    <p class="text-sm text-gray-400"><strong>MES + LLM Agent</strong> 연동 (매일)</p>
+                    <p class="text-xs text-teal-400 mt-2"><strong>AI 기반</strong> 자동 조치/검증</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center bg-slate-800 p-4 rounded-xl border border-teal-800">
+                <p class="text-sm text-gray-400">
+                    <strong>핵심 인사이트:</strong> AI Storyboard는 <strong>다양한 데이터 소스</strong>(IoT, MES, LLM Agent)를 통합하여 부품별 특성에 맞는 <strong>차별화된 품질 관리 전략</strong>을 도출합니다.
+                </p>
+            </div>
+        </section>
+
+
+        <footer class="text-center mt-12 pt-6 border-t border-slate-700">
+            <p class="text-sm text-gray-500">
+                <strong class="text-cyan-400">데이터 기반 가치 전환 전략가</strong><br>
+                This work is based on my personal field analysis of data-driven value transformation strategies. <br>
+                © 2023 Kⁱ⁰⁷ All rights reserved. | 📧 io7hub@naver.com
+            </p>
+        </footer>
+
+    </div>
+
+</body>
+</html>

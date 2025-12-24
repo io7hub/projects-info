@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08 Kⁱ⁰⁷ 우리기업 DX 전략 분석</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .meta {
+            margin-top: 20px;
+            font-size: 0.95em;
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Executive Summary */
+        .exec-summary {
+            padding: 50px 40px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .section-title {
+            font-size: 2.5em;
+            color: #1e3c72;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .summary-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .summary-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .summary-label {
+            font-size: 1em;
+            color: #6c757d;
+        }
+
+        /* Analysis Results */
+        .analysis-section {
+            padding: 50px 40px;
+        }
+
+        .dual-analysis {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .analysis-box {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            padding: 35px;
+            border-left: 5px solid;
+        }
+
+        .analysis-box.ai {
+            border-left-color: #4facfe;
+        }
+
+        .analysis-box.rule {
+            border-left-color: #f093fb;
+        }
+
+        .analysis-box h3 {
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .issue-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 4px solid;
+            transition: all 0.2s ease;
+        }
+
+        .issue-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .issue-item.quality { border-left-color: #f44336; }
+        .issue-item.equipment { border-left-color: #ff9800; }
+        .issue-item.process { border-left-color: #2196f3; }
+        .issue-item.safety { border-left-color: #9c27b0; }
+        .issue-item.welding { border-left-color: #4caf50; }
+
+        .severity-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-left: 10px;
+        }
+
+        .severity-critical { background: #d32f2f; color: white; }
+        .severity-high { background: #f57c00; color: white; }
+        .severity-medium { background: #fbc02d; color: #333; }
+        .severity-low { background: #388e3c; color: white; }
+
+        /* KPI Dashboard */
+        .kpi-section {
+            padding: 50px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .kpi-section .section-title {
+            color: white;
+        }
+
+        .kpi-section .section-title::after {
+            background: white;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .kpi-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-5px);
+        }
+
+        .kpi-value {
+            font-size: 3.5em;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .kpi-label {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .kpi-trend {
+            margin-top: 10px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        /* Strategic Framework */
+        .strategy-section {
+            padding: 50px 40px;
+            background: #f8f9fa;
+        }
+
+        .priority-list {
+            margin-top: 40px;
+        }
+
+        .priority-item {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 6px solid;
+            transition: all 0.3s ease;
+        }
+
+        .priority-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .priority-item:nth-child(1) { border-left-color: #f44336; }
+        .priority-item:nth-child(2) { border-left-color: #ff9800; }
+        .priority-item:nth-child(3) { border-left-color: #fbc02d; }
+        .priority-item:nth-child(4) { border-left-color: #4caf50; }
+        .priority-item:nth-child(5) { border-left-color: #2196f3; }
+
+        .priority-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 15px;
+        }
+
+        .priority-title {
+            font-size: 1.5em;
+            color: #1e3c72;
+            margin-bottom: 15px;
+        }
+
+        .priority-desc {
+            color: #6c757d;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .priority-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .tag {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            color: #1e3c72;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        /* Technology Stack */
+        .tech-section {
+            padding: 50px 40px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .tech-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            padding: 35px;
+            border-top: 4px solid;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .tech-card:nth-child(1) { border-top-color: #4facfe; }
+        .tech-card:nth-child(2) { border-top-color: #f093fb; }
+        .tech-card:nth-child(3) { border-top-color: #43e97b; }
+        .tech-card:nth-child(4) { border-top-color: #fa709a; }
+
+        .tech-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .tech-title {
+            font-size: 1.6em;
+            color: #1e3c72;
+            margin-bottom: 15px;
+        }
+
+        .tech-desc {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .tech-metrics {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .tech-metric {
+            flex: 1;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .metric-label {
+            font-size: 0.85em;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        /* Process Flow */
+        .flow-section {
+            padding: 50px 40px;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: white;
+        }
+
+        .flow-section .section-title {
+            color: white;
+        }
+
+        .flow-section .section-title::after {
+            background: white;
+        }
+
+        .flow-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+        }
+
+        .flow-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .flow-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .flow-label {
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .flow-sublabel {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-top: 8px;
+        }
+
+        /* Comparison Chart */
+        .comparison-section {
+            padding: 50px 40px;
+        }
+
+        .comparison-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .comparison-item {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .comparison-label {
+            font-size: 1.1em;
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+
+        .comparison-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .comparison-bar {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .comparison-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 1s ease;
+        }
+
+        /* Export Section */
+        .export-section {
+            padding: 50px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .export-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .export-btn {
+            padding: 18px 40px;
+            background: white;
+            color: #667eea;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .export-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 30px;
+            text-align: center;
+            color: #6c757d;
+            background: #f8f9fa;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 1200px) {
+            .summary-grid, .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .dual-analysis, .tech-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Kⁱ⁰⁷ AI & ONTOLOGY 통합 전략 분석 리포트</h1>
+            <p class="subtitle">로봇용접 기업 AI-Agent + 온톨로지 Rule Engine 기반 통합 분석 시스템의 분석 결과 예시</p>
+            <p class="meta">
+                📅 생성일: 2025-11-26 | 🏢 기업: SIHWA INDUSTRIAL COMPLEX | 🔧 도메인: 로봇 용접
+            </p>
+        </div>
+
+        <!-- Executive Summary -->
+        <div class="exec-summary">
+            <h2 class="section-title">📊 핵심 요약</h2>
+            
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-icon">🎯</div>
+                    <div class="summary-value">45-50%</div>
+                    <div class="summary-label">국내 시장 점유율</div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-icon">⚡</div>
+                    <div class="summary-value">98%</div>
+                    <div class="summary-label">IPA 시스템 효율 개선</div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-icon">🤖</div>
+                    <div class="summary-value">80%</div>
+                    <div class="summary-label">로봇 용접 자동화율</div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-icon">💰</div>
+                    <div class="summary-value">98억원</div>
+                    <div class="summary-label">2024년 매출 규모</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dual Analysis Results -->
+        <div class="analysis-section">
+            <h2 class="section-title">🔍 이중 분석 엔진 결과</h2>
+            
+            <div class="dual-analysis">
+                <!-- AI Analysis -->
+                <div class="analysis-box ai">
+                    <h3>✨ AI 분석 결과</h3>
+                    
+                    <div class="issue-item quality">
+                        <strong>품질 이슈</strong>
+                        <span class="severity-badge severity-high">HIGH</span>
+                        <p style="margin-top: 10px; color: #6c757d;">
+                            정밀도 요구사항이 극도로 엄격하여 자동 비전검사가 필수적임에도 불구하고, 검사 시스템의 오류 발생 가능성이 있음.
+                        </p>
+                    </div>
+                    
+                    <div class="issue-item equipment">
+                        <strong>설비 이슈</strong>
+                        <span class="severity-badge severity-medium">MEDIUM</span>
+                        <p style="margin-top: 10px; color: #6c757d;">
+                            IoT 기반 설비 모니터링 시스템이 있지만, 모든 설비에 센서가 부착되지 않아 일부 설비의 이상 징후를 놓칠 수 있음.
+                        </p>
+                    </div>
+                    
+                    <div class="issue-item process">
+                        <strong>공정 이슈</strong>
+                        <span class="severity-badge severity-medium">MEDIUM</span>
+                        <p style="margin-top: 10px; color: #6c757d;">
+                            RPA 기반 생산관리 시스템이 실시간 데이터 일치를 보장하지만, 시스템 오류로 인한 생산 오류 발생 가능성이 존재.
+                        </p>
+                    </div>
+                    
+                    <div class="issue-item safety">
+                        <strong>안전 이슈</strong>
+                        <span class="severity-badge severity-high">HIGH</span>
+                        <p style="margin-top: 10px; color: #6c757d;">
+                            추락방지장치의 기계적 신뢰성이 요구되며, 장기 계약으로 인해 고객의 요구 변화에 즉각 대응하기 어려움.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Rule Engine Analysis -->
+                <div class="analysis-box rule">
+                    <h3>⚙️ Rule Engine 분석 결과</h3>
+                    
+                    <div class="issue-item safety">
+                        <strong>안전 (Safety)</strong>
+                        <span class="severity-badge severity-critical">CRITICAL</span>
+                        <p style="margin-top: 10px; color: #6c757d;">
+                            매칭 횟수: <strong>9회</strong> (안전 5회, safety 4회)<br>
+                            승강기 안전장치 특성상 안전 관련 키워드 집중 탐지
+                        </p>
+                    </div>
+                    
+                    <div class="issue-item welding">
+                        <strong>용접 (Welding)</strong>
+                        <span class="severity-badge severity-low">LOW</span>
+                        <p style="margin-top: 10px; color: #6c757d;">
+                            매칭 횟수: <strong>9회</strong><br>
+                            로봇 용접 공정 관련 키워드 다수 발견
+                        </p>
+                    </div>
+                    
+                    <div class="issue-item equipment">
+                        <strong>설비 고장 (Equipment)</strong>
+                        <span class="severity-badge severity-critical">CRITICAL</span>
+                        <p style="margin-top: 10px; color: #6c757d;">
+                            매칭 횟수: <strong>1회</strong><br>
+                            설비 고장 관련 키워드 탐지
+                        </p>
+                    </div>
+                    
+                    <div class="issue-item quality">
+                        <strong>품질 불량 (Quality)</strong>
+                        <span class="severity-badge severity-high">HIGH</span>
+                        <p style="margin-top: 10px; color: #6c757d;">
+                            매칭 횟수: <strong>1회</strong><br>
+                            품질 불량 관련 키워드 탐지
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI Dashboard -->
+        <div class="kpi-section">
+            <h2 class="section-title">📈 KPI 대시보드</h2>
+            
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">품질 결함</div>
+                    <div class="kpi-value">1</div>
+                    <div class="kpi-trend">📊 낮은 수준 유지</div>
+                </div>
+                
+                <div class="kpi-card">
+                    <div class="kpi-label">설비 이슈</div>
+                    <div class="kpi-value">1</div>
+                    <div class="kpi-trend">⚠️ 모니터링 필요</div>
+                </div>
+                
+                <div class="kpi-card">
+                    <div class="kpi-label">공정 병목</div>
+                    <div class="kpi-value">0</div>
+                    <div class="kpi-trend">✅ 원활한 흐름</div>
+                </div>
+                
+                <div class="kpi-card">
+                    <div class="kpi-label">안전 리스크</div>
+                    <div class="kpi-value">9</div>
+                    <div class="kpi-trend">🔴 주요 관리 대상</div>
+                </div>
+                
+                <div class="kpi-card">
+                    <div class="kpi-label">용접 품질</div>
+                    <div class="kpi-value">9</div>
+                    <div class="kpi-trend">🔧 집중 모니터링</div>
+                </div>
+                
+                <div class="kpi-card">
+                    <div class="kpi-label">로봇 정확도</div>
+                    <div class="kpi-value">5</div>
+                    <div class="kpi-trend">📍 안정적 운영</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strategic Framework -->
+        <div class="strategy-section">
+            <h2 class="section-title">🎯 전략 우선순위</h2>
+            
+            <div class="priority-list">
+                <div class="priority-item">
+                    <span class="priority-number">1</span>
+                    <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                        <div class="priority-title">스마트공장 Level 3 고도화</div>
+                        <div class="priority-desc">
+                            품질검사 자동화 및 공정 데이터 기반 품질 안정화를 통한 스마트공장 고도화
+                        </div>
+                        <div class="priority-tags">
+                            <span class="tag">품질검사 자동화</span>
+                            <span class="tag">비전검사 시스템</span>
+                            <span class="tag">AI 도입</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="priority-item">
+                    <span class="priority-number">2</span>
+                    <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                        <div class="priority-title">글로벌 인증 획득</div>
+                        <div class="priority-desc">
+                            CE, UL 인증 획득을 통한 해외 OEM 시장 진출 기반 마련
+                        </div>
+                        <div class="priority-tags">
+                            <span class="tag">CE 인증</span>
+                            <span class="tag">UL 인증</span>
+                            <span class="tag">해외 진출</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="priority-item">
+                    <span class="priority-number">3</span>
+                    <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                        <div class="priority-title">수익성 개선</div>
+                        <div class="priority-desc">
+                            원가 구조 분석, 설비 가동률 향상, Cycle Time 최적화를 통한 수익성 개선
+                        </div>
+                        <div class="priority-tags">
+                            <span class="tag">원가 절감</span>
+                            <span class="tag">가동률 향상</span>
+                            <span class="tag">공정 최적화</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="priority-item">
+                    <span class="priority-number">4</span>
+                    <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                        <div class="priority-title">Digital Twin 기반 공장 최적화</div>
+                        <div class="priority-desc">
+                            공장 레이아웃 시뮬레이션 및 신규 생산라인 배치 최적화
+                        </div>
+                        <div class="priority-tags">
+                            <span class="tag">디지털 트윈</span>
+                            <span class="tag">레이아웃 최적화</span>
+                            <span class="tag">시뮬레이션</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="priority-item">
+                    <span class="priority-number">5</span>
+                    <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                        <div class="priority-title">데이터 기반 신제품 개발</div>
+                        <div class="priority-desc">
+                            IoT, AI 기술을 활용한 엘리베이터 점검 시스템 개발 (R&D 진행 중)
+                        </div>
+                        <div class="priority-tags">
+                            <span class="tag">IoT</span>
+                            <span class="tag">AI</span>
+                            <span class="tag">점검 시스템</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="tech-section">
+            <h2 class="section-title">🔧 핵심 기술 스택</h2>
+            
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-icon">🎯</div>
+                    <div class="tech-title">IPA 시스템</div>
+                    <div class="tech-desc">
+                        수주관리 자동화 시스템 (Intelligent Process Automation)
+                    </div>
+                    <div class="tech-metrics">
+                        <div class="tech-metric">
+                            <div class="metric-value">98%</div>
+                            <div class="metric-label">업무시간 절감</div>
+                        </div>
+                        <div class="tech-metric">
+                            <div class="metric-value">자동</div>
+                            <div class="metric-label">자재 발주</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tech-card">
+                    <div class="tech-icon">🔬</div>
+                    <div class="tech-title">로봇 용접</div>
+                    <div class="tech-desc">
+                        다품종 소량 제관작업에 최적화된 로봇용접 시스템
+                    </div>
+                    <div class="tech-metrics">
+                        <div class="tech-metric">
+                            <div class="metric-value">80%</div>
+                            <div class="metric-label">자동화율</div>
+                        </div>
+                        <div class="tech-metric">
+                            <div class="metric-value">실시간</div>
+                            <div class="metric-label">전류 모니터링</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tech-card">
+                    <div class="tech-icon">📸</div>
+                    <div class="tech-title">비전 검사 시스템</div>
+                    <div class="tech-desc">
+                        5대 웹카메라 기반 자동 품질 검사 시스템 (보급형 사업화 진행)
+                    </div>
+                    <div class="tech-metrics">
+                        <div class="tech-metric">
+                            <div class="metric-value">5대</div>
+                            <div class="metric-label">카메라</div>
+                        </div>
+                        <div class="tech-metric">
+                            <div class="metric-value">완전</div>
+                            <div class="metric-label">자동화</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tech-card">
+                    <div class="tech-icon">📊</div>
+                    <div class="tech-title">RPA/MES 시스템</div>
+                    <div class="tech-desc">
+                        자체 개발 생산관리 시스템으로 실시간 데이터 관리
+                    </div>
+                    <div class="tech-metrics">
+                        <div class="tech-metric">
+                            <div class="metric-value">자체</div>
+                            <div class="metric-label">개발</div>
+                        </div>
+                        <div class="tech-metric">
+                            <div class="metric-value">실시간</div>
+                            <div class="metric-label">데이터</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Process Flow -->
+        <div class="flow-section">
+            <h2 class="section-title">🔄 생산 공정 흐름</h2>
+            
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="flow-icon">📦</div>
+                    <div class="flow-label">자재입고</div>
+                    <div class="flow-sublabel">IPA 자동발주</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="flow-icon">⚙️</div>
+                    <div class="flow-label">가공</div>
+                    <div class="flow-sublabel">레이저/프레스/CNC</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="flow-icon">🔥</div>
+                    <div class="flow-label">용접</div>
+                    <div class="flow-sublabel">로봇용접 80%</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="flow-icon">🔍</div>
+                    <div class="flow-label">품질검사</div>
+                    <div class="flow-sublabel">비전검사/치수측정</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="flow-icon">📤</div>
+                    <div class="flow-label">출하</div>
+                    <div class="flow-sublabel">자동 촬영·문서화</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI vs Rule Comparison -->
+        <div class="comparison-section">
+            <h2 class="section-title">⚖️ AI vs Rule Engine 비교</h2>
+            
+            <div class="comparison-box">
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <div class="comparison-label">AI 탐지</div>
+                        <div class="comparison-value">4</div>
+                        <div style="margin-top: 10px; color: #6c757d; font-size: 0.9em;">
+                            품질/설비/공정/안전
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-item">
+                        <div class="comparison-label">Rule 탐지</div>
+                        <div class="comparison-value">6</div>
+                        <div style="margin-top: 10px; color: #6c757d; font-size: 0.9em;">
+                            안전/용접/설비/품질 등
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-item">
+                        <div class="comparison-label">매칭 점수</div>
+                        <div class="comparison-value">75%</div>
+                        <div class="comparison-bar">
+                            <div class="comparison-fill" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 40px; padding: 30px; background: white; border-radius: 15px;">
+                    <h3 style="color: #1e3c72; margin-bottom: 20px;">📌 주요 발견사항</h3>
+                    <ul style="color: #6c757d; line-height: 2; padding-left: 20px;">
+                        <li><strong>안전 이슈가 최우선:</strong> AI와 Rule 모두 안전 관련 키워드를 최다 탐지 (승강기 안전장치 특성 반영)</li>
+                        <li><strong>용접 품질 주목:</strong> Rule Engine이 용접 관련 키워드 9회 탐지 (로봇 용접 도메인 특성)</li>
+                        <li><strong>품질 검사 개선 필요:</strong> AI가 비전검사 시스템의 오류 가능성 지적</li>
+                        <li><strong>설비 모니터링 보완:</strong> 모든 설비에 센서 미부착 상태로 개선 여지 존재</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Market Position -->
+        <div class="exec-summary">
+            <h2 class="section-title">🏆 시장 경쟁력</h2>
+            
+            <div style="max-width: 1000px; margin: 40px auto;">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px;">
+                    <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 30px; border-radius: 15px; text-align: center;">
+                        <div style="font-size: 3em; margin-bottom: 10px;">🎯</div>
+                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;">준독점</div>
+                        <div style="font-size: 1.1em; opacity: 0.75; color: black;;">시장 지위</div>
+                        <div style="margin-top: 15px; font-size: 0.9em; opacity: 0.75; color: black;;">45-50% 점유율</div>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 30px; border-radius: 15px; text-align: center;">
+                        <div style="font-size: 3em; margin-bottom: 10px;">🚀</div>
+                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;">매우 높음</div>
+                        <div style="font-size: 1.1em; opacity: 0.75; color: black;">진입 장벽</div>
+                        <div style="margin-top: 15px; font-size: 0.9em; opacity: 0.75; color: black;;">기술 신뢰성 기반</div>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 30px; border-radius: 15px; text-align: center;">
+                        <div style="font-size: 3em; margin-bottom: 10px;">💎</div>
+                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;">강력</div>
+                        <div style="font-size: 1.1em; opacity: 0.75; color: black;">고객 충성도</div>
+                        <div style="margin-top: 15px; font-size: 0.9em; opacity: 0.75; color: black;;">장기 계약 관계</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; padding: 30px; background: white; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+                    <h3 style="color: #1e3c72; margin-bottom: 20px; text-align: center;">🌟 핵심 경쟁 우위</h3>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                        <div style="padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                            <strong style="color: #1e3c72;">✓ 독자 기술력</strong>
+                            <p style="margin-top: 10px; color: #6c757d; font-size: 0.9em;">추락방지장치(Safety Gear) 국내 최고 점유율</p>
+                        </div>
+                        <div style="padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                            <strong style="color: #1e3c72;">✓ 진보된 DX 역량</strong>
+                            <p style="margin-top: 10px; color: #6c757d; font-size: 0.9em;">IPA, 로봇용접, 비전검사 자체 개발</p>
+                        </div>
+                        <div style="padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                            <strong style="color: #1e3c72;">✓ 안정적 고객 기반</strong>
+                            <p style="margin-top: 10px; color: #6c757d; font-size: 0.9em;">오티스, 현대엘리베이터, 티센 등 장기 거래</p>
+                        </div>
+                        <div style="padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                            <strong style="color: #1e3c72;">✓ 기술 사업화 역량</strong>
+                            <p style="margin-top: 10px; color: #6c757d; font-size: 0.9em;">보급형 비전검사 시스템 상용화 진행</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ontology Framework -->
+        <div class="flow-section">
+            <h2 class="section-title">🧬 온톨로지 프레임워크</h2>
+            
+            <div style="max-width: 1200px; margin: 40px auto;">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px;">
+                    <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 15px; padding: 30px; border: 1px solid rgba(255,255,255,0.2);">
+                        <div style="font-size: 2.5em; margin-bottom: 15px; text-align: center;">📋</div>
+                        <h4 style="text-align: center; margin-bottom: 15px; font-size: 1.3em;">사용자 스토리보드</h4>
+                        <p style="font-size: 0.95em; opacity: 0.9; text-align: center; line-height: 1.6;">
+                            승강기 안전장치 제조 현장 니즈를 구조화된 요구사항으로 전환
+                        </p>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 15px; padding: 30px; border: 1px solid rgba(255,255,255,0.2);">
+                        <div style="font-size: 2.5em; margin-bottom: 15px; text-align: center;">🎯</div>
+                        <h4 style="text-align: center; margin-bottom: 15px; font-size: 1.3em;">백로그 관리</h4>
+                        <p style="font-size: 0.95em; opacity: 0.9; text-align: center; line-height: 1.6;">
+                            AI-Agent 개발 프로젝트의 체계적 우선순위 관리 및 규칙 통합
+                        </p>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 15px; padding: 30px; border: 1px solid rgba(255,255,255,0.2);">
+                        <div style="font-size: 2.5em; margin-bottom: 15px; text-align: center;">🧬</div>
+                        <h4 style="text-align: center; margin-bottom: 15px; font-size: 1.3em;">Ontology 엔진</h4>
+                        <p style="font-size: 0.95em; opacity: 0.9; text-align: center; line-height: 1.6;">
+                            제품·기술·고객 지식 통합 및 지능형 추론으로 AI-Agent 고도화
+                        </p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; padding: 30px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 15px; text-align: center;">
+                    <h3 style="font-size: 1.6em; margin-bottom: 15px;">🔗 End-to-End AI 솔루션</h3>
+                    <p style="font-size: 1.1em; opacity: 0.95; line-height: 1.7;">
+                        사용자 요구사항 → 온톨로지 기반 지식 통합 → AI/Rule 이중 분석 → 지능형 의사결정 지원
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Section -->
+        <div class="export-section">
+            <h2 style="font-size: 2.5em; margin-bottom: 20px;">📤 리포트 다운로드 및 솔루션 문의</h2>
+            <p style="font-size: 1.2em; opacity: 0.95; margin-bottom: 30px;">
+                전체 분석 결과를 DOCX 형식으로 다운로드(솔루션에서만 가능) 기능을 추가할 수 있으며,<br>
+                자세한 솔루션 문의는 아래의 Kⁱ⁰⁷ 이메일로 연락주세요.
+            </p>
+            <div class="export-buttons">
+                <button class="export-btn" onclick="alert('DOCX 다운로드 기능은 Python 앱에서 사용 가능합니다')">
+                    📄 DOCX 다운로드
+                </button>
+                <button class="export-btn" onclick="alert('자세한 솔루션 문의는 아래의 Kⁱ⁰⁷ 이메일로 연락주시면 연락드리도록 하겠습니다. 감사합니다.✨')">
+                    📊 솔루션 상담문의
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong></strong></p>
+            <p></p>
+
+        </div>
+        <div style="padding-top: 2em; text-align: center;">
+            <div style="font-weight: 900; color: #6d84f6;">
+                데이터 기반 가치 전환 전략 |  Powered by Kⁱ⁰⁷ 전략 AI | AI + 온톨로지 통합 분석 시스템
+                <p style="margin-top: 10px; font-weight: 300; color: #020202;text-align: center;">
+                This work is based on my personal field analysis of data-driven value transformation strategies. <br>
+                © 2023 Kⁱ⁰⁷ All rights reserved. | Generated: 2025-11-26 | 📧 io7hub@naver.com</p>
+                <p style="margin-top: 50px;"></p>
+            </div>        
+        </div>
+    </div>
+    </div>
+
+    <script>
+        function downloadJSON() {
+            const data = {
+                company: "SIHWA INDUSTRIAL COMPLEX",
+                domain: "로봇 용접",
+                timestamp: "2025-12-16T02:01:16.103663",
+                summary: {
+                    market_share: "45-50%",
+                    ipa_efficiency: "98%",
+                    robot_welding_automation: "80%",
+                    revenue_2024: "98억원"
+                },
+                ai_analysis: {
+                    issues: [
+                        {category: "품질", severity: "high", description: "정밀도 요구사항 엄격, 검사 시스템 오류 가능성"},
+                        {category: "설비", severity: "medium", description: "IoT 센서 미부착 설비 존재"},
+                        {category: "공정", severity: "medium", description: "RPA 시스템 오류 가능성"},
+                        {category: "안전", severity: "high", description: "기계적 신뢰성 요구, 고객 요구 대응 어려움"}
+                    ]
+                },
+                rule_engine: {
+                    total_matches: 6,
+                    critical: ["안전(9회)", "설비 고장(1회)"],
+                    high: ["품질 불량(1회)"],
+                    low: ["용접(9회)"]
+                },
+                kpi: {
+                    품질결함: 1,
+                    설비이슈: 1,
+                    공정병목: 0,
+                    안전리스크: 9,
+                    용접품질: 9,
+                    로봇정확도: 5
+                },
+                strategic_priorities: [
+                    "스마트공장 Level 3 고도화",
+                    "글로벌 인증 획득 (CE/UL)",
+                    "수익성 개선",
+                    "Digital Twin 기반 최적화",
+                    "데이터 기반 신제품 개발"
+                ]
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'donggwangsa_dx_report_20251216.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // 애니메이션 효과
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.summary-card, .kpi-card, .priority-item, .tech-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'all 0.5s ease';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 50);
+            });
+        });
+    </script>
+</body>
+</html>

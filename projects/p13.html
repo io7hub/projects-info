@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>P13  Kⁱ⁰⁷ AI Agent SQL UI — Executable Blueprint</title>
+
+<style>
+:root{
+  --bg:#0b1220;
+  --panel:#121a2f;
+  --card:#172242;
+  --accent:#4da3ff;
+  --accent2:#7cf2c2;
+  --text:#e6ebf5;
+  --muted:#9aa7c7;
+  --border:#22305a;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: "Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  background:linear-gradient(180deg,#0b1220,#0e1630);
+  color:var(--text);
+}
+
+.container{
+  max-width:1400px;
+  margin:0 auto;
+  padding:40px 28px 80px;
+}
+
+h1{
+  font-size:34px;
+  margin-bottom:8px;
+  letter-spacing:-0.5px;
+}
+.subtitle{
+  color:var(--muted);
+  margin-bottom:32px;
+  font-size:16px;
+}
+
+.section{
+  margin-bottom:48px;
+}
+
+.section-title{
+  font-size:22px;
+  margin-bottom:16px;
+  border-left:4px solid var(--accent);
+  padding-left:12px;
+}
+
+/* Cards */
+.grid{
+  display:grid;
+  gap:18px;
+}
+.grid-4{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+
+.card{
+  background:linear-gradient(180deg,var(--card),#101935);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:18px 18px 20px;
+}
+
+.card h3{
+  margin:0 0 10px;
+  font-size:16px;
+  color:var(--accent);
+}
+.card ul{
+  padding-left:18px;
+  margin:0;
+  color:var(--muted);
+  line-height:1.6;
+  font-size:14px;
+}
+
+/* Flow */
+.flow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+}
+.step{
+  background:linear-gradient(180deg,#1a2750,#131e3f);
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:10px 16px;
+  font-size:13px;
+  white-space:nowrap;
+}
+.arrow{
+  color:var(--accent);
+  font-size:18px;
+}
+
+/* Tables */
+.table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+.table th,.table td{
+  border-bottom:1px solid var(--border);
+  padding:8px 6px;
+  text-align:left;
+}
+.table th{
+  color:var(--accent);
+  font-weight:600;
+}
+
+/* Footer */
+.footer{
+  margin-top:60px;
+  padding-top:24px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  font-size:13px;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.badge{
+  border:1px solid var(--border);
+  padding:4px 10px;
+  border-radius:999px;
+  background:#0f1835;
+  color:var(--accent2);
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <h1> Kⁱ⁰⁷ AI Agent SQL UI</h1>
+  <div class="subtitle">
+    MySQL → KPI → SQL → Chart → Insight → Report  
+    <br/>실행 가능한 분석 파이프라인 인포그래픽
+  </div>
+
+  <!-- SECTION A -->
+  <div class="section">
+    <div class="section-title">1. 기술 스택 & 기반</div>
+    <div class="grid grid-4">
+      <div class="card">
+        <h3>Core</h3>
+        <ul>
+          <li>Python 3.10+</li>
+          <li>Streamlit</li>
+          <li>Pandas / SQLAlchemy</li>
+          <li>MySQL (PyMySQL)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Visualization</h3>
+        <ul>
+          <li>Plotly</li>
+          <li>Kaleido (PNG)</li>
+          <li>HTML Interactive</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Security</h3>
+        <ul>
+          <li>st.secrets / .env</li>
+          <li>Fernet Encryption</li>
+          <li>SELECT-only Guard</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Report & i18n</h3>
+        <ul>
+          <li>DOCX (python-docx)</li>
+          <li>KO / EN / ES</li>
+          <li>t(key) Helper</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION B -->
+  <div class="section">
+    <div class="section-title">2. 실행 UX 파이프라인</div>
+    <div class="flow">
+      <div class="step">🔐 DB</div><div class="arrow">→</div>
+      <div class="step">📂 Tables</div><div class="arrow">→</div>
+      <div class="step">🧬 Schema</div><div class="arrow">→</div>
+      <div class="step">🔗 Join</div><div class="arrow">→</div>
+      <div class="step">📈 KPI</div><div class="arrow">→</div>
+      <div class="step">🧩 SQL</div><div class="arrow">→</div>
+      <div class="step">🧪 Run</div><div class="arrow">→</div>
+      <div class="step">🧠 Chart</div><div class="arrow">→</div>
+      <div class="step">📊 Dashboard</div><div class="arrow">→</div>
+      <div class="step">📄 Report</div>
+    </div>
+  </div>
+
+  <!-- SECTION C -->
+  <div class="section">
+    <div class="section-title">3. 지능형 추천 로직</div>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Join Path Inference</h3>
+        <ul>
+          <li>INFORMATION_SCHEMA FK 우선</li>
+          <li>컬럼명 규칙 매칭</li>
+          <li>Prefix / Suffix 점수화</li>
+          <li>BFS 최단 경로</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Chart Recommendation</h3>
+        <ul>
+          <li>Time + Value → Line</li>
+          <li>Category + Value → Bar</li>
+          <li>Value + Value → Scatter</li>
+          <li>Pivot → Heatmap</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Insight Engine</h3>
+        <ul>
+          <li>전년 대비 증감</li>
+          <li>상관(Pearson r)</li>
+          <li>선형 추세 기울기</li>
+          <li>LLM 옵션 토글</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION D -->
+  <div class="section">
+    <div class="section-title">4. Run History & Governance</div>
+    <table class="table">
+      <tr>
+        <th>Meta Table</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td>aiagent_meta_runs</td>
+        <td>실행 단위 기록 (언어, 메모)</td>
+      </tr>
+      <tr>
+        <td>aiagent_meta_queries</td>
+        <td>SQL, 행수, 실행 시간</td>
+      </tr>
+      <tr>
+        <td>aiagent_meta_exports</td>
+        <td>CSV / PNG / DOCX</td>
+      </tr>
+      <tr>
+        <td>aiagent_meta_charts</td>
+        <td>차트 유형 및 파일 경로</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>
+      <span class="badge">Executable Blueprint</span>
+      <span class="badge">Streamlit-based</span>
+      <span class="badge">Explainable Analytics</span>
+    </div>
+    <div>
+      © Kⁱ⁰⁷
+    </div>
+  </div>
+        <div style="padding-top: 4em; text-align: center;">
+            <div style="font-weight: 900; color: #6d84f6;">
+                데이터 기반 가치 전환 전략 | Kⁱ⁰⁷ 전략 AI | AI Agent SQL UI
+                <p style="margin-bottom: 2em; font-weight: 300; color: #fffdfd;text-align: center;">
+                This work is based on my personal field analysis of data-driven value transformation strategies. <br>
+                © 2023 Kⁱ⁰⁷ AI Agent SQL UI — Designed for DX Consultants. All rights reserved. | 📧 io7hub@naver.com
+                </p>        
+            </div>
+        </div>
+</div>
+</body>
+</html>

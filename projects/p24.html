@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24 제조 공정 AI 적용 필요성</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            padding: 50px 40px;
+            background: #f8f9fa;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .stat-number {
+            font-size: 3.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .processes-section {
+            padding: 50px 40px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            color: #1e3c72;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .process-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            padding: 35px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .process-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .process-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .process-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .process-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            margin-right: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .icon-press { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .icon-hpdc { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .icon-extrusion { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .icon-injection { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+
+        .process-title {
+            flex: 1;
+        }
+
+        .process-title h3 {
+            font-size: 1.8em;
+            color: #1e3c72;
+            margin-bottom: 5px;
+        }
+
+        .process-title .subtitle {
+            color: #6c757d;
+            font-size: 0.95em;
+        }
+
+        .requirements-list {
+            margin-bottom: 25px;
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: start;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: white;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .requirement-item:hover {
+            background: #f8f9fa;
+            transform: translateX(5px);
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: bold;
+            margin-right: 12px;
+            min-width: 90px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .badge-engineer { background: #e3f2fd; color: #1565c0; }
+        .badge-manager { background: #f3e5f5; color: #6a1b9a; }
+        .badge-maintenance { background: #fff3e0; color: #e65100; }
+
+        .requirement-text {
+            flex: 1;
+            color: #495057;
+            line-height: 1.5;
+        }
+
+        .ai-priorities {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .ai-priorities h4 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .priority-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .priority-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .priority-text {
+            color: #495057;
+            font-size: 0.95em;
+        }
+
+        .benefits-section {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 60px 40px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .benefit-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-5px);
+        }
+
+        .benefit-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .benefit-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .benefit-desc {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .timeline-section {
+            padding: 60px 40px;
+            background: #f8f9fa;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .timeline-month {
+            width: 100px;
+            flex-shrink: 0;
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.2em;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: white;
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        .timeline-content h4 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .timeline-content p {
+            color: #6c757d;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .cta-subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 50px;
+            background: white;
+            color: #667eea;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 1024px) {
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>공정 지능화 AI-Agent — 유압설비편</h1>
+            <p>유압 장비 사용자 스토리보드 기반 AI-Agent 개발 · Ontology 엔진 고도화</p>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">핵심 제조 공정</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">AI 솔루션 개발</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">6</div>
+                <div class="stat-label">개월 평균 구축 기간</div>
+            </div>
+        </div>
+
+        <!-- Core Technology Section -->
+        <div class="processes-section" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 50px 40px;">
+            <h2 class="section-title">핵심 기술 아키텍처</h2>
+            
+            <div style="max-width: 900px; margin: 0 auto;">
+                <div style="background: white; border-radius: 20px; padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 30px;">
+                        <div style="text-align: center; padding: 25px; background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border-radius: 15px;">
+                            <div style="font-size: 2.5em; margin-bottom: 15px;">📋</div>
+                            <h4 style="color: #1e3c72; margin-bottom: 10px; font-size: 1.1em;">사용자 스토리보드</h4>
+                            <p style="color: #6c757d; font-size: 0.9em; line-height: 1.5;">유압 장비 현장 니즈를 구조화된 요구사항으로 전환</p>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 25px; background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border-radius: 15px;">
+                            <div style="font-size: 2.5em; margin-bottom: 15px;">🎯</div>
+                            <h4 style="color: #1e3c72; margin-bottom: 10px; font-size: 1.1em;">백로그 관리</h4>
+                            <p style="color: #6c757d; font-size: 0.9em; line-height: 1.5;">AI-Agent 개발 프로젝트의 체계적 우선순위 관리</p>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 25px; background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border-radius: 15px;">
+                            <div style="font-size: 2.5em; margin-bottom: 15px;">🧠</div>
+                            <h4 style="color: #1e3c72; margin-bottom: 10px; font-size: 1.1em;">Ontology 엔진</h4>
+                            <p style="color: #6c757d; font-size: 0.9em; line-height: 1.5;">AI-Agent 기능 고도화 및 지식 기반 추론</p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 30px; border-radius: 15px; text-align: center;">
+                        <h3 style="font-size: 1.5em; margin-bottom: 15px;">🔗 통합 AI-Agent 플랫폼</h3>
+                        <p style="opacity: 0.95; line-height: 1.7; font-size: 1.05em;">사용자 요구사항부터 Ontology 기반 지능형 의사결정까지<br>End-to-End AI 솔루션 제공</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Processes Section -->
+        <div class="processes-section">
+            <h2 class="section-title">4대 제조 공정별 AI 적용 전략</h2>
+            
+            <div class="process-grid">
+                <!-- PRESS -->
+                <div class="process-card">
+                    <div class="process-header">
+                        <div class="process-icon icon-press">🔨</div>
+                        <div class="process-title">
+                            <h3>PRESS</h3>
+                            <div class="subtitle">Metal Forming | 금속 성형</div>
+                        </div>
+                    </div>
+                    
+                    <div class="requirements-list">
+                        <div class="requirement-item">
+                            <span class="role-badge badge-engineer">Engineer</span>
+                            <span class="requirement-text">프레스하중·스트로크 데이터로 금형 파손 전조 감지</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="role-badge badge-manager">Manager</span>
+                            <span class="requirement-text">주요 품질지표 자동 대시보드 관리</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="role-badge badge-maintenance">Maintenance</span>
+                            <span class="requirement-text">부품 교체 주기 예측을 통한 예방 보전</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-priorities">
+                        <h4>🎯 AI 적용 우선순위</h4>
+                        <div class="priority-item">
+                            <div class="priority-number">1</div>
+                            <div class="priority-text">실시간 하중/스트로크 분석 및 조기 경고</div>
+                        </div>
+                        <div class="priority-item">
+                            <div class="priority-number">2</div>
+                            <div class="priority-text">KPI 자동 수집 및 시각화 대시보드</div>
+                        </div>
+                        <div class="priority-item">
+                            <div class="priority-number">3</div>
+                            <div class="priority-text">머신러닝 기반 부품 교체 주기 예측</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HPDC -->
+                <div class="process-card">
+                    <div class="process-header">
+                        <div class="process-icon icon-hpdc">⚡</div>
+                        <div class="process-title">
+                            <h3>HPDC</h3>
+                            <div class="subtitle">Die Casting | 고압 다이캐스팅</div>
+                        </div>
+                    </div>
+                    
+                    <div class="requirements-list">
+                        <div class="requirement-item">
+                            <span class="role-badge badge-engineer">Engineer</span>
+                            <span class="requirement-text">사출압력·금형온도 기반 불량률 실시간 분석</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="role-badge badge-manager">Manager</span>
+                            <span class="requirement-text">월별 불량률과 개선조치 통합 리포트</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="role-badge badge-maintenance">Maintenance</span>
+                            <span class="requirement-text">냉각라인 이상 조기 감지로 품질 손실 최소화</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-priorities">
+                        <h4>🎯 AI 적용 우선순위</h4>
+                        <div class="priority-item">
+                            <div class="priority-number">1</div>
+                            <div class="priority-text">AI Insight Engine 불량률 실시간 분석</div>
+                        </div>
+                        <div class="priority-item">
+                            <div class="priority-number">2</div>
+                            <div class="priority-text">품질 데이터 자동 분석 대시보드 확장</div>
+                        </div>
+                        <div class="priority-item">
+                            <div class="priority-number">3</div>
+                            <div class="priority-text">냉각라인 이상 감지 AI 솔루션 신규 개발</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EXTRUSION -->
+                <div class="process-card">
+                    <div class="process-header">
+                        <div class="process-icon icon-extrusion">📏</div>
+                        <div class="process-title">
+                            <h3>EXTRUSION</h3>
+                            <div class="subtitle">Continuous Forming | 압출 성형</div>
+                        </div>
+                    </div>
+                    
+                    <div class="requirements-list">
+                        <div class="requirement-item">
+                            <span class="role-badge badge-engineer">Engineer</span>
+                            <span class="requirement-text">다이온도·압출속도 불균형 표면결함 즉시 파악</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="role-badge badge-manager">Manager</span>
+                            <span class="requirement-text">라인별 품질지표·조치 이력 자동 보고서 생성</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="role-badge badge-maintenance">Maintenance</span>
+                            <span class="requirement-text">베어링·다이온도 센서 이상신호 예측</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-priorities">
+                        <h4>🎯 AI 적용 우선순위</h4>
+                        <div class="priority-item">
+                            <div class="priority-number">1</div>
+                            <div class="priority-text">KPI Dashboard 라인별 통합 모니터링</div>
+                        </div>
+                        <div class="priority-item">
+                            <div class="priority-number">2</div>
+                            <div class="priority-text">표면결함 원인 즉시 파악 알고리즘 개발</div>
+                        </div>
+                        <div class="priority-item">
+                            <div class="priority-number">3</div>
+                            <div class="priority-text">센서 이상 신호 예측 및 예방 유지보수</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INJECTION -->
+                <div class="process-card">
+                    <div class="process-header">
+                        <div class="process-icon icon-injection">💉</div>
+                        <div class="process-title">
+                            <h3>INJECTION</h3>
+                            <div class="subtitle">Plastic Molding | 플라스틱 사출</div>
+                        </div>
+                    </div>
+                    
+                    <div class="requirements-list">
+                        <div class="requirement-item">
+                            <span class="role-badge badge-engineer">Engineer</span>
+                            <span class="requirement-text">충전속도·냉각패턴 결합해 수축 불량 원인 파악</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="role-badge badge-manager">Manager</span>
+                            <span class="requirement-text">라인별 생산성과 불량률 통합 모니터링</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="role-badge badge-maintenance">Maintenance</span>
+                            <span class="requirement-text">사출기 온도센서·노즐 이상 자동 감지</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-priorities">
+                        <h4>🎯 AI 적용 우선순위</h4>
+                        <div class="priority-item">
+                            <div class="priority-number">1</div>
+                            <div class="priority-text">충전·냉각 데이터 분석 수축 불량 예측</div>
+                        </div>
+                        <div class="priority-item">
+                            <div class="priority-number">2</div>
+                            <div class="priority-text">생산성·불량률 통합 실시간 대시보드</div>
+                        </div>
+                        <div class="priority-item">
+                            <div class="priority-number">3</div>
+                            <div class="priority-text">Action Simulator 시각화 및 자동 감지</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Benefits Section -->
+        <div class="benefits-section">
+            <h2 class="section-title" style="color: white;">AI 적용 핵심 효과</h2>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <div class="benefit-title">품질 개선</div>
+                    <div class="benefit-desc">실시간 데이터 분석으로 불량률 감소 및 품질 안정화 달성</div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <div class="benefit-title">생산성 향상</div>
+                    <div class="benefit-desc">예측 유지보수로 가동 중단 최소화 및 생산 효율 극대화</div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <div class="benefit-title">비용 절감</div>
+                    <div class="benefit-desc">설비 고장 사전 예방 및 최적 부품 교체로 유지보수 비용 감소</div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <div class="benefit-title">데이터 기반 의사결정</div>
+                    <div class="benefit-desc">실시간 KPI 모니터링으로 신속하고 정확한 경영 판단 지원</div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔍</div>
+                    <div class="benefit-title">원인 분석 자동화</div>
+                    <div class="benefit-desc">AI 기반 패턴 인식으로 불량 원인 즉시 파악 및 대응</div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚀</div>
+                    <div class="benefit-title">경쟁력 강화</div>
+                    <div class="benefit-desc">스마트 팩토리 구축으로 제조업 디지털 전환 선도</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="timeline-section">
+            <h2 class="section-title">단계별 구축 로드맵</h2>
+            <p style="text-align: center; color: #6c757d; font-size: 1.1em; margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                * 실제 구축 기간은 기업의 인프라 수준, 데이터 성숙도, 프로젝트 범위에 따라 유동적이며<br>
+                상세 일정은 <strong style="color: #667eea;">기업과의 세부 협의를 통해 최적화</strong>됩니다.
+            </p>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-month">Phase 1</div>
+                    <div class="timeline-content">
+                        <h4>📋 기획 및 인프라 구축</h4>
+                        <p>데이터 통합 플랫폼 설계, IoT 센서 설치 및 데이터 수집 시작</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-month">Phase 2</div>
+                    <div class="timeline-content">
+                        <h4>🗄️ 데이터 통합 및 정제</h4>
+                        <p>이력 데이터 통합, 데이터베이스 구축 및 품질 검증 완료</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-month">Phase 3</div>
+                    <div class="timeline-content">
+                        <h4>🤖 AI 모델 개발 시작</h4>
+                        <p>AI Insight Engine 프로토타입 개발 및 초기 테스트</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-month">Phase 4</div>
+                    <div class="timeline-content">
+                        <h4>📊 대시보드 개발</h4>
+                        <p>KPI Dashboard 확장, 사용자 피드백 수집 및 반영</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-month">Phase 5</div>
+                    <div class="timeline-content">
+                        <h4>🔧 예측 모델 고도화</h4>
+                        <p>부품 교체 주기 예측, 이상 감지 AI 솔루션 개발 및 최적화</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-month">Phase 6</div>
+                    <div class="timeline-content">
+                        <h4>✅ 통합 테스트 및 배포</h4>
+                        <p>전체 시스템 통합 테스트, 최종 배포 및 사용자 교육 실시</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h2 class="cta-title">지금 바로 시작하세요</h2>
+            <p class="cta-subtitle">AI-Agent 기반 공정 지능화로 제조 현장의 혁신을 경험하세요<br>
+            기업 맞춤형 구축 일정과 범위는 상세 협의를 통해 결정됩니다</p>
+            <a href="#" class="cta-button">프로젝트 문의하기 → io7hub@naver.com</a>
+        </div>
+                        <!-- FOOTER -->
+        <div style="padding-top: 4em; padding-bottom: 2em; text-align: center;">
+            <div style="font-weight: 900; color: #6d84f6;">
+                데이터 기반 가치 전환 전략 | Kⁱ⁰⁷ 전략 AI | AI-Agent 기반 공정 지능화    
+            <footer style="font-weight: 900; color: #7e7e7e;">
+                This work is based on my personal field analysis of data-driven value transformation strategies.<br>
+                <p>&copy; 2023 Kⁱ⁰⁷ LangChain 기반 Manufacturing AI Agent. All rights reserved. | 📧 io7hub@naver.com</p>
+            </footer>
+            </div>    
+        </div>
+    </div>
+</body>
+</html>

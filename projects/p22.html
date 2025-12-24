@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>22 K<sup>ⁱ⁰⁷</sup> Manufacturing.AI Storyboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e0e6ed;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* 헤더 */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            color: #cbd5e1;
+        }
+        
+        /* 섹션 공통 스타일 */
+        .section {
+            margin-bottom: 60px;
+            padding: 40px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 20px;
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.2);
+        }
+        
+        .section-title {
+            font-size: 2em;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3b82f6;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section-icon {
+            font-size: 1.2em;
+        }
+        
+        /* 사용자 스토리 카드 */
+        .user-stories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .user-card {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .user-card:nth-child(1) { border-left-color: #3b82f6; }
+        .user-card:nth-child(2) { border-left-color: #10b981; }
+        .user-card:nth-child(3) { border-left-color: #f59e0b; }
+        
+        .user-card:hover {
+            transform: translateX(10px);
+            box-shadow: -5px 5px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .user-role {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-need {
+            color: #94a3b8;
+            font-size: 0.95em;
+        }
+        
+        /* 기능 백로그 테이블 */
+        .backlog-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        
+        .backlog-table th {
+            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .backlog-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.3);
+            color: #e0e6ed;
+        }
+        
+        .backlog-table tr {
+            background: rgba(30, 41, 59, 0.6);
+            transition: background 0.3s ease;
+        }
+        
+        .backlog-table tr:hover {
+            background: rgba(59, 130, 246, 0.3);
+        }
+        
+        .backlog-table tbody tr {
+            background: rgba(51, 65, 85, 0.7);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        
+        .status-완료 { background: #059669; }
+        .status-진행중 { background: #0284c7; }
+        .status-예정 { background: #7c3aed; }
+        .status-현황 { background: #dc2626; }
+        
+        .priority-높음 { color: #ef4444; font-weight: bold; }
+        .priority-중간 { color: #f59e0b; }
+        .priority-낮음 { color: #10b981; }
+        
+        /* 프로세스 플로우 */
+        .flow-diagram {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            gap: 15px;
+        }
+        
+        .flow-arrow {
+            color: #3b82f6;
+            font-size: 1.5em;
+        }
+        
+        .flow-node {
+            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+            padding: 15px 25px;
+            border-radius: 10px;
+            flex: 1;
+            transition: transform 0.3s ease;
+        }
+        
+        .flow-node:hover {
+            transform: scale(1.05);
+        }
+        
+        /* AI 우선순위 카드 */
+        .priority-cards {
+            display: grid;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .priority-card {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .priority-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+        }
+        
+        .priority-card:nth-child(1) { border-left-color: #f59e0b; }
+        .priority-card:nth-child(2) { border-left-color: #ef4444; }
+        .priority-card:nth-child(3) { border-left-color: #ef4444; }
+        
+        .priority-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .priority-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #e0e6ed;
+        }
+        
+        .priority-card p {
+            color: #cbd5e1;
+            line-height: 1.8;
+        }
+        
+        .priority-level {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+        
+        .priority-높음 { background: #dc2626; }
+        .priority-중간 { background: #f59e0b; }
+        
+        /* 로드맵 타임라인 */
+        .roadmap {
+            position: relative;
+            padding-left: 50px;
+            margin-top: 30px;
+        }
+        
+        .roadmap::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #3b82f6 0%, #7c3aed 100%);
+        }
+        
+        .roadmap-item {
+            position: relative;
+            margin-bottom: 40px;
+            padding: 25px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 15px;
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .roadmap-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+        }
+        
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            left: -38px;
+            top: 30px;
+            width: 15px;
+            height: 15px;
+            background: #3b82f6;
+            border-radius: 50%;
+            box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.3);
+        }
+        
+        .roadmap-month {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #3b82f6;
+            margin-bottom: 10px;
+        }
+        
+        .roadmap-goals {
+            color: #cbd5e1;
+            line-height: 1.8;
+        }
+        
+        .roadmap-goals li {
+            margin: 10px 0;
+            padding-left: 10px;
+        }
+        
+        /* 핵심 화면 구성 */
+        .screens-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .screen-card {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border-top: 4px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .screen-card:nth-child(1) { border-top-color: #3b82f6; }
+        .screen-card:nth-child(2) { border-top-color: #10b981; }
+        .screen-card:nth-child(3) { border-top-color: #f59e0b; }
+        
+        .screen-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
+        }
+        
+        .screen-label {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(59, 130, 246, 0.2);
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .screen-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .screen-features {
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+        
+        .screen-features li {
+            margin: 10px 0;
+            padding-left: 10px;
+        }
+        
+        /* 기대효과 */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .benefit-card {
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.4);
+        }
+        
+        .benefit-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        
+        .benefit-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .benefit-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #60a5fa;
+            margin: 10px 0;
+        }
+        
+        /* 데이터 전략 */
+        .strategy-list {
+            margin-top: 30px;
+        }
+        
+        .strategy-item {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #3b82f6;
+            transition: all 0.3s ease;
+        }
+        
+        .strategy-item:hover {
+            transform: translateX(10px);
+            box-shadow: -5px 5px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .strategy-number {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: #3b82f6;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .strategy-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .strategy-desc {
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+        
+        /* 푸터 */
+        .footer {
+            margin-top: 80px;
+            padding: 50px 40px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.3);
+        }
+        
+        .footer-tagline {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #e0e6ed;
+        }
+        
+        .footer-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .footer-info {
+            font-size: 1em;
+            color: #cbd5e1;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(203, 213, 225, 0.3);
+        }
+        
+        .footer-email {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-email:hover {
+            color: #93c5fd;
+        }
+        
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .section {
+                padding: 25px;
+            }
+            
+            .section-title {
+                font-size: 1.5em;
+            }
+            
+            .user-stories,
+            .screens-grid,
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .screens-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 -->
+        <div class="header">
+            <h1>🏭 Manufacturing.AI Storyboard</h1>
+            <p>AI-Driven Industrial Process Intelligence Framework</p>
+            <p style="margin-top: 10px; font-size: 1em;">유압실린더편_공정 효율 개선을 위한 AI 적용 전략</p>
+        </div>
+
+        <!-- 1. 사용자 스토리 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">👥</span>
+                사용자 스토리 보드 - HPDC (Die Casting)
+            </h2>
+            <div class="user-stories">
+                <div class="user-card">
+                    <div class="user-role">👨‍🔧 Engineer</div>
+                    <div class="user-need">사용자로서 공정 데이터를 기반으로 불량을 실시간 분석하고자 함</div>
+                </div>
+                <div class="user-card">
+                    <div class="user-role">👨‍💼 Manager</div>
+                    <div class="user-need">팀원 활동효율 주요 개선조치를 한눈에 보이는 리포트를 원함</div>
+                </div>
+                <div class="user-card">
+                    <div class="user-role">🔧 Maintenance</div>
+                    <div class="user-need">냉각라인 이상을 조기에 감지하여 손실을 최소화하고자 함</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. 기능 백로그 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">📋</span>
+                기능 백로그 관리
+            </h2>
+            <table class="backlog-table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>기능 명칭</th>
+                        <th>설명</th>
+                        <th>우선순위</th>
+                        <th>버전</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0</td>
+                        <td>데이터 보드 자동 제한</td>
+                        <td><span class="status-badge status-현황">현황</span></td>
+                        <td class="priority-높음">높음</td>
+                        <td>v6.0</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>KPI Dashboard 확장</td>
+                        <td><span class="status-badge status-진행중">진행중</span></td>
+                        <td class="priority-높음">높음</td>
+                        <td>v6.1</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>AI Insight Engine 고도화</td>
+                        <td><span class="status-badge status-진행중">진행중</span></td>
+                        <td class="priority-중간">중간</td>
+                        <td>v6.2</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Action Simulator 시각화 개선</td>
+                        <td><span class="status-badge status-예정">예정</span></td>
+                        <td class="priority-중간">중간</td>
+                        <td>v6.3</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>PDF Report 자동화</td>
+                        <td><span class="status-badge status-완료">완료</span></td>
+                        <td class="priority-낮음">낮음</td>
+                        <td>v5.3</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>메커니즘 협업 기능</td>
+                        <td><span class="status-badge status-예정">예정</span></td>
+                        <td class="priority-높음">높음</td>
+                        <td>v6.4</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 3. 프로세스 플로우 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🔄</span>
+                프로세스 와이어프레임 (Flow Diagram)
+            </h2>
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="flow-node">A: Error 발생</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-node">B: Error 정상 처리</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-node">B: Error 완료</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-node">C: Error 완료 처리</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-node">C: 정상 처리</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-node">D: 정상 처리 또는</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-node">D: Error 처리</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-node">E: Error 실시 조치</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-node">E: Error 등록</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-node">F: 전달 또는 개선</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. AI 적용 우선순위 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🎯</span>
+                AI 적용 우선순위
+            </h2>
+            <div class="priority-cards">
+                <div class="priority-card">
+                    <div class="priority-header">
+                        <div class="priority-title">1️⃣ AI Insight Engine 고도화</div>
+                        <span class="priority-level priority-중간">중간 우선순위</span>
+                    </div>
+                    <p>사용자에게 공정 데이터를 실시간으로 분석하여 불량률 예측. 이를 기반으로 실시간 포트폴리오 제공하여 공정문제 조기발견 및 관리</p>
+                </div>
+                <div class="priority-card">
+                    <div class="priority-header">
+                        <div class="priority-title">2️⃣ KPI Dashboard 확장</div>
+                        <span class="priority-level priority-높음">높은 우선순위</span>
+                    </div>
+                    <p>팀장이 불량률 데이터와 개선조치를 시각적으로 한눈에 확인. 의사결정 시간 단축 및 대시보드 확장을 통한 효율성 증대</p>
+                </div>
+                <div class="priority-card">
+                    <div class="priority-header">
+                        <div class="priority-title">3️⃣ 냉각라인 이상 조기 감지 시스템</div>
+                        <span class="priority-level priority-높음">높은 우선순위</span>
+                    </div>
+                    <p>AI 기반 모니터링 시스템을 통해 냉각라인 이상을 조기 감지. 유지보수 시간 단축 및 손실 최소화</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. 데이터 확보 전략 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">💾</span>
+                데이터 확보 전략
+            </h2>
+            <div class="strategy-list">
+                <div class="strategy-item">
+                    <div class="strategy-title">
+                        <span class="strategy-number">1</span>
+                        실시간 데이터 수집 시스템 구축
+                    </div>
+                    <div class="strategy-desc">
+                        장비 모니터링 IoT 센서 보강을 통해 시공연, 공정조건, 냉각라인 상태 등 실시간 수집. 데이터 파이프라인 강화로 한눈에 볼 수 있는 시스템 구축
+                    </div>
+                </div>
+                <div class="strategy-item">
+                    <div class="strategy-title">
+                        <span class="strategy-number">2</span>
+                        주기적인 데이터 품질 검토
+                    </div>
+                    <div class="strategy-desc">
+                        이상치 값의 데이터 필터링 및 데이터 마이닝을 통한 품질 향상. AI 모델 학습용 고품질 데이터 확보로 예측 정확도 향상
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. 6개월 로드맵 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🗓️</span>
+                향후 6개월 로드맵
+            </h2>
+            <div class="roadmap">
+                <div class="roadmap-item">
+                    <div class="roadmap-month">1개월</div>
+                    <ul class="roadmap-goals">
+                        <li>실시간 데이터 수집 시스템 설계 및 IoT 센서 설치 사전 준비</li>
+                        <li>KPI Dashboard 확장 요구사항 수집 및 초기 설계</li>
+                    </ul>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-month">2개월</div>
+                    <ul class="roadmap-goals">
+                        <li>IoT 센서 설치 및 데이터 수집 시험</li>
+                        <li>AI Insight Engine 고도화 작업 착수</li>
+                    </ul>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-month">3개월</div>
+                    <ul class="roadmap-goals">
+                        <li>실시간 데이터 분석 및 불량률 예측 기능 프로토타입 개발</li>
+                        <li>KPI Dashboard 초기 버전 구현</li>
+                    </ul>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-month">4개월</div>
+                    <ul class="roadmap-goals">
+                        <li>냉각라인 이상 조기 감지 시스템 확보 및 프로토타입 개발</li>
+                        <li>KPI Dashboard 피드백 수집 및 개선</li>
+                    </ul>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-month">5개월</div>
+                    <ul class="roadmap-goals">
+                        <li>AI Insight Engine 및 냉각라인 모니터링 시스템 통합 테스트</li>
+                        <li>KPI Dashboard 확장 테스트 개발 및 배포</li>
+                    </ul>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-month">6개월</div>
+                    <ul class="roadmap-goals">
+                        <li>전체 시스템 통합 최적화 및 런칭 준비</li>
+                        <li>사용자 교육 및 리포트 자동화 기능 배포</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. 핵심 화면 구성 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🖥️</span>
+                핵심 화면 구성 (3가지 관점)
+            </h2>
+            <div class="screens-grid">
+                <div class="screen-card">
+                    <div class="screen-label">[제조] KPIs 트렌드 관찰</div>
+                    <div class="screen-title">📈 Industrial KPIs 분석</div>
+                    <ul class="screen-features">
+                        <li>실시간 KPI 지표 모니터링</li>
+                        <li>불량률, 수율, 온도, 압력 추적</li>
+                        <li>시간대별 추이 분석</li>
+                        <li>공정 파라미터 분포 시각화</li>
+                        <li>현장 모니터링 뷰</li>
+                    </ul>
+                </div>
+                <div class="screen-card">
+                    <div class="screen-label">[판매] AI/LLM 분석 인사이트</div>
+                    <div class="screen-title">🔍 지능형 분석 허브</div>
+                    <ul class="screen-features">
+                        <li>냉각 시설관계 Heatmap</li>
+                        <li>변수 간 상관관계 분석</li>
+                        <li>AI 품질 예측 모델</li>
+                        <li>Feature Importance 차트</li>
+                        <li>주요 영향 변수 식별</li>
+                    </ul>
+                </div>
+                <div class="screen-card">
+                    <div class="screen-label">[조치] 실행 액션 시뮬레이터</div>
+                    <div class="screen-title">🎮 Action Intelligence Layer</div>
+                    <ul class="screen-features">
+                        <li>AI 분석 결과 → 실제 조치 연결</li>
+                        <li>불량 원인 → 조치 → 성과 관리</li>
+                        <li>실시간 시뮬레이션</li>
+                        <li>조치 효과 예측</li>
+                        <li>PDF 리포트 자동 생성</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. 기대 효과 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🚀</span>
+                기대 효과
+            </h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">📈</div>
+                    <div class="benefit-title">품질 향상</div>
+                    <div class="benefit-value">20%↓</div>
+                    <p>AI 기반 불량 예측으로<br>불량률 감소</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <div class="benefit-title">비용 절감</div>
+                    <div class="benefit-value">30%↓</div>
+                    <p>냉각라인 이상 조기 감지로<br>유지보수 비용 절감</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <div class="benefit-title">효율 증대</div>
+                    <div class="benefit-value">15%↑</div>
+                    <p>실시간 의사결정으로<br>생산 효율 향상</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <div class="benefit-title">데이터 활용</div>
+                    <div class="benefit-value">100%</div>
+                    <p>축적된 데이터로<br>지속적인 공정 개선</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 푸터 -->
+        <div class="footer">
+            <div class="footer-tagline">데이터 기반 가치 전환 전략가 | AI Agent Engineering</div>
+            <div class="footer-title">[제조AI 유압실린더편] AI Storyboard & Action Planner</div>
+            <div class="footer-info">This work is based on my personal field analysis of data-driven value transformation strategies. <br>
+            © 2023 Kⁱ⁰⁷ All rights reserved. | 
+                📧 <a href="mailto:io7hub@naver.com" class="footer-email">io7hub@naver.com</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>        

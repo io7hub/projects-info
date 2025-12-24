@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12 Kⁱ⁰⁷ 제조 AI | IoT 기반 생산성 혁신 전략 로드맵</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Sans+KR:wght@100..900&display=swap');
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            background-color: #f4f7f9;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        .data-card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease-in-out;
+        }
+        .data-card:hover {
+            transform: translateY(-5px);
+        }
+        .metric-value {
+            font-size: 3rem;
+            line-height: 1;
+        }
+        .roadmap-step {
+            min-height: 100px;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#0A7AFF',
+                        'secondary-green': '#34C759',
+                        'accent-red': '#FF3B30',
+                        'dark-text': '#1C1C1E',
+                        'light-gray': '#E5E7EB',
+                    }
+                }
+            }
+        }
+        
+        // Exponential backoff retry utility for fetch calls
+        async function fetchWithRetry(url, options, maxRetries = 5) {
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response;
+                } catch (error) {
+                    if (i === maxRetries - 1) {
+                        console.error('All retries failed:', error);
+                        throw error;
+                    }
+                    const delay = Math.pow(2, i) * 1000;
+                    console.warn(`Attempt ${i + 1} failed. Retrying in ${delay / 1000}s...`);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+        }
+
+        // Base64 to ArrayBuffer helper for audio processing (TTS)
+        function base64ToArrayBuffer(base64) {
+            const binary_string = window.atob(base64);
+            const len = binary_string.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binary_string.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        // PCM to WAV conversion helper
+        function pcmToWav(pcmData, sampleRate) {
+            const numChannels = 1;
+            const bytesPerSample = 2; // Int16
+            const blockAlign = numChannels * bytesPerSample;
+            const byteRate = sampleRate * blockAlign;
+            
+            const buffer = new ArrayBuffer(44 + pcmData.byteLength);
+            const view = new DataView(buffer);
+            let offset = 0;
+
+            // RIFF chunk
+            writeString(view, offset, 'RIFF'); offset += 4;
+            view.setUint32(offset, 36 + pcmData.byteLength, true); offset += 4;
+            writeString(view, offset, 'WAVE'); offset += 4;
+
+            // fmt chunk
+            writeString(view, offset, 'fmt '); offset += 4;
+            view.setUint32(offset, 16, true); offset += 4; // Sub-chunk size
+            view.setUint16(offset, 1, true); offset += 2;  // Audio format (1 for PCM)
+            view.setUint16(offset, numChannels, true); offset += 2;
+            view.setUint32(offset, sampleRate, true); offset += 4;
+            view.setUint32(offset, byteRate, true); offset += 4;
+            view.setUint16(offset, blockAlign, true); offset += 2;
+            view.setUint16(offset, 16, true); offset += 2; // Bits per sample (16)
+
+            // data chunk
+            writeString(view, offset, 'data'); offset += 4;
+            view.setUint32(offset, pcmData.byteLength, true); offset += 4;
+
+            // Write PCM data
+            const pcmBytes = new Uint8Array(buffer, offset);
+            for (let i = 0; i < pcmData.length; i++) {
+                view.setInt16(offset, pcmData[i], true);
+                offset += 2;
+            }
+
+            return new Blob([buffer], { type: 'audio/wav' });
+
+            function writeString(view, offset, string) {
+                for (let i = 0; i < string.length; i++) {
+                    view.setUint8(offset + i, string.charCodeAt(i));
+                }
+            }
+        }
+
+
+        // Function to handle Text-to-Speech generation
+        async function generateAndPlayAudio() {
+            const textToSpeak = document.getElementById('tts-input').value.trim();
+            const playButton = document.getElementById('tts-play-button');
+            const loadingIndicator = document.getElementById('tts-loading');
+            
+            if (!textToSpeak) {
+                alert("음성으로 변환할 텍스트를 입력해주세요.");
+                return;
+            }
+
+            playButton.disabled = true;
+            loadingIndicator.classList.remove('hidden');
+
+            const apiKey = ""; // Canvas environment handles this if empty string
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+
+            // We will use the 'Kore' voice (Firm) for an informative, professional tone
+            const payload = {
+                contents: [{
+                    parts: [{ text: `차분하고 명확하게 말해주세요: ${textToSpeak}` }]
+                }],
+                generationConfig: {
+                    responseModalities: ["AUDIO"],
+                    speechConfig: {
+                        voiceConfig: {
+                            prebuiltVoiceConfig: { voiceName: "Kore" }
+                        }
+                    }
+                },
+                model: "gemini-2.5-flash-preview-tts"
+            };
+
+            try {
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await response.json();
+                const part = result?.candidates?.[0]?.content?.parts?.[0];
+                const audioData = part?.inlineData?.data;
+                const mimeType = part?.inlineData?.mimeType;
+
+                if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                    // MimeType is something like audio/L16;rate=24000
+                    const rateMatch = mimeType.match(/rate=(\d+)/);
+                    if (!rateMatch) throw new Error("Could not parse sample rate from MIME type.");
+                    const sampleRate = parseInt(rateMatch[1], 10);
+                    
+                    const pcmDataBuffer = base64ToArrayBuffer(audioData);
+                    // API returns signed PCM16 audio data.
+                    const pcm16 = new Int16Array(pcmDataBuffer);
+                    const wavBlob = pcmToWav(pcm16, sampleRate);
+                    
+                    const audioUrl = URL.createObjectURL(wavBlob);
+                    const audio = new Audio(audioUrl);
+                    audio.play();
+
+                    audio.onended = () => {
+                        URL.revokeObjectURL(audioUrl); // Clean up the Blob URL
+                        playButton.disabled = false;
+                        loadingIndicator.classList.add('hidden');
+                    };
+                    audio.onerror = () => {
+                        console.error("Audio playback error.");
+                        alert("오디오 재생 중 오류가 발생했습니다.");
+                        playButton.disabled = false;
+                        loadingIndicator.classList.add('hidden');
+                    };
+
+                } else {
+                    console.error("API response missing audio data:", result);
+                    throw new Error("API 응답에서 오디오 데이터를 찾을 수 없습니다.");
+                }
+
+            } catch (error) {
+                console.error("TTS generation failed:", error);
+                alert(`음성 변환에 실패했습니다: ${error.message}`);
+                playButton.disabled = false;
+                loadingIndicator.classList.add('hidden');
+            }
+        }
+    </script>
+</head>
+<body class="p-8">
+
+    <div class="container mx-auto space-y-12">
+        
+        <!-- HEADER & TITLE -->
+        <header class="text-center">
+            <h1 class="text-4xl font-extrabold text-dark-text mb-2 border-b-4 border-primary-WHITE pb-2 inline-block">
+                <strong>Kⁱ⁰⁷ 제조 AI | IoT 기반 생산성 혁신 전략 로드맵</strong>
+            </h1>
+            <p class="text-xl text-gray-600">
+                <strong class="text-primary-blue">알루미늄 성형 가공 라인</strong> - 실시간 모니터링 및 사이클 타임 단축 전략 분석
+            </p>
+        </header>
+
+        <!-- SECTION 1: 핵심 문제 및 정량적 분석 -->
+        <section class="p-8 data-card">
+            <h2 class="text-3xl font-bold text-dark-text mb-6 border-l-4 border-accent-red pl-3">
+                1. 핵심 문제 현황 및 데이터 인사이트
+            </h2>
+            <div class="grid md:grid-cols-4 gap-6 text-center">
+                <!-- Data Point 1: Scrap/불량률 -->
+                <div class="p-6 bg-red-50 rounded-lg">
+                    <p class="text-xl font-semibold text-accent-red">현재 불량률 (Scrap Rate)</p>
+                    <p class="metric-value font-extrabold text-accent-red my-2">40%</p>
+                    <p class="text-sm text-gray-500">생산성 저하의 <strong class="font-bold">주요 원인</strong>으로 작용</p>
+                </div>
+                
+                <!-- Data Point 2: 병목 현상 -->
+                <div class="p-6 bg-yellow-50 rounded-lg">
+                    <p class="text-xl font-semibold text-yellow-700">핵심 병목 구간</p>
+                    <p class="metric-value font-extrabold text-yellow-700 my-2">품질 검사</p>
+                    <p class="text-sm text-gray-500">지연이 전체 <strong class="font-bold">사이클 타임에 큰 영향</strong></p>
+                </div>
+
+                <!-- Data Point 3: 비효율 재고 -->
+                <div class="p-6 bg-blue-50 rounded-lg">
+                    <p class="text-xl font-semibold text-primary-blue">비효율 재고 수준 (WIP)</p>
+                    <p class="metric-value font-extrabold text-primary-blue my-2">$28만</p>
+                    <p class="text-sm text-gray-500">3년 이상 된 재고 포함, <strong class="font-bold">재고 관리 비효율성</strong> 증명</p>
+                </div>
+
+                <!-- Data Point 4: 수동 선반 사이클 타임 -->
+                <div class="p-6 bg-indigo-50 rounded-lg">
+                    <p class="text-xl font-semibold text-indigo-700">수동 선반 Cycle Time</p>
+                    <p class="metric-value font-extrabold text-indigo-700 my-2">13분</p>
+                    <p class="text-sm text-gray-500">자동화 부족으로 인한 <strong class="font-bold">단축 필요성</strong> 강조</p>
+                </div>
+            </div>
+            
+            <div class="mt-8">
+                <h3 class="text-xl font-semibold text-dark-text mb-3">문제-원인-증거 요약</h3>
+                <div class="overflow-x-auto">
+                    <!-- 테이블의 모든 강조를 <strong> 태그로 변환 -->
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/3">문제</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/3">원인</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/3">증거</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">생산성 저하</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">품질 검사 단계의 병목 현상</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">품질 검사에서의 지연 및 불량률 40%</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">높은 재고 수준</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">재고 관리 시스템의 비효율성</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3년 이상 된 재고 및 WIP $28만</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">작업자 간 효율 격차</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">자동화 부족 및 실시간 데이터 부족</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">작업자 효율성 데이터에서 큰 차이 확인</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: AS-IS to TO-BE (프로세스 혁신) -->
+        <section class="p-8 data-card">
+            <h2 class="text-3xl font-bold text-dark-text mb-6 border-l-4 border-secondary-green pl-3">
+                2. AS-IS → TO-BE 프로세스 혁신 (IoT/AI 도입)
+            </h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- AS-IS Diagram (SVG 대체) -->
+                <div class="p-5 bg-gray-50 rounded-lg border-2 border-gray-200">
+                    <h3 class="text-xl font-extrabold text-gray-800 mb-4">AS-IS: 현재 비효율 공정</h3>
+                    <!-- SVG Diagram simulating flow - Mermaid 대체 -->
+                    <svg class="w-full h-auto" viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Arrowhead definition (Red) -->
+                        <defs>
+                            <marker id="arrowhead-red" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#EF4444" />
+                            </marker>
+                        </defs>
+                        
+                        <!-- Row 1: Production -> Quality Check -> Increased Cycle Time -->
+                        <rect x="20" y="30" width="100" height="40" rx="5" fill="#FCA5A5"/>
+                        <text x="70" y="55" font-size="14" fill="#660000" text-anchor="middle">현재 생산 공정</text>
+                        
+                        <rect x="180" y="30" width="100" height="40" rx="5" fill="#FECACA"/>
+                        <text x="230" y="55" font-size="14" fill="#660000" text-anchor="middle">품질 검사 (수작업)</text>
+                        
+                        <rect x="340" y="30" width="140" height="40" rx="5" fill="#DC2626"/>
+                        <text x="410" y="55" font-size="14" fill="white" text-anchor="middle">사이클 타임 증가</text>
+                        
+                        <path d="M120 50 L180 50" stroke="#EF4444" stroke-width="2" marker-end="url(#arrowhead-red)"/>
+                        <text x="150" y="45" font-size="12" fill="#EF4444" text-anchor="middle">수작업</text>
+                        
+                        <path d="M280 50 L340 50" stroke="#EF4444" stroke-width="2" marker-end="url(#arrowhead-red)"/>
+                        <text x="310" y="45" font-size="12" fill="#EF4444" text-anchor="middle">지연/병목</text>
+
+                        <!-- Row 2: Production -> Inventory Management -> High Inventory -->
+                        <rect x="180" y="120" width="100" height="40" rx="5" fill="#FECACA"/>
+                        <text x="230" y="145" font-size="14" fill="#660000" text-anchor="middle">재고 관리 (수작업)</text>
+
+                        <rect x="340" y="120" width="140" height="40" rx="5" fill="#DC2626"/>
+                        <text x="410" y="145" font-size="14" fill="white" text-anchor="middle">높은 재고 수준</text>
+
+                        <path d="M70 70 V 120 M70 140 L 180 140" stroke="#EF4444" stroke-width="2" marker-end="url(#arrowhead-red)"/>
+                        <path d="M120 50 L180 140" style="display:none;"/>
+                        
+                        <path d="M280 140 L340 140" stroke="#EF4444" stroke-width="2" marker-end="url(#arrowhead-red)"/>
+                        <text x="310" y="135" font-size="12" fill="#EF4444" text-anchor="middle">비효율</text>
+                        
+                        <path d="M70 70 V 120" stroke="#EF4444" stroke-width="2"/>
+                        <path d="M70 120 L 180 120" stroke="#EF4444" stroke-width="2" marker-end="url(#arrowhead-red)"/>
+                        <text x="140" y="115" font-size="12" fill="#EF4444" text-anchor="middle">수작업</text>
+
+                    </svg>
+                    <p class="text-sm text-gray-500 mt-2"><strong>문제점:</strong> 수작업 품질 검사 및 재고 관리 → 지연 및 비효율 심화</p>
+                </div>
+
+                <!-- TO-BE Diagram (SVG 대체) -->
+                <div class="p-5 bg-green-50 rounded-lg border-2 border-secondary-green">
+                    <h3 class="text-xl font-extrabold text-gray-800 mb-4">TO-BE: IoT/AI 도입 혁신 공정</h3>
+                    <!-- SVG Diagram simulating flow - Mermaid 대체 -->
+                    <svg class="w-full h-auto" viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Arrowhead definition (Green) -->
+                        <defs>
+                            <marker id="arrowhead-green" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#10B981" />
+                            </marker>
+                        </defs>
+                        
+                        <!-- Row 1: IoT/AI -> Real-time QC -> Reduced Cycle Time -->
+                        <rect x="20" y="30" width="100" height="40" rx="5" fill="#4ade80"/>
+                        <text x="70" y="55" font-size="14" fill="#064E3B" text-anchor="middle">IoT/AI 시스템 도입</text>
+                        
+                        <rect x="180" y="30" width="100" height="40" rx="5" fill="#86EFAC"/>
+                        <text x="230" y="55" font-size="14" fill="#064E3B" text-anchor="middle">실시간 품질 검사 (AI)</text>
+                        
+                        <rect x="340" y="30" width="140" height="40" rx="5" fill="#16A34A"/>
+                        <text x="410" y="55" font-size="14" fill="white" text-anchor="middle">사이클 타임 단축</text>
+
+                        <path d="M120 50 L180 50" stroke="#10B981" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+                        <text x="150" y="45" font-size="12" fill="#10B981" text-anchor="middle">자동화</text>
+                        
+                        <path d="M280 50 L340 50" stroke="#10B981" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+                        <text x="310" y="45" font-size="12" fill="#10B981" text-anchor="middle">지연 감소</text>
+
+                        <!-- Row 2: IoT/AI -> Real-time Inventory -> Inventory Optimization -->
+                        <rect x="180" y="120" width="100" height="40" rx="5" fill="#86EFAC"/>
+                        <text x="230" y="145" font-size="14" fill="#064E3B" text-anchor="middle">실시간 재고 관리 (IoT)</text>
+
+                        <rect x="340" y="120" width="140" height="40" rx="5" fill="#16A34A"/>
+                        <text x="410" y="145" font-size="14" fill="white" text-anchor="middle">재고 최적화</text>
+
+                        <path d="M70 70 V 120" stroke="#10B981" stroke-width="2"/>
+                        <path d="M70 120 L 180 120" stroke="#10B981" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+                        <text x="140" y="115" font-size="12" fill="#10B981" text-anchor="middle">자동화</text>
+                        
+                        <path d="M280 140 L340 140" stroke="#10B981" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+                        <text x="310" y="135" font-size="12" fill="#10B981" text-anchor="middle">비효율 감소</text>
+                    </svg>
+                    <p class="text-sm text-gray-500 mt-2"><strong>기대 효과:</strong> 비전 AI 및 IoT 센서 도입 → 생산성 향상 및 재고 최적화</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: 전략 로드맵 -->
+        <section class="p-8 data-card">
+            <h2 class="text-3xl font-bold text-dark-text mb-8 border-l-4 border-primary-blue pl-3">
+                3. 단계별 전략 로드맵 (총 12주)
+            </h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                
+                <!-- Step 1 (1 Week) -->
+                <div class="roadmap-step p-5 bg-white border-b-4 border-primary-blue rounded-lg shadow-md">
+                    <p class="text-xs font-semibold text-primary-blue uppercase">1단계 | 1주차 (즉시 조치)</p>
+                    <h3 class="text-xl font-extrabold text-dark-text my-2">요구 사항 분석 및 공급업체 선정</h3>
+                    <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                        <li>IoT 센서 및 비전 AI 시스템 <strong class="font-bold">초기 요구 사항 분석</strong></li>
+                        <li>공급업체 선정 및 계약 준비</li>
+                        <li>필요 데이터 포인트 및 <strong class="font-bold">KPI 정의</strong></li>
+                    </ul>
+                </div>
+
+                <!-- Step 2 (4 Weeks) -->
+                <div class="roadmap-step p-5 bg-white border-b-4 border-secondary-green rounded-lg shadow-md">
+                    <p class="text-xs font-semibold text-secondary-green uppercase">2단계 | 4주차</p>
+                    <h3 class="text-xl font-extrabold text-dark-text my-2">IoT 센서 설치 및 초기 데이터 수집</h3>
+                    <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                        <li>생산 라인에 <strong class="font-bold">IoT 센서 설치</strong> 완료</li>
+                        <li>실시간 <strong class="font-bold">데이터 수집 인프라</strong> 구축 시작</li>
+                        <li>에너지 소비 패턴 데이터 분석 준비</li>
+                    </ul>
+                </div>
+
+                <!-- Step 3 (12 Weeks) -->
+                <div class="roadmap-step p-5 bg-white border-b-4 border-accent-red rounded-lg shadow-md">
+                    <p class="text-xs font-semibold text-accent-red uppercase">3단계 | 12주차 (최종 목표)</p>
+                    <h3 class="text-xl font-extrabold text-dark-text my-2">품질 검사 자동화 시스템 운영</h3>
+                    <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                        <li><strong class="font-bold">비전 AI 기반 품질 검사</strong> 자동화 구현</li>
+                        <li>생산성 KPI 비교 분석 및 <strong class="font-bold">불량률 감소 관찰</strong></li>
+                        <li>작업자 효율 격차 해소 및 표준화 작업</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-8 p-4 bg-gray-100 rounded-lg">
+                <h3 class="text-lg font-bold text-dark-text mb-2">검증 가설</h3>
+                <!-- 테이블의 모든 강조를 <strong> 태그로 변환 -->
+                <p class="text-sm text-gray-700">
+                    <span class="inline-block px-3 py-1 bg-primary-blue text-white rounded-full mr-2 mb-1">가설 1</span>
+                    품질 검사 <strong class="font-bold">자동화가 불량률을 감소</strong>시킬 것이다. (비전 AI 기반 시스템 도입 후 불량률 변화 관찰)
+                </p>
+                <p class="text-sm text-gray-700 mt-1">
+                    <span class="inline-block px-3 py-1 bg-secondary-green text-white rounded-full mr-2 mb-1">가설 2</span>
+                    IoT 센서 도입이 <strong class="font-bold">에너지 비용을 절감</strong>할 것이다. (IoT 센서 설치 후 에너지 소비 데이터 분석)
+                </p>
+                <p class="text-sm text-gray-700 mt-1">
+                    <span class="inline-block px-3 py-1 bg-accent-red text-white rounded-full mr-2 mb-1">가설 3</span>
+                    실시간 데이터 수집이 <strong class="font-bold">생산성을 향상</strong>시키고 사이클 타임을 단축할 것이다. (IoT 시스템 도입 후 생산성 KPI 비교 분석)
+                </p>
+            </div>
+        </section>
+
+        <!-- SECTION 4: 추가 데이터 요구 사항 -->
+        <section class="p-8 data-card">
+            <h2 class="text-3xl font-bold text-dark-text mb-6 border-l-4 border-dark-text pl-3">
+                4. 향후 분석을 위한 추가 데이터 요구 사항
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="font-bold text-lg text-primary-blue mb-2">필수 KPI 및 데이터 정의</p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                        <li>각 생산 공정별 실시간 <strong class="font-bold">KPI 정의 및 수집</strong></li>
+                        <li>품질 검사 단계의 <strong class="font-bold">불량률 상세 원인 분석 데이터</strong></li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="font-bold text-lg text-secondary-green mb-2">운영 효율 및 비용 데이터</p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                        <li>에너지 소비 패턴 및 <strong class="font-bold">비용 절감 효과 데이터</strong></li>
+                        <li>작업자별 생산성 및 <strong class="font-bold">효율성 비교 데이터</strong> (개선 전/후)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: Text-to-Speech Demo -->
+        <section class="p-8 data-card bg-primary-blue/10">
+            <h2 class="text-3xl font-bold text-dark-text mb-6 border-l-4 border-primary-blue pl-3">
+                5. Text-to-Speech (TTS) 인포그래픽 요약 듣기
+            </h2>
+            <div class="bg-white p-6 rounded-lg shadow-inner flex flex-col space-y-4">
+                <textarea id="tts-input" rows="3" class="w-full p-3 border border-gray-300 rounded-md focus:ring-primary-blue focus:border-primary-blue" placeholder="음성으로 변환할 텍스트를 입력하세요. 예: IoT 기술 도입으로 품질 검사 병목 현상을 해결하고, 40%의 불량률을 획기적으로 낮출 수 있습니다.">IoT 기술 도입으로 품질 검사 병목 현상을 해결하고, 40%의 불량률을 획기적으로 낮출 수 있으며, 재고 관리 비효율성 문제를 동시에 개선하여 생산성을 혁신할 수 있습니다.</textarea>
+                <div class="flex items-center justify-between">
+                    <button id="tts-play-button" onclick="generateAndPlayAudio()" class="px-6 py-2 bg-primary-blue text-white font-bold rounded-full hover:bg-blue-600 transition duration-300 shadow-lg flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        요약 듣기
+                    </button>
+                    <div id="tts-loading" class="hidden text-primary-blue flex items-center space-x-2">
+                        <svg class="animate-spin h-5 w-5 text-primary-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span>음성 변환 중...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <div style="padding-top: 2em; text-align: center;">
+            <div style="font-weight: 900; color: #6d84f6;">
+                데이터 기반 가치 전환 전략 | Kⁱ⁰⁷ 전략 AI | AI + 온톨로지 기반 제조 전략 플래너    
+                <footer class="text-center text-gray-400 text-sm pt-4 border-t border-gray-300">
+                    This work is based on my personal field analysis of data-driven value transformation strategies.<br>
+                    <p>&copy; 2023 Kⁱ⁰⁷ LangChain 기반 Manufacturing AI Agent. All rights reserved. | 📧 io7hub@naver.com</p>
+                </footer>
+            </div>    
+        </div>
+    </div>
+
+    </div>
+</body>
+</html>
