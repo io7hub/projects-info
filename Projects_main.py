@@ -310,61 +310,6 @@ projects = [
         "tags": ["DMI", "Partners", "KeyInsights", "IoT", "SmartFactory", "DigitalMaturity", "LATAM", "ODA", "DX"]
     },
 ]
-#    {
-#        "id": 31,
-#        "title": "산업용 레이저 커팅 최적화 엔진",
-#        "desc": "Gap-Fill · Nesting 알고리즘",
-#        "img": str(img_path(31)),
-#        "url": str(html_path(31)),
-#        "tags": ["AI", "Agent", "Nesting", "LaserCut", "Optimization"]
-#    },
-#    {
-#        "id": 32,
-#        "title": "Smart Factory Gantt Planner",
-#        "desc": "DX 로드맵 자동 스케줄러",
-#        "img": str(img_path(32)),
-#        "url": str(html_path(32)),
-#        "tags": ["Gantt", "DX_Planner", "Roadmap", "Action_Planner"]
-#    },
-#    {
-#        "id": 33,
-#        "title": "KPI Dashboard Engine (24 KPIs)",
-#        "desc": "경량 KPI 자동계산 엔진",
-#        "img": str(img_path(33)),
-#        "url": str(html_path(33)),
-#        "tags": ["KPI", "Streamlit", "Analytics", "Dashboard"]
-#    },
-#    {
-#        "id": 34,
-#        "title": "IoCrops — 스마트팜 데이터 파이프라인",
-#        "desc": "스마트팜 센서 데이터 통합 및 AI 분석",
-#        "img": str(img_path(34)),
-#        "url": str(html_path(34)),
-#        "tags": ["SmartFarm", "IoT"]
-#    },
-#    {
-#        "id": 35,
-#        "title": "Ecuador Smart Food Innovation Center",
-#        "desc": "에콰도르 식품 R&D 센터 DX 전략",
-#        "img": str(img_path(35)),
-#        "url": str(html_path(35)),
-#        "tags": ["FoodTech", "ODA"]
-#    },
-
-
-    # ----- 11~30 : 기본 템플릿 기반 (수정 가능) -----
-    #[
-    #    {
-    #        "id": i,
-    #        "title": f"Project {i}",
-    #        "desc": f"프로젝트 {i} 상세 설명",
-    #        "img": f"img/p{i:02}.jpg",
-    #        "url": f"projects/p{i:02}.html",
-    #        "tags": ["DX", "AI", "MES"]
-    #    }
-    #    for i in range(11, 31)
-    #]
-
 # ---------------------------------------------------------------
 # 📌 4) 프로젝트 이미지 렌더링 (300x200 고정)
 # ---------------------------------------------------------------
@@ -477,13 +422,13 @@ st.markdown(GLOBAL_CSS, unsafe_allow_html=True)
 
 
 # ---------------------------------------------------------------
-# 📌 6) Header (동일)
+# 📌 6) Header
 # ---------------------------------------------------------------
 HEADER_HTML = """
 <div class="k_header">
     <div class="k_header_title">🌎 Kinam Kim | Portfolio</div>
     <div class="k_header_subtitle">
-        데이터로 현장을 읽고, 전략으로 연결하는 데이터 기반 가치 전환 전략가  Kⁱ⁰⁷ 
+        Kⁱ⁰⁷ 데이터로 현장을 읽고, 전략으로 연결하는 데이터 기반 가치 전환 전략가
     </div>
     <div class="k_header_tagline">
         AI Agent Engineering · IoT  · Ontology · AX Strategy · Manufacturing Intelligence
