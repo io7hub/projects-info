@@ -79,7 +79,7 @@ projects = [
     },
     {
         "id": 2,
-        "title": "제조AI | 전동기 예지보전 MLOps 통합 아키텍처",
+        "title": "제조AI | 전동기 예지보전 통합 아키텍처",
         "desc": "3D Digital Twin - PdM_Edge_MLOps_Streamlit_Architecture",
         "img": str(img_path(2)),
         "url": str(html_path(2)),
