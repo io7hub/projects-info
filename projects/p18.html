@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[DX전략]중남미 현황, 그럼 우리는❔</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+        }
+         @media (max-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .pipeline-step {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .pipeline-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        .module-card {
+            background-color: #1f2937; /* Gray 800 */
+            border: 1px solid #374151; /* Gray 700 */
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .module-card:hover {
+            background-color: #374151; /* Gray 700 */
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300 mb-4">중남미 중소기업 DX 전략</h1>
+            <p class="text-xl text-gray-400 max-w-3xl mx-auto">경량 IoT 플랫폼 기반의 실무형 디지털 전환 솔루션 및 전개 방안</p>
+        </header>
+
+        <main>
+            <section id="challenge" class="mb-20">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700">
+                        <h2 class="text-3xl font-bold text-blue-400 mb-4">도전 과제: 높은 DX 진입 장벽</h2>
+                        <p class="text-gray-300 leading-relaxed">
+                            중남미 중소 제조기업은 대기업용 MES/ERP 시스템 도입에 따르는 과도한 <br>초기 투자 비용과 복잡한 유지보수 문제로 인해 디지털 전환에 어려움을 겪고 있다. 이로 인해 데이터 기반 의사결정 및 생산성 향상에 한계가 발생한다.
+                        </p>
+                    </div>
+                    <div class="bg-gradient-to-br from-blue-500 to-teal-500 p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-white mb-4">우리의 비전: 경량 IoT 솔루션</h2>
+                        <p class="text-blue-100 leading-relaxed">
+                            저비용의 모듈형 IoT 플랫폼을 도입하여, 기업이 가장 필요로 하는 기능부터 신속하게 적용하는 실무형 DX를 추진한다. 단기간에 가시적인 성과를 창출하고, 점진적으로 시스템을 확장하여 투자 리스크를 최소화한다.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="diagnosis" class="mb-20 bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700">
+                <h2 class="text-3xl font-bold text-center text-blue-400 mb-4">현황 진단: 어디에 격차가 있는가?</h2>
+                <p class="text-center text-gray-400 mb-10 max-w-2xl mx-auto">
+                    중남미 중소 제조기업들은 생산 및 품질 관리 역량은 매우 높은 수준(자체 5.0/5.0)을 보였으나, 자원 관리, 지속가능성, 시장 대응 분야에서는 개선이 시급한 것으로 나타났다.
+                </p>
+                <div class="chart-container">
+                    <canvas id="kpiChart"></canvas>
+                </div>
+            </section>
+
+            <section id="strategy" class="mb-20">
+                <h2 class="text-3xl font-bold text-center text-blue-400 mb-10">솔루션 아키텍처: 3-Tier 경량 플랫폼</h2>
+                <div class="flex flex-col md:flex-row items-stretch justify-center gap-4 text-center">
+                    <div class="flex-1 bg-gray-800 p-6 rounded-xl border border-gray-700 flex flex-col items-center justify-center">
+                        <div class="text-5xl mb-4">🖥️</div>
+                        <h3 class="text-xl font-semibold text-teal-300">1. 현장 (Edge)</h3>
+                        <p class="text-gray-400 mt-2">센서, PLC, IoT 게이트웨이(Raspberry Pi)를 통해 생산 현장의 데이터를 실시간으로 수집하고 (전)처리한다.</p>
+                    </div>
+                    <div class="flex items-center justify-center text-5xl font-bold text-blue-500 self-center transform md:rotate-0 rotate-90 my-4 md:my-0">→</div>
+                    <div class="flex-1 bg-gray-800 p-6 rounded-xl border border-gray-700 flex flex-col items-center justify-center">
+                        <div class="text-5xl mb-4">☁️</div>
+                        <h3 class="text-xl font-semibold text-teal-300">2. 클라우드 (Backend)</h3>
+                        <p class="text-gray-400 mt-2">MQTT, NoSQL DB를 사용하여 안정적으로 데이터를 저장하고, API를 통해 외부 시스템과 연동한다.</p>
+                    </div>
+                    <div class="flex items-center justify-center text-5xl font-bold text-blue-500 self-center transform md:rotate-0 rotate-90 my-4 md:my-0">→</div>
+                    <div class="flex-1 bg-gray-800 p-6 rounded-xl border border-gray-700 flex flex-col items-center justify-center">
+                        <div class="text-5xl mb-4">📊</div>
+                        <h3 class="text-xl font-semibold text-teal-300">3. 사용자 (Application)</h3>
+                        <p class="text-gray-400 mt-2">Grafana, BI Tool 등 친숙한 도구를 활용하여 실시간 대시보드, 자동 리포트, KPI 모니터링을 제공한다.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pipeline-simulation" class="mb-20 bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700">
+                <h2 class="text-3xl font-bold text-center text-blue-400 mb-4">AI/BI 통합 협업 파이프라인 시뮬레이션</h2>
+                <p class="text-center text-gray-400 mb-10 max-w-3xl mx-auto">
+                    시나리오: 제조 공정의 핵심관리점(CCP) 이상 발생과 품질 안정 지수(QSI) 하락에 대한 즉시 경고 및 조치 프로세스
+                </p>
+
+                <div class="flex flex-col md:flex-row items-stretch justify-center gap-4 text-center">
+                    
+                    <!-- Step 1: Data Ingestion (IoT) -->
+                    <div class="flex-1 bg-gray-700 p-6 rounded-xl border-t-4 border-teal-400 pipeline-step">
+                        <div class="text-4xl mb-3">⚙️</div>
+                        <h3 class="text-xl font-semibold text-teal-300">1. Data Ingestion <br>(IoT)</h3>
+                        <p class="text-gray-400 mt-2 text-sm">제조 공정의 CCP 온도 데이터가 IoT 게이트웨이를 통해 실시간으로 클라우드 DB에 적재된다.</p>
+                    </div>
+
+                    <div class="flex items-center justify-center text-4xl font-bold text-blue-400 self-center transform md:rotate-0 rotate-90 my-2 md:my-0">→</div>
+
+                    <!-- Step 2: Analysis & Visualization (Streamlit/AI/BI) -->
+                    <div class="flex-1 bg-gray-700 p-6 rounded-xl border-t-4 border-blue-400 pipeline-step">
+                        <div class="text-4xl mb-3">💻</div>
+                        <h3 class="text-xl font-semibold text-blue-300">2. Analysis <br>(Streamlit)</h3>
+                        <p class="text-gray-400 mt-2 text-sm">Streamlit UI에서 데이터가 분석되어 QSI(품질 안정 지수)를 계산하고, AI 모델이 임계치 이탈을 감지한다.</p>
+                    </div>
+
+                    <div class="flex items-center justify-center text-4xl font-bold text-blue-400 self-center transform md:rotate-0 rotate-90 my-2 md:my-0">→</div>
+                    
+                    <!-- Step 3: Alert & Discussion (Google Chat) -->
+                    <div class="flex-1 bg-gray-700 p-6 rounded-xl border-t-4 border-green-400 pipeline-step">
+                        <div class="text-4xl mb-3">💬</div>
+                        <h3 class="text-xl font-semibold text-green-300">3. Alert <br>(Google Chat)</h3>
+                        <p class="text-gray-400 mt-2 text-sm">QSI 70% 이하 감지 시, Streamlit Webhook이 Google Chat 채널로 "🚨 긴급 경고" 알림을 즉시 발송한다.</p>
+                    </div>
+
+                    <div class="flex items-center justify-center text-4xl font-bold text-blue-400 self-center transform md:rotate-0 rotate-90 my-2 md:my-0">→</div>
+
+                    <!-- Step 4: Action & Tracking (Trello) -->
+                    <div class="flex-1 bg-gray-700 p-6 rounded-xl border-t-4 border-red-400 pipeline-step">
+                        <div class="text-4xl mb-3">✅</div>
+                        <h3 class="text-xl font-semibold text-red-300">4. Action <br>(Trello)</h3>
+                        <p class="text-gray-400 mt-2 text-sm">Chat에서 상황 파악 후, 조치 계획을 Trello에 '긴급 Task' 카드 생성. 담당자 배정 및 해결 완료까지 추적한다.</p>
+                    </div>
+                </div>
+                <div class="mt-8 text-center">
+                    <p class="text-lg font-semibold text-gray-300 bg-gray-700 p-3 rounded-xl border border-gray-600">
+                        🔑 핵심: 저비용의 협업 툴(Google Chat, Trello)을 활용하여 분석 결과를 행동(Action)으로 전환하는 폐쇄 루프 구축.
+                    </p>
+                </div>
+            </section>
+            
+            <section id="erde-modules" class="mb-20">
+                <h2 class="text-3xl font-bold text-center text-blue-400 mb-6">IT Solution 기업의 4대 핵심 모듈 (신시장 개척 아이템)</h2>
+                <p class="text-center text-gray-400 mb-10 max-w-3xl mx-auto">
+                    중남미 시장에 맞춤형 전략으로 제시하는 다음 4가지 핵심 모듈은 경량 IoT 플랫폼 기반으로, <br>기업 별 당면 문제를 저비용으로 해결할 수 있다.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Module 1: Fabrik Monitor -->
+                    <div class="module-card border-l-4 border-teal-400">
+                        <div class="text-4xl mb-3 text-teal-400">📈</div>
+                        <h3 class="text-xl font-bold text-teal-300">Fabrik Monitor(가시화)</h3>
+                        <p class="text-gray-400 mt-2 text-sm">주요 제조 설비, PLC 등 생산 설비 가동 상태, OEE(종합효율), 비가동 시간을 <br>실시간으로 수집하고 대시보드화한다.</p>
+                    </div>
+                    
+                    <!-- Module 2: QSI Keeper -->
+                    <div class="module-card border-l-4 border-blue-400">
+                        <div class="text-4xl mb-3 text-blue-400">🌡️</div>
+                        <h3 class="text-xl font-bold text-blue-300">QSI Keeper (품질 안정화)</h3>
+                        <p class="text-gray-400 mt-2 text-sm">CCP(핵심관리점) 온도, 압력 등 품질 <br>데이터를 자동 로깅하고, AI 분석을 통해 임계치 이탈 시 즉시 알림을 제공한다.</p>
+                    </div>
+
+                    <!-- Module 3: Eco-Sense -->
+                    <div class="module-card border-l-4 border-green-400">
+                        <div class="text-4xl mb-3 text-green-400">⚡</div>
+                        <h3 class="text-xl font-bold text-green-300">Eco-Sense (에너지 효율)</h3>
+                        <p class="text-gray-400 mt-2 text-sm">전력, 가스, 용수 등의 유틸리티 소비 데이터를 분석하여 낭비 요소를 식별하고, 에너지 절감 기회를 발굴한다.</p>
+                    </div>
+                    
+                    <!-- Module 4: MES Lite -->
+                    <div class="module-card border-l-4 border-red-400">
+                        <div class="text-4xl mb-3 text-red-400">📝</div>
+                        <h3 class="text-xl font-bold text-red-300">MES Lite (경량 MES)</h3>
+                        <p class="text-gray-400 mt-2 text-sm">작업 지시, 생산 이력, WIP, 재고 현황을 간편하게 관리하고, ERP와의 필수 데이터 연동을 지원한다.</p>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="execution" class="mb-20">
+                <h2 class="text-3xl font-bold text-center text-blue-400 mb-10">실행 계획: 기업별 맞춤형 DX 솔루션 (현지화 모듈 접목)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <div class="bg-gray-800 rounded-2xl shadow-2xl p-6 border border-gray-700 flex flex-col">
+                        <h3 class="text-2xl font-bold text-teal-300">CASE A</h3>
+                        <p class="text-sm text-gray-400 mb-4">디지털 성숙도: 매우 높음 (83점) <br> <strong class="text-red-400">핵심 문제:</strong> 공정 연결 부족, 에너지 효율 분석 미흡.</p>
+                        <div class="w-40 h-40 mx-auto my-4"><canvas id="alsasaChart"></canvas></div>
+                        <p class="text-gray-300 mb-2"><strong class="text-green-400">솔루션 1: Fabrik Monitor</strong> <br>CNC 가동률, OEE 실시간 모니터링</p>
+                        <p class="text-gray-300 flex-grow"><strong class="text-green-400">솔루션 2: Eco-Sense</strong> <br>에너지 소비 패턴 분석</p>
+                        <p class="mt-4 text-center font-bold text-lg bg-gray-700 text-teal-300 rounded-lg py-2">OEE, 에너지 효율 개선</p>
+                    </div>
+
+                    <div class="bg-gray-800 rounded-2xl shadow-2xl p-6 border border-gray-700 flex flex-col">
+                        <h3 class="text-2xl font-bold text-teal-300">CASE B</h3>
+                        <p class="text-sm text-gray-400 mb-4">디지털 성숙도: 상/중상 (74/69점) <br> <strong class="text-red-400">핵심 문제:</strong> 데이터 표준화 및 ERP 통합 부족.</p>
+                        <div class="w-40 h-40 mx-auto my-4"><canvas id="andelsaMelherChart"></canvas></div>
+                        <p class="text-gray-300 mb-2"><strong class="text-green-400">솔루션 1: QSI Keeper</strong> <br>CCP 자동 데이터 로깅 및 알림</p>
+                        <p class="text-gray-300 flex-grow"><strong class="text-green-400">솔루션 2: MES Lite</strong> <br>품질 데이터의 MES/ERP 연계 강화</p>
+                        <p class="mt-4 text-center font-bold text-lg bg-gray-700 text-teal-300 rounded-lg py-2">품질 안정 지수(QSI) 및 데이터 신뢰도 향상</p>
+                    </div>
+
+                    <div class="bg-gray-800 rounded-2xl shadow-2xl p-6 border border-gray-700 flex flex-col">
+                        <h3 class="text-2xl font-bold text-teal-300">CASE C</h3>
+                        <p class="text-sm text-gray-400 mb-4">디지털 성숙도: 중간 (63점) <br> <strong class="text-red-400">핵심 문제:</strong> 보고서 자동화 및 데이터 분석 역량 미흡.</p>
+                        <div class="w-40 h-40 mx-auto my-4"><canvas id="tamosaChart"></canvas></div>
+                        <p class="text-gray-300 mb-2"><strong class="text-green-400">솔루션 1: Fabrik Monitor</strong> <br>실시간 KPI 대시보드 구축</p>
+                        <p class="text-gray-300 flex-grow"><strong class="text-green-400">솔루션 2: MES Lite</strong> <br>생산 계획 대비 실적 자동 보고</p>
+                        <p class="mt-4 text-center font-bold text-lg bg-gray-700 text-teal-300 rounded-lg py-2">리드타임, 보고서 자동화 개선</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="next-steps" class="text-center bg-gray-800 p-10 rounded-2xl shadow-2xl border border-gray-700">
+                <h2 class="text-3xl font-bold text-blue-400 mb-6">다음 단계 및 기대효과</h2>
+                <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-semibold text-teal-300 mb-2">PoC 중심의 신속한 적용</h3>
+                        <p class="text-gray-400">1~2개 핵심 공정에 ERDE의 모듈을 시범 적용하여 3개월 내 가시적인 성과를 <br>창출하고, 성공 사례를 기반으로 점진적으로 확대한다.</p>
+                    </div>
+                     <div class="flex-1">
+                        <h3 class="text-2xl font-semibold text-teal-300 mb-2">현지 파트너십 강화</h3>
+                        <p class="text-gray-400">중남미 현지 IT 기업과 협력하여 솔루션의 현지화, 신속한 유지보수, <br>그리고 지속가능한 DX 생태계를 구축한다.</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="text-center mt-20 pt-8 border-t border-slate-700">
+            <p class="text-slate-500">Building a Sustainable Digital Ecosystem for El Salvador's Future. <br>
+                This work is based on my personal field analysis of data-driven value transformation strategies. <br>
+                © 2024 Kⁱ⁰⁷ All rights reserved. | 📧 io7hub@naver.com
+            </p>
+        </footer>
+
+
+    </div>
+
+    <script>
+        const wrapLabel = (label) => {
+            if (label.length > 16) {
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                words.forEach(word => {
+                    if ((currentLine + word).length > 16) {
+                        lines.push(currentLine.trim());
+                        currentLine = '';
+                    }
+                    currentLine += word + ' ';
+                });
+                lines.push(currentLine.trim());
+                return lines;
+            }
+            return label;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+
+        const kpiData = {
+            labels: [
+                wrapLabel('생산성·품질 안정형'),
+                wrapLabel('자원관리 효율형'),
+                wrapLabel('지속가능 운영형'),
+                wrapLabel('시장 대응형')
+            ],
+            datasets: [{
+                label: 'KPI 평균 점수 (Max 5.0)',
+                data: [5.0, 3.5, 2.0, 2.0],
+                backgroundColor: [
+                    'rgba(5, 150, 105, 0.6)', 
+                    'rgba(59, 130, 246, 0.6)',
+                    'rgba(239, 68, 68, 0.6)',
+                    'rgba(245, 158, 11, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(5, 150, 105, 1)',
+                    'rgba(59, 130, 246, 1)',
+                    'rgba(239, 68, 68, 1)',
+                    'rgba(245, 158, 11, 1)'
+                ],
+                borderWidth: 1,
+                borderRadius: 5,
+            }]
+        };
+
+        const kpiConfig = {
+            type: 'bar',
+            data: kpiData,
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 5,
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        ticks: { color: '#d1d5db', font: { size: 14 } }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { color: '#d1d5db', font: { size: 14 } }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                }
+            }
+        };
+
+        new Chart(
+            document.getElementById('kpiChart'),
+            kpiConfig
+        );
+        
+        function createDonutChart(canvasId, score, color) {
+            const data = {
+                labels: ['달성', '미달'],
+                datasets: [{
+                    data: [score, 100 - score],
+                    backgroundColor: [color, '#4b5563'],
+                    borderColor: '#1f2937',
+                    borderWidth: 4,
+                    hoverOffset: 4
+                }]
+            };
+
+            const config = {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    cutout: '70%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    }
+                }
+            };
+            
+            new Chart(document.getElementById(canvasId), config);
+        }
+
+        createDonutChart('alsasaChart', 83, '#2dd4bf');
+        createDonutChart('andelsaMelherChart', 72, '#60a5fa');
+        createDonutChart('tamosaChart', 63, '#f59e0b');
+
+    </script>
+</body>
+</html>
+
