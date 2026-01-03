@@ -591,7 +591,7 @@ for i in range(0, len(projects), cols_per_row):
         """, unsafe_allow_html=True)
 
     st.markdown("<hr>", unsafe_allow_html=True)
-
+    st.balloons()
 
 # ---------------------------------------------------------------
 # 📌 푸터
