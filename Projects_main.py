@@ -484,15 +484,88 @@ if st.session_state.selected is not None:
         # ----------------------------------------------------
         # 🚀 HTML 상세 페이지 렌더링 로직 (안정화)
         # ----------------------------------------------------
+        def inject_before_close_tag(html: str, snippet: str) -> str:
+            lower = html.lower()
+            i = lower.rfind("</body>")
+            if i != -1:
+                return html[:i] + snippet + html[i:]
+            i = lower.rfind("</html>")
+            if i != -1:
+                return html[:i] + snippet + html[i:]
+            return html + snippet
+
+
         if file_path.suffix.lower() == ".html":
-            
+
             if file_path.exists():
                 try:
                     raw_html = load_html(file_path)
                     fixed = render_html_with_fixed_img(raw_html)
-                    # 💡 st.components.v1.html 사용 (HTML 파일 렌더링)
-                    # HTML 상세 내용이 여기에 로드됩니다. 메시지는 테스트용이므로 제거
-                    st.components.v1.html(fixed, height=8000, scrolling=True)
+
+                    # ✅ 문서 높이만큼 iframe(height) 자동 조정 스크립트
+                    # - 이미지/폰트 로딩 이후에도 1~2회 재계산
+                    # - 필요하면 cap을 걸어 과도한 높이 방지 가능
+                    auto_height_script = """
+                    <script>
+                    (function () {
+                    function docHeight() {
+                        const b = document.body;
+                        const e = document.documentElement;
+                        return Math.max(
+                        b ? b.scrollHeight : 0,
+                        e ? e.scrollHeight : 0,
+                        b ? b.offsetHeight : 0,
+                        e ? e.offsetHeight : 0
+                        );
+                    }
+
+                    function resizeFrame() {
+                        try {
+                        // 문서 기본 여백 제거(선택)
+                        document.documentElement.style.margin = "0";
+                        document.body.style.margin = "0";
+
+                        const h = docHeight() + 16;  // 약간의 여유
+
+                        // (선택) 너무 큰 문서로 인한 성능 이슈가 있으면 cap 사용
+                        // const cap = 50000; 
+                        // const finalH = Math.min(h, cap);
+
+                        const finalH = h;
+
+                        if (window.frameElement) {
+                            window.frameElement.style.height = finalH + "px";
+                            window.frameElement.style.width = "100%";
+                        }
+                        } catch (e) {}
+                    }
+
+                    // 초기 1회
+                    resizeFrame();
+
+                    // 로드 후(이미지/폰트 반영)
+                    window.addEventListener("load", function () {
+                        resizeFrame();
+                        setTimeout(resizeFrame, 100);
+                        setTimeout(resizeFrame, 300);
+                    }, { once: true });
+
+                    // DOM 변화가 있을 때만 반영 (가볍게)
+                    try {
+                        const ro = new ResizeObserver(() => resizeFrame());
+                        ro.observe(document.documentElement);
+                        ro.observe(document.body);
+                    } catch (e) {}
+                    })();
+                    </script>
+                    """
+
+                    final_html = inject_before_close_tag(fixed, auto_height_script)
+
+                    # ✅ 핵심: scrolling=False (iframe 내부 스크롤 제거)
+                    # ✅ height는 “초기값”일 뿐, 스크립트가 최종 높이를 덮어씀
+                    st.components.v1.html(final_html, height=600, scrolling=False)
+
                 except Exception as e:
                     st.error(f"HTML 파일을 불러오는 중 오류가 발생했습니다: {e}")
                     st.warning(f"파일 경로: {str(file_path)}")
