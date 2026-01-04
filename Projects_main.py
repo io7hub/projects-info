@@ -65,6 +65,9 @@ st.set_page_config(
 if "selected" not in st.session_state:
     st.session_state.selected = None
 
+
+    st.balloons()
+
 # ---------------------------------------------------------------
 # 📌 3) 프로젝트 메타데이터 (직접 입력 방식)
 # ---------------------------------------------------------------
@@ -664,7 +667,7 @@ for i in range(0, len(projects), cols_per_row):
         """, unsafe_allow_html=True)
 
     st.markdown("<hr>", unsafe_allow_html=True)
-    st.balloons()
+
 
 # ---------------------------------------------------------------
 # 📌 푸터
