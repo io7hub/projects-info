@@ -66,7 +66,7 @@ if "selected" not in st.session_state:
     st.session_state.selected = None
 
 
-    st.balloons()
+st.balloons()
 
 # ---------------------------------------------------------------
 # 📌 3) 프로젝트 메타데이터 (직접 입력 방식)
