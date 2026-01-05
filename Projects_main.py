@@ -413,12 +413,14 @@ body, .stApp, p, h1, h2, h3, h4, .stText, .stMarkdown {
 }
 /* 헤더 스타일 */
 .header-container {
-    background: linear-gradient(135deg, #005CFF 0%, #00C06F 100%);
-    padding: 3rem 2rem;
-    border-radius: 10px;
-    margin-bottom: 2rem;
+    width: 100%;
+    padding: 40px 10px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #005CFF, #00C06F);
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    color: white;
+    /* 기존 margin-bottom 유지 */
+    margin-bottom: 1rem;
 }
 
 .header-title {
