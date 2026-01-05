@@ -312,6 +312,30 @@ projects = [
         "url": str(html_path(30)),
         "tags": ["DMI", "Partners", "KeyInsights", "IoT", "SmartFactory", "DigitalMaturity", "LATAM", "ODA", "DX"]
     },
+    {
+        "id": 31,
+        "title": "전략AI | LATAM 파트너 디지털 성숙도 분석",
+        "desc": "7개 파트너 기업 DX 성숙도 진단 및 시장 분석",
+        "img": str(img_path(31)),
+        "url": str(html_path(31)),
+        "tags": ["DMI", "Partners", "KeyInsights", "IoT", "SmartFactory", "DigitalMaturity", "LATAM", "ODA", "DX"]
+    },
+    {
+        "id": 32,
+        "title": "전략AI | LATAM 파트너 디지털 성숙도 분석",
+        "desc": "7개 파트너 기업 DX 성숙도 진단 및 시장 분석",
+        "img": str(img_path(32)),
+        "url": str(html_path(32)),
+        "tags": ["DMI", "Partners", "KeyInsights", "IoT", "SmartFactory", "DigitalMaturity", "LATAM", "ODA", "DX"]
+    },
+    {
+        "id": 33,
+        "title": "전략AI | 생산 ROI 기준선 분석 AGENT",
+        "desc": "보유 데이터 기반으로 AI 에이전트가 Baseline을 확립하고, 문제를 진단·시각화하여 ROI 중심의 실행 과제 우선순위를 제시하는 플랫폼",
+        "img": str(img_path(33)),
+        "url": str(html_path(33)),
+        "tags": ["전략 AI", "수기 데이터", "기준선 분석", "IoT 연동", "실시간 시각화", "클라우드", "LATAM", "ODA", "DX"]
+    },
 ]
 # ---------------------------------------------------------------
 # 📌 4) 프로젝트 이미지 렌더링 (300x200 고정)
