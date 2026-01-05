@@ -411,25 +411,29 @@ body {
 body, .stApp, p, h1, h2, h3, h4, .stText, .stMarkdown {
     font-family: 'Noto Sans KR', sans-serif !important; 
 }
-/* Header */
-.k_header {
-    width: 100%;
-    padding: 40px 10px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #005CFF, #00C06F);
+/* 헤더 스타일 */
+.header-container {
+    background: linear-gradient(135deg, #0066cc 0%, #00cc99 100%);
+    padding: 3rem 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
     text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.header-title {
     color: white;
-    /* 기존 margin-bottom 유지 */
-    margin-bottom: 1rem; 
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
 }
-.k_header_title {
-    font-size: 42px;
-    font-weight: 900;
+
+.header-subtitle {
+    color: rgba(255,255,255,0.9);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
 }
-.k_header_subtitle {
-    font-size: 20px;
-    margin-top: 10px;
-}
+
 .header-tags {
     display: flex;
     justify-content: center;
@@ -444,12 +448,6 @@ body, .stApp, p, h1, h2, h3, h4, .stText, .stMarkdown {
     border-radius: 20px;
     color: white;
     font-size: 0.9rem;
-}
-
-.k_header_tagline {
-    font-size: 16px;
-    opacity: 0.9;
-    margin-top: 6px;
 }
 
 /* Project Cards */
@@ -484,9 +482,9 @@ st.markdown(GLOBAL_CSS, unsafe_allow_html=True)
 # 📌 6) Header
 # ---------------------------------------------------------------
 HEADER_HTML = """
-<div class="k_header">
-    <div class="k_header_title">🌎 Kinam Kim | Portfolio</div>
-    <div class="k_header_subtitle">
+<div class="header-container">
+    <div class="header-title">🌎 Kinam Kim | Portfolio</div>
+    <div class="header-subtitle">
         Kⁱ⁰⁷ 데이터로 현장을 읽고, 전략으로 연결하는 데이터 기반 가치 전환 전략가
     </div>
     <div class="header-tags">
