@@ -699,6 +699,17 @@ div.stButton > button:active {
 # -----------------------------------------------------------
 # st.subheader("📁 프로젝트 목록")
 st.markdown('<div class="header-container">📁 프로젝트 목록</div>', unsafe_allow_html=True)
+LIAST_HTML = """
+<div class="header-container">
+    <div class="header-title">📁 프로젝트 목록</div>
+    <div class="header-tags">
+        <span class="header-tag">📁 프로젝트 목록</span>
+    </div>
+</div>
+"""
+st.markdown(LIAST_HTML, unsafe_allow_html=True)
+
+
 
 cols_per_row = 3
 
