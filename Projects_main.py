@@ -722,7 +722,7 @@ div.stButton > button:active {
 st.subheader("📁 프로젝트 목록")
 LIST_HTML = """
 <div class="stList header-container">
-    <div class="st.subheader">📁 프로젝트 목록</div>
+    <div>📁 프로젝트 목록</div>
 </div>
 """
 st.markdown(LIST_HTML, unsafe_allow_html=True)
