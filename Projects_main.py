@@ -314,11 +314,11 @@ projects = [
     },
     {
         "id": 31,
-        "title": "전략AI | LATAM 파트너 디지털 성숙도 분석",
-        "desc": "7개 파트너 기업 DX 성숙도 진단 및 시장 분석",
+        "title": "전략AI | LATAM 경영 전략 보고서",
+        "desc": "Kⁱ⁰⁷ Manufacturing Intelligence Platform 기반 경영 전략 보고서",
         "img": str(img_path(31)),
         "url": str(html_path(31)),
-        "tags": ["전략 AI", "DMI", "Partners", "KeyInsights", "IoT", "SmartFactory", "DigitalMaturity", "LATAM", "ODA", "DX"]
+        "tags": ["전략 AI", "하이브리드 인텔리전스", "AI", "Ontology", "LangChain", "Graphviz", "3D Simulator", "LATAM", "ODA", "DX"]
     },
     {
         "id": 32,
