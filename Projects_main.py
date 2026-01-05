@@ -452,6 +452,15 @@ body, .stApp, p, h1, h2, h3, h4, .stText, .stMarkdown {
     font-size: 0.9rem;
 }
 
+.list-title {
+    background: rgba(255,255,255,0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
 /* Project Cards */
 .k_card {
     padding: 10px;
@@ -697,11 +706,10 @@ div.stButton > button:active {
 # -----------------------------------------------------------
 # (2) 프로젝트 카드 UI
 # -----------------------------------------------------------
-# st.subheader("📁 프로젝트 목록")
+st.subheader("📁 프로젝트 목록")
 st.markdown('<div class="header-container">📁 프로젝트 목록</div>', unsafe_allow_html=True)
 LIAST_HTML = """
-<div class="header-container">
-    <div class="header-title">📁 프로젝트 목록</div>
+<div class="list-title">📁 프로젝트 목록</div>
     <div class="header-tags">
         <span class="header-tag">📁 프로젝트 목록</span>
     </div>
