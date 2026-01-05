@@ -682,28 +682,6 @@ div.stButton > button:hover {
     background: linear-gradient(135deg, #264B8E 0%, #3C66B2 50%, #6B91D6 100%) !important;
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(50, 120, 255, 0.45) !important;
-}
-
-div.stList {
-    /* Gradient background */
-    background: linear-gradient(135deg, #1E3C72 0%, #2A5298 50%, #0E1117 100%) !important;
-
-    /* Text */
-    color: white !important;
-    font-family: 'Noto Sans KR', sans-serif !important;         
-    font-weight: 600 !important;
-    font-size: 17px !important;
-    text-align: left !important;
-    justify-content: flex-start !important;
-    padding-left: 16px !important;
-
-    /* Shape */
-    border-radius: 12px !important;
-    border: none !important;
-
-    /* Premium shadow */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25) !important;
-    transition: all 0.25s ease-in-out !important;
 }         
 
 /* Active (click) effect */
@@ -719,7 +697,7 @@ div.stButton > button:active {
 # -----------------------------------------------------------
 # (2) 프로젝트 카드 UI
 # -----------------------------------------------------------
-st.subheader("📁 프로젝트 목록")
+# st.subheader("📁 프로젝트 목록")
 st.markdown('<div class="header-container">📁 프로젝트 목록</div>', unsafe_allow_html=True)
 
 cols_per_row = 3
