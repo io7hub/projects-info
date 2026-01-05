@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kⁱ⁰⁷ Platform - Para Gerentes de Producción</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif !important;
+            background: linear-gradient(135deg, #0a1929 0%, #1e293b 50%, #0f172a 100%);
+            color: #e2e8f0;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #60a5fa, #34d399);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: slideDown 1s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            color: #93c5fd;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #64748b;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #60a5fa;
+            text-align: center;
+            margin: 4rem 0 2rem 0;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(30, 64, 175, 0.1));
+            border-radius: 1.5rem;
+            border: 3px solid #3b82f6;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Grid System */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* Cards */
+        .card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+            border: 2px solid rgba(59, 130, 246, 0.4);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 70px rgba(59, 130, 246, 0.5);
+            border-color: #3b82f6;
+        }
+
+        /* Problem Box */
+        .problem-box {
+            background: rgba(239, 68, 68, 0.15);
+            border-left: 6px solid #ef4444;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .problem-box h3 {
+            color: #f87171;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .problem-box ul {
+            margin-left: 1.5rem;
+            color: #cbd5e1;
+        }
+
+        .problem-box li {
+            margin: 0.5rem 0;
+            font-size: 1.05rem;
+        }
+
+        /* Solution Box */
+        .solution-box {
+            background: rgba(16, 185, 129, 0.15);
+            border-left: 6px solid #10b981;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .solution-box h3 {
+            color: #34d399;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .solution-box ul {
+            margin-left: 1.5rem;
+            color: #cbd5e1;
+        }
+
+        .solution-box li {
+            margin: 0.5rem 0;
+            font-size: 1.05rem;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(59, 130, 246, 0.15);
+            border: 2px solid #3b82f6;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .info-box h3 {
+            color: #60a5fa;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-box p {
+            color: #e2e8f0;
+            font-size: 1.2rem;
+        }
+
+        /* Metrics */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .metric {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+            border: 3px solid rgba(59, 130, 246, 0.5);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .metric:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 50px rgba(59, 130, 246, 0.5);
+        }
+
+        .metric-value {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .metric-label {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            font-weight: 700;
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .metric-delta {
+            font-size: 1rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+        }
+
+        /* ROI Highlight */
+        .roi-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(5, 150, 105, 0.35));
+            border: 4px solid #10b981;
+            border-radius: 2rem;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .roi-box h2 {
+            color: #10b981;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .roi-box p {
+            color: #6ee7b7;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Timeline */
+        .timeline {
+            margin: 3rem 0;
+        }
+
+        .timeline-item {
+            background: rgba(30, 41, 59, 0.6);
+            border-left: 5px solid #3b82f6;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 2rem;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+        }
+
+        .timeline-item h3 {
+            color: #60a5fa;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-item p {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Feature Grid */
+        .feature-item {
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: left;
+        }
+
+        .feature-item h4 {
+            color: #60a5fa;
+            font-size: 1.3rem;
+            margin: 1rem 0;
+        }
+
+        .feature-item .emoji {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-item ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+
+        .feature-item li {
+            color: #cbd5e1;
+            padding: 0.3rem 0;
+        }
+
+        .feature-item li::before {
+            content: '✅ ';
+            margin-right: 0.5rem;
+        }
+
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.3));
+            border: 3px solid #10b981;
+            border-radius: 2rem;
+            padding: 3rem;
+            margin: 4rem 0;
+            text-align: center;
+        }
+
+        .cta h2 {
+            color: #10b981;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            color: #e2e8f0;
+            font-size: 1.3rem;
+            margin: 1rem 0;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 1.5rem 3rem;
+            border-radius: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            margin-top: 2rem;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.7);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 5rem;
+            border-top: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .footer h2 {
+            background: linear-gradient(135deg, #60a5fa, #34d399);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        /* 모든 링크의 밑줄 제거 */
+        a {
+            text-decoration: none !important;
+        }
+        
+        /* 마우스를 올렸을 때만 밑줄이 생기게 하려면 (선택 사항) */
+        a:hover {
+            text-decoration: underline !important;
+            color: #4e4bff; /* 강조색 추가 가능 */
+        }
+
+        .footer p {
+            color: #64748b;
+            margin: 0.5rem 0;
+        }
+
+        /* Divider */
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #3b82f6, #8b5cf6, #ec4899, transparent);
+            margin: 4rem 0;
+            border-radius: 10px;
+        }
+
+        /* Chart container */
+        .chart-container {
+            background: rgba(15, 23, 42, 0.6);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .grid, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HERO -->
+        <div class="hero">
+            <h1>🏭 Su Día Cambiará Hoy</h1>
+            <h2>De 2 Horas de Excel → 11 Minutos con IA</h2>
+            <p>Para Gerentes de Producción de Tubería en LATAM</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SECTION 1: YOUR REALITY -->
+        <div class="section-title">😓 Su Realidad Diaria</div>
+        <p style="text-align:center;color:#94a3b8;font-size:1.2rem;margin-bottom:3rem;">
+            Los desafíos que enfrenta cada día...
+        </p>
+
+        <div class="grid">
+            <div class="card">
+                <div class="problem-box">
+                    <h3>🕐 7:00 AM - Turno Nocturno</h3>
+                    <ul>
+                        <li>Revisar reportes en papel del turno</li>
+                        <li>¿Cuántos tubos defectuosos?</li>
+                        <li>¿Por qué falló la soldadura otra vez?</li>
+                        <li>Llamar al operador: "¿Qué pasó?"</li>
+                    </ul>
+                </div>
+
+                <div class="problem-box">
+                    <h3>📊 9:00 AM - Excel</h3>
+                    <ul>
+                        <li>Abrir 5 archivos Excel diferentes</li>
+                        <li>Copiar datos manualmente</li>
+                        <li>Calcular KPIs a mano</li>
+                        <li>¿Este número está bien? 🤔</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="problem-box">
+                    <h3>📞 11:00 AM - Jefe Llamando</h3>
+                    <ul>
+                        <li>"¿Por qué bajó la producción?"</li>
+                        <li>"Necesito el reporte AHORA"</li>
+                        <li>Todavía calculando en Excel...</li>
+                        <li>Cliente quejándose de calidad</li>
+                    </ul>
+                </div>
+
+                <div class="problem-box">
+                    <h3>😰 2:00 PM - Auditoría</h3>
+                    <ul>
+                        <li>"¿Dónde están los datos de ayer?"</li>
+                        <li>Buscar en cuadernos...</li>
+                        <li>¿Cumplimos IATF 16949?</li>
+                        <li>Rezar que todo esté en orden 🙏</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Impact Stats -->
+        <h3 style="text-align:center;color:#f87171;font-size:2rem;margin:3rem 0 2rem 0;">
+            📉 El Costo de Este Sistema
+        </h3>
+        <div class="metrics">
+            <div class="metric">
+                <div class="metric-value">2+ hrs</div>
+                <div class="metric-label">Tiempo Perdido</div>
+                <div class="metric-delta">análisis diario</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">30%</div>
+                <div class="metric-label">Errores</div>
+                <div class="metric-delta">en cálculo manual</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">0 hrs</div>
+                <div class="metric-label">Decisiones</div>
+                <div class="metric-delta">para mejoras</div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SECTION 2: THE SOLUTION -->
+        <div class="section-title">✨ La Solución: Kⁱ⁰⁷ Platform</div>
+
+        <div class="info-box">
+            <h3>🤖 IA + 📋 Normas = 💎 Decisiones Perfectas</h3>
+            <p>Inteligencia Artificial que ENTIENDE sus normas de manufactura</p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="solution-box">
+                    <h3>🕐 7:05 AM - 5 Minutos Después</h3>
+                    <ul>
+                        <li>✅ Todos los datos del turno cargados</li>
+                        <li>✅ IA analizó automáticamente</li>
+                        <li>✅ Reporte completo listo</li>
+                        <li>✅ "Soldadura falló: temperatura -15°C"</li>
+                    </ul>
+                </div>
+
+                <div class="solution-box">
+                    <h3>📊 7:10 AM - Listo para Café</h3>
+                    <ul>
+                        <li>✅ KPIs calculados (100% precisión)</li>
+                        <li>✅ Gráficas 3D generadas</li>
+                        <li>✅ Comparación IA vs Normas</li>
+                        <li>✅ Ya puede tomar su café ☕</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="solution-box">
+                    <h3>📞 7:15 AM - Jefe Impresionado</h3>
+                    <ul>
+                        <li>✅ Enviar reporte por WhatsApp (PDF)</li>
+                        <li>✅ "¡Excelente trabajo! 👏"</li>
+                        <li>✅ Cliente recibe datos en tiempo real</li>
+                        <li>✅ Usted es el héroe del día 🦸</li>
+                    </ul>
+                </div>
+
+                <div class="solution-box">
+                    <h3>😊 7:20 AM - Tiempo Libre</h3>
+                    <ul>
+                        <li>✅ Auditoría preparada automáticamente</li>
+                        <li>✅ Todo cumple IATF 16949</li>
+                        <li>✅ Datos trazables 100%</li>
+                        <li>✅ Planear mejoras del proceso 🚀</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Impact Comparison -->
+        <h3 style="text-align:center;color:#34d399;font-size:2rem;margin:3rem 0 2rem 0;">
+            🎯 El Impacto
+        </h3>
+        <div class="metrics">
+            <div class="metric" style="border-color:#10b981;">
+                <div class="metric-value" style="background:linear-gradient(135deg,#10b981,#059669);background-clip:text;-webkit-text-fill-color:transparent;">11 min</div>
+                <div class="metric-label">Análisis</div>
+                <div class="metric-delta" style="color:#6ee7b7;">vs 2+ horas</div>
+            </div>
+            <div class="metric" style="border-color:#10b981;">
+                <div class="metric-value" style="background:linear-gradient(135deg,#10b981,#059669);background-clip:text;-webkit-text-fill-color:transparent;">0%</div>
+                <div class="metric-label">Errores</div>
+                <div class="metric-delta" style="color:#6ee7b7;">vs 30%</div>
+            </div>
+            <div class="metric" style="border-color:#10b981;">
+                <div class="metric-value" style="background:linear-gradient(135deg,#10b981,#059669);background-clip:text;-webkit-text-fill-color:transparent;">90%</div>
+                <div class="metric-label">Tiempo</div>
+                <div class="metric-delta" style="color:#6ee7b7;">ahorrado</div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SECTION 3: HOW IT WORKS -->
+        <div class="section-title">⚙️ Cómo Funciona (Un ejemplo)</div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3>1️⃣ Paso 1: Ingresa Datos (2 minutos)</h3>
+                <p><strong>Igual que Excel, pero más fácil:</strong></p>
+                <ul style="margin-left:2rem;margin-top:1rem;">
+                    <li>Cantidad producida: 1,000 metros</li>
+                    <li>Velocidad: 45 m/min</li>
+                    <li>Defectos: 5 tubos</li>
+                    <li>KPIs de calidad: OD, soldadura, rectitud</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <h3>2️⃣ Paso 2: IA Analiza (3 segundos)</h3>
+                <p>
+                    🤖 <strong>Claude/GPT</strong> analiza tendencias y patrones<br>
+                    📋 <strong>Sistema de Normas</strong> verifica cumplimiento IATF<br>
+                    🔍 <strong>Comparación Profunda</strong>: ¿IA y Normas coinciden?
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>3️⃣ Paso 3: Ve Resultados (3 minutos)</h3>
+                <p>
+                    📊 Gráficas 2D/3D del proceso<br>
+                    📈 Dashboards con 7+ tipos de charts<br>
+                    ⚠️ Alertas de problemas automáticas<br>
+                    💡 Recomendaciones específicas
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>4️⃣ Paso 4: Exporta (2 minutos)</h3>
+                <p>
+                    📄 PDF para jefe<br>
+                    📊 Excel para cliente<br>
+                    📝 Word para auditoría<br>
+                    🌐 HTML para compartir en web
+                </p>
+            </div>
+        </div>
+
+        <div class="roi-box">
+            <h2>⏱️ Total: 11 Minutos</h2>
+            <p>vs 2+ Horas en Excel</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SECTION 4: FEATURES -->
+        <div class="section-title">🎯 Diseñado Para Usted</div>
+
+        <div class="grid-3">
+            <div class="feature-item">
+                <div class="emoji">🏭</div>
+                <h4>Proceso ERW/Drawn</h4>
+                <ul>
+                    <li>Uncoiler → Welding → Sizing</li>
+                    <li>12 etapas del proceso</li>
+                    <li>KPIs específicos de tubería</li>
+                    <li>Control de soldadura crítico</li>
+                </ul>
+            </div>
+
+            <div class="feature-item">
+                <div class="emoji">📋</div>
+                <h4>Normas IATF</h4>
+                <ul>
+                    <li>IATF 16949 integrado</li>
+                    <li>ASTM A513, JIS G3445</li>
+                    <li>Trazabilidad 100%</li>
+                    <li>Listo para auditoría</li>
+                </ul>
+            </div>
+
+            <div class="feature-item">
+                <div class="emoji">📊</div>
+                <h4>KPIs Clave</h4>
+                <ul>
+                    <li>Velocidad de producción</li>
+                    <li>Tasa de defectos</li>
+                    <li>Calidad de soldadura</li>
+                    <li>Precisión dimensional (OD)</li>
+                </ul>
+            </div>
+
+            <div class="feature-item">
+                <div class="emoji">🌐</div>
+                <h4>Multi-idioma</h4>
+                <ul>
+                    <li>Español (su idioma)</li>
+                    <li>English (cliente USA)</li>
+                    <li>Korean (casa matriz)</li>
+                    <li>Cambiar con 1 click</li>
+                </ul>
+            </div>
+
+            <div class="feature-item">
+                <div class="emoji">🤖</div>
+                <h4>Doble IA</h4>
+                <ul>
+                    <li>Claude (Anthropic)</li>
+                    <li>GPT (OpenAI)</li>
+                    <li>Comparar ambos</li>
+                    <li>Mejor decisión siempre</li>
+                </ul>
+            </div>
+
+            <div class="feature-item">
+                <div class="emoji">📱</div>
+                <h4>Fácil de Usar</h4>
+                <ul>
+                    <li>Interfaz simple</li>
+                    <li>Como WhatsApp Web</li>
+                    <li>No necesita capacitación</li>
+                    <li>Funciona en teléfono</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SECTION 5: BENEFITS -->
+        <div class="section-title">💰 Beneficios Reales Para Usted</div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="info-box" style="background:rgba(59,130,246,0.1);border-color:#3b82f6;">
+                    <h3>👤 Para Usted Personalmente</h3>
+                </div>
+                <p style="margin-left:2rem;margin-top:1.5rem;line-height:2;">
+                    ✅ <strong style="color:#60a5fa;">Más respeto</strong>: Reportes profesionales<br>
+                    ✅ <strong style="color:#60a5fa;">Menos estrés</strong>: Sin errores de Excel<br>
+                    ✅ <strong style="color:#60a5fa;">Terminar temprano</strong>: 90% tiempo ahorrado<br>
+                    ✅ <strong style="color:#60a5fa;">Mejor salario</strong>: Resultados medibles<br>
+                    ✅ <strong style="color:#60a5fa;">Reconocimiento</strong>: "¿Cómo lo hiciste?"<br>
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="info-box" style="background:rgba(16,185,129,0.1);border-color:#10b981;">
+                    <h3 style="color:#10b981;">🏭 Para Su Planta</h3>
+                </div>
+                <P style="margin-left:2rem;margin-top:1.5rem;line-height:2;">
+                    ✅ <strong style="color:#34d399;">Menos defectos</strong>: Detectar problemas antes<br>
+                    ✅ <strong style="color:#34d399;">Más producción</strong>: Optimización continua<br>
+                    ✅ <strong style="color:#34d399;">Clientes felices</strong>: Calidad consistente<br>
+                    ✅ <strong style="color:#34d399;">Auditorías fáciles</strong>: Todo documentado<br>
+                    ✅ <strong style="color:#34d399;">Ahorros</strong>: ROI inmediato
+                </P>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SECTION 6: CASE STUDY -->
+        <div class="section-title">💬 Caso Real: WOORI México</div>
+
+        <div class="info-box">
+            <div class="emoji" style="font-size:4rem;margin-bottom:1rem;">🏭</div>
+            <h3 style="color:#e2e8f0;font-size:1.8rem;">WOORI México, S.A. de C.V.</h3>
+            <p style="color:#94a3b8;font-size:1.1rem;">Parque Industrial LATAM</p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3 style="color:#f87171;font-size:1.5rem;margin-bottom:1.5rem;">📊 Antes del Sistema:</h3>
+                <ul style="margin-left:2rem;line-height:2;">
+                    <li>2 horas diarias en Excel</li>
+                    <li>Errores frecuentes en KPIs</li>
+                    <li>Reportes tardíos para cliente</li>
+                    <li>Estrés en auditorías</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3 style="color:#34d399;font-size:1.5rem;margin-bottom:1.5rem;">✅ Después del Sistema:</h3>
+                <ul style="margin-left:2rem;line-height:2;">
+                    <li>11 minutos de análisis</li>
+                    <li>0% errores de cálculo</li>
+                    <li>Reportes en tiempo real</li>
+                    <li>Auditorías con confianza</li>
+                    <li><strong style="color:#10b981;">ROI: Inmediato (productividad)</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SECTION 7: CHARTS -->
+        <div class="section-title">📊 Impacto Visual</div>
+
+        <div class="grid">
+            <div class="chart-container">
+                <div id="radarChart"></div>
+            </div>
+            <div class="chart-container">
+                <div id="barChart"></div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3 style="text-align:center;color:#60a5fa;font-size:1.8rem;margin-bottom:2rem;">
+                💰 Retorno de Inversión Mensual
+            </h3>
+            <div id="waterfallChart"></div>
+        </div>
+
+        <div class="roi-box">
+            <h2>💰 Inversión: $X/mes | Ahorro: $X,xxx/mes</h2>
+            <p>ROI Positivo desde el Día 1</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SECTION 8: CTA -->
+        <div class="section-title">🚀 Comience Hoy</div>
+
+        <div class="cta">
+            <h2>🎁 Solicitar Consulta Gratuita</h2>
+            <p><strong>Sin tarjeta de crédito. Sin compromiso. Sin riesgo.</strong></p>
+            
+            <div class="grid" style="margin-top:3rem;">
+                <div>
+                    <h3 style="color:#60a5fa;font-size:1.5rem;margin-bottom:1.5rem;">✅ Qué Incluye:</h3>
+                    <p style="margin-left:2rem;line-height:2;">
+                        Instalación en 1 día<br>
+                        Capacitación incluida (2 horas)<br>
+                        Soporte en español 24/7<br>
+                        Actualización automática
+                    </p>
+                </div>
+
+                <div>
+                    <h3 style="color:#34d399;font-size:1.5rem;margin-bottom:1.5rem;">📧 Contacto:</h3>
+                        <p style="font-size:1.2rem;"><strong>Email:</strong> io7hub@naver.com</p>
+                        <p style="font-size:1.2rem;"><strong>WhatsApp:</strong> +82 10-2610-5194</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <h2>⚙️ Kⁱ⁰⁷ Manufacturing Intelligence</h2>
+            <p style="color:#93c5fd;font-size:1.2rem;font-weight:600;margin:1rem 0;">
+                Transformando LATAM Manufacturing con IA
+            </p>
+            <p style="font-size:1rem;">© 2023 Data-driven VX Strategist | powered by Kⁱ⁰⁷</p>
+            <p style="font-size:0.9rem;margin-top:1rem;">
+                🏭 LATAM Manufacturing DX/AX | 📧 <a style="color:#94a3b8;" href="mailto:io7hub@naver.com">io7hub@naver.com</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- PLOTLY CHARTS -->
+    <script>
+        // Radar Chart
+        var radarData = [
+            {
+                type: 'scatterpolar',
+                r: [120, 70, 90, 60],
+                theta: ['Tiempo de<br>Análisis', 'Precisión', 'Estrés del<br>Gerente', 'Satisfacción<br>del Cliente'],
+                fill: 'toself',
+                name: 'Antes (Excel)',
+                line: {color: '#ef4444'},
+                fillcolor: 'rgba(239, 68, 68, 0.2)'
+            },
+            {
+                type: 'scatterpolar',
+                r: [11, 100, 20, 95],
+                theta: ['Tiempo de<br>Análisis', 'Precisión', 'Estrés del<br>Gerente', 'Satisfacción<br>del Cliente'],
+                fill: 'toself',
+                name: 'Después (Kⁱ⁰⁷)',
+                line: {color: '#10b981'},
+                fillcolor: 'rgba(16, 185, 129, 0.2)'
+            }
+        ];
+
+        var radarLayout = {
+            polar: {
+                radialaxis: {
+                    visible: true,
+                    range: [0, 120],
+                    gridcolor: 'rgba(59, 130, 246, 0.2)',
+                    color: '#cbd5e1'
+                },
+                angularaxis: {
+                    gridcolor: 'rgba(59, 130, 246, 0.2)',
+                    color: '#cbd5e1'
+                },
+                bgcolor: 'rgba(15, 23, 42, 0.3)'
+            },
+            showlegend: true,
+            title: {
+                text: 'Antes vs Después',
+                font: {size: 20, color: '#60a5fa'}
+            },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            font: {color: '#e2e8f0'},
+            legend: {
+                orientation: 'h',
+                y: -0.2,
+                x: 0.5,
+                xanchor: 'center'
+            },
+            height: 450
+        };
+
+        Plotly.newPlot('radarChart', radarData, radarLayout, {responsive: true});
+
+        // Bar Chart
+        var barData = [{
+            type: 'bar',
+            x: ['Excel Manual', 'Kⁱ⁰⁷ Platform'],
+            y: [120, 11],
+            marker: {
+                color: ['#ef4444', '#10b981'],
+                line: {color: 'white', width: 2}
+            },
+            text: ['2+ horas', '11 minutos'],
+            textposition: 'auto',
+            textfont: {size: 14, color: 'white'}
+        }];
+
+        var barLayout = {
+            title: {
+                text: 'Tiempo de Análisis Diario',
+                font: {size: 20, color: '#60a5fa'}
+            },
+            yaxis: {
+                title: 'Minutos',
+                gridcolor: 'rgba(59, 130, 246, 0.2)',
+                color: '#cbd5e1'
+            },
+            xaxis: {
+                color: '#cbd5e1'
+            },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(15, 23, 42, 0.3)',
+            font: {color: '#e2e8f0'},
+            showlegend: false,
+            height: 450
+        };
+
+        Plotly.newPlot('barChart', barData, barLayout, {responsive: true});
+
+        // Waterfall Chart
+        var waterfallData = [{
+            type: 'waterfall',
+            orientation: 'v',
+            measure: ['relative', 'relative', 'relative', 'total'],
+            x: ['Tiempo Ahorrado<br>(2hrs/día)', 'Menos Errores<br>(0% vs 30%)', 'Mejor Calidad<br>(Clientes)', 'ROI Total'],
+            textposition: 'outside',
+            text: ['+$500/mes', '+$300/mes', '+$800/mes', '$1,600/mes'],
+            y: [500, 300, 800, 0],
+            connector: {
+                line: {color: 'rgba(63, 63, 63, 0.5)', width: 2}
+            },
+            decreasing: {marker: {color: '#ef4444', line: {color: 'white', width: 2}}},
+            increasing: {marker: {color: '#10b981', line: {color: 'white', width: 2}}},
+            totals: {marker: {color: '#3b82f6', line: {color: 'white', width: 2}}}
+        }];
+
+        var waterfallLayout = {
+            yaxis: {
+                gridcolor: 'rgba(59, 130, 246, 0.2)',
+                color: '#cbd5e1'
+            },
+            xaxis: {
+                color: '#cbd5e1'
+            },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(15, 23, 42, 0.3)',
+            font: {color: '#e2e8f0', size: 13},
+            showlegend: false,
+            height: 500
+        };
+
+        Plotly.newPlot('waterfallChart', waterfallData, waterfallLayout, {responsive: true});
+    </script>
+</body>
+</html>

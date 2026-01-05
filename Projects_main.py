@@ -318,15 +318,15 @@ projects = [
         "desc": "7개 파트너 기업 DX 성숙도 진단 및 시장 분석",
         "img": str(img_path(31)),
         "url": str(html_path(31)),
-        "tags": ["DMI", "Partners", "KeyInsights", "IoT", "SmartFactory", "DigitalMaturity", "LATAM", "ODA", "DX"]
+        "tags": ["전략 AI", "DMI", "Partners", "KeyInsights", "IoT", "SmartFactory", "DigitalMaturity", "LATAM", "ODA", "DX"]
     },
     {
         "id": 32,
-        "title": "전략AI | LATAM 파트너 디지털 성숙도 분석",
-        "desc": "7개 파트너 기업 DX 성숙도 진단 및 시장 분석",
+        "title": "제조AI | Su Día Cambiará Hoy",
+        "desc": "Estrategias de Transformación Digital para Mejorar la Eficiencia y Productividad",
         "img": str(img_path(32)),
         "url": str(html_path(32)),
-        "tags": ["DMI", "Partners", "KeyInsights", "IoT", "SmartFactory", "DigitalMaturity", "LATAM", "ODA", "DX"]
+        "tags": ["제조 AI", "Desafíos enfrentados", "Tiempo Perdidos", "Errores en cálculo manuales", "Decisiones para mejoras", "IoT", "SmartFactory", "Manufacturing Intelligence", "LATAM", "Kⁱ⁰⁷ Platform", "DX"]
     },
     {
         "id": 33,
@@ -335,6 +335,22 @@ projects = [
         "img": str(img_path(33)),
         "url": str(html_path(33)),
         "tags": ["전략 AI", "수기 데이터", "기준선 분석", "IoT 연동", "실시간 시각화", "클라우드", "LATAM", "ODA", "DX"]
+    },
+    {
+        "id": 34,
+        "title": "제조AI | Fe-C 상태도 실무 활용 시스템",
+        "desc": "Fe-C 상태도 기반 AI + Ontology + LangChain 통합 솔루션",
+        "img": str(img_path(34)),
+        "url": str(html_path(34)),
+        "tags": ["제조 AI", "Kⁱ⁰⁷ Fe-C 상태도", "AI + Ontology", "LangChain Agent", "냉간 인발 튜브", "Heat Treatment", "열처리", "DX"]
+    },
+    {
+        "id": 35,
+        "title": "제조AI | 공정 분석 및 전략적 대안 시스템",
+        "desc": "냉간인발 강관 제조공정 | 종합 검토 및 실행 계획",
+        "img": str(img_path(35)),
+        "url": str(html_path(35)),
+        "tags": ["제조 AI", "냉간인발", "Sankey Diagram", "BYPASS 공정", "비파괴검사", "공정분석", "AI + 룰 엔진", "DX"]
     },
 ]
 # ---------------------------------------------------------------
