@@ -413,7 +413,7 @@ body, .stApp, p, h1, h2, h3, h4, .stText, .stMarkdown {
 }
 /* 헤더 스타일 */
 .header-container {
-    background: linear-gradient(135deg, #0066cc 0%, #00cc99 100%);
+    background: linear-gradient(135deg, #005CFF 0%, #00C06F 100%);
     padding: 3rem 2rem;
     border-radius: 10px;
     margin-bottom: 2rem;
