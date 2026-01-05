@@ -430,6 +430,22 @@ body, .stApp, p, h1, h2, h3, h4, .stText, .stMarkdown {
     font-size: 20px;
     margin-top: 10px;
 }
+.header-tags {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.header-tag {
+    background: rgba(255,255,255,0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    color: white;
+    font-size: 0.9rem;
+}
+
 .k_header_tagline {
     font-size: 16px;
     opacity: 0.9;
@@ -473,8 +489,11 @@ HEADER_HTML = """
     <div class="k_header_subtitle">
         Kⁱ⁰⁷ 데이터로 현장을 읽고, 전략으로 연결하는 데이터 기반 가치 전환 전략가
     </div>
-    <div class="k_header_tagline">
-        AI Agent Engineering · IoT  · Ontology · AX Strategy · Manufacturing Intelligence
+    <div class="header-tags">
+        <span class="header-tag">AI Engineering</span>
+        <span class="header-tag">IoT · Ontology</span>
+        <span class="header-tag">AX Strategy</span>
+        <span class="header-tag">Manufacturing Intelligence</span>
     </div>
 </div>
 """
