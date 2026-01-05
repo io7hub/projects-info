@@ -720,13 +720,7 @@ div.stButton > button:active {
 # (2) 프로젝트 카드 UI
 # -----------------------------------------------------------
 st.subheader("📁 프로젝트 목록")
-LIST_HTML = """
-<div class="stList header-container">
-    <div>📁 프로젝트 목록</div>
-</div>
-"""
-st.markdown(LIST_HTML, unsafe_allow_html=True)
-
+st.markdown('<div class="header-container">📁 프로젝트 목록</div>', unsafe_allow_html=True)
 
 cols_per_row = 3
 
