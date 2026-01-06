@@ -588,7 +588,7 @@ def render_header():
             데이터로 현장을 읽고, AI로 전략을 실행합니다.
         </div>
         <div class="header-tags">
-            <span class="header-tag">✨ AI · Ontology Systems</span>
+            <span class="header-tag">✨ XAI · Ontology Systems</span>
             <span class="header-tag">🌐 IoT · Edge AI</span>
             <span class="header-tag">📊 Data Strategy</span>
             <span class="header-tag">🏭 Manufacturing DX</span>
