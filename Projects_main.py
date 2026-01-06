@@ -308,7 +308,7 @@ projects = [
         "desc": "🍓 딸기 스마트팜 AI 전략 보고서",
         "img": str(img_path(9)),
         "url": str(html_path(9)),
-        "tags": ["SmartFarm", "IoT", "실시간대시보드", "농가AI", "실행로드맵", "스마트팜전략"]
+        "tags": ["SmartFarm", "IoT", "Storyboard", "AI Agent", "실시간대시보드", "농가AI", "실행로드맵", "스마트팜전략"]
     },
     {
         "id": 10,
@@ -316,7 +316,7 @@ projects = [
         "desc": "고산지대 농기계 도입 및 현지화 전략",
         "img": str(img_path(10)),
         "url": str(html_path(10)),
-        "tags": ["ODA", "DX"]
+        "tags": ["Maquinaria Agricola", "Ecosistema Sostenible", "Sierra", "Tractor", "Kubota", "John Deere", "Localizacion", "ODA", "Agricultura", "KADI", "에콰도르", "농기계", "고산지대", "현지화"]
     },
     {
         "id": 11,
@@ -348,7 +348,7 @@ projects = [
         "desc": "현장 중심 아키텍처 시각화 솔루션",
         "img": str(img_path(14)),
         "url": str(html_path(14)),
-        "tags": ["KPI", "Streamlit", "Analytics", "Dashboard"]
+        "tags": ["Graphviz", "KPIs", "AI", "3D Viewer", "Industrial Diagram", "Pipeline", "Workflow", "Streamlit UI", "Analytics", "Dashboard"]
     },
     {
         "id": 15,
@@ -372,7 +372,7 @@ projects = [
         "desc": "Node → Edge 3D 공정 시각화 엔진",
         "img": str(img_path(17)),
         "url": str(html_path(17)),
-        "tags": ["DigitalTwin", "3D", "Visualization"]
+        "tags": ["DigitalTwin", "3D Viewer", "Strategic Pipeline", "DOT", "Strategic Decision", "Node-Edge", "AS-IS vs TO-BE", "Simulation", "Insight", "Visualization"]
     },
     {
         "id": 18,
@@ -388,15 +388,15 @@ projects = [
         "desc": "중남미 정부·기업 대상 DX 맞춤형 컨설팅 교육 프로그램",
         "img": str(img_path(19)),
         "url": str(html_path(19)),
-        "tags": ["Technology_Blueprint", "Lightweight_IoT_Architecture", "DX Education", "LATAM", "IoT_Platform", "Light_MES", "IoT_Master", "Streamlit_UI"]
+        "tags": ["IoT", "PoCs", "Local Partner", "Empower People", "MES lite", "Road map", "Technology_Blueprint", "Lightweight_IoT_Architecture", "DX Education", "LATAM", "IoT_Platform", "IoT_Master", "Streamlit_UI"]
     },
     {
         "id": 20,
-        "title": "전략AI | KPI Rule Engine Editor",
-        "desc": "규칙 기반 KPI 진단 엔진 개발",
+        "title": "전략AI | KPIs Rule Engine Editor",
+        "desc": "규칙 기반 KPIs 진단 엔진 개발",
         "img": str(img_path(20)),
         "url": str(html_path(20)),
-        "tags": ["Rule_Engine", "KPI", "Analysis", "Ontology", "DX"]
+        "tags": ["XAI", "Ruleset", "Graph-Rule", "If-Then", "Decision Matrix","Neo4j", "Low-Code", "No-Code", "Domain Knowledge", "Semantic Web Rule Language", "Reasoning", "Semantic Reasoning", "Rule_Engine", "Ontology", "KPIs", "Intelligent Knowledge Graph", "Vector DB", "Analysis", "DX"]
     },
     {
         "id": 21,
