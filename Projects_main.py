@@ -49,6 +49,7 @@ st.markdown("""
     
     .header-subtitle {
         color: rgba(255,255,255,0.85);
+        font-family: 'Noto Sans KR', sans-serif;
         font-size: 1.1rem;
         margin-bottom: 1.2rem;
         line-height: 1.6;
