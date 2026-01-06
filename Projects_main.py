@@ -546,17 +546,14 @@ def search_projects(projects, search_term, selected_categories, selected_tags):
     """프로젝트 검색 및 필터링"""
     filtered = projects
     
-    # 카테고리 필터
     if selected_categories:
         filtered = [p for p in filtered if get_category(p["title"]) in selected_categories]
     
-    # 태그 필터
     if selected_tags:
         filtered = [p for p in filtered if any(
             tag in normalize_tags(p["tags"]) for tag in selected_tags
         )]
     
-    # 검색어 필터
     if search_term:
         search_term = search_term.lower()
         filtered = [p for p in filtered if 
