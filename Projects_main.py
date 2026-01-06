@@ -5,7 +5,7 @@ from collections import Counter
 import re
 
 st.set_page_config(
-    page_title="Kⁱ⁰⁷ AI 기반 가치 전환 전략_270525_0916",
+    page_title="Kⁱ⁰⁷ AI 기반 가치 전환 전략_270525_0913",
     page_icon="🌎",
     layout="wide",
     initial_sidebar_state="expanded"
