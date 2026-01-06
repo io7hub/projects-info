@@ -260,7 +260,7 @@ projects = [
         "desc": "기존 데이터 기반 진단(시간/할당/인력) 및 분석 시뮬레이션을 통한 최적화 모색",
         "img": str(img_path(3)),
         "url": str(html_path(3)),
-        "tags": ["AI", "Agent", "KPI"]
+        "tags": ["제조AI", "ROI", "Simulation", "Pareto", "Risk", "Cycle Time", "Operation", "Compensation", "AI Agent", "KPI"]
     },
     {
         "id": 4,
@@ -268,7 +268,7 @@ projects = [
         "desc": "Raspberry Pi 기반 IoT Edge & SCADA 구축",
         "img": str(img_path(4)),
         "url": str(html_path(4)),
-        "tags": ["IoT", "Edge", "SCADA"]
+        "tags": ["IoT Sensor", "PLC", "Streamlit", "Edge", "Modbus TCP", "HMI", "Node-RED", "MLOps", "Rest API", "Local DB", "Cloud", "SCADA"]
     },
     {
         "id": 5,
@@ -276,7 +276,7 @@ projects = [
         "desc": "AI + 온톨로지 기반 차세대 스마트 제조 솔루션_알루미늄 산업편",
         "img": str(img_path(5)),
         "url": str(html_path(5)),
-        "tags": ["SmartFarm", "IoT"]
+        "tags": ["Aluminum", "Ontology", "Strategy Planner", "Rule Engine", "KPIs", "Parameter", "Analysis", "IoT"]
     },
     {
         "id": 6,
@@ -284,7 +284,7 @@ projects = [
         "desc": "네트워크 불안정과 도입 비용을 극복하는 솔루션",
         "img": str(img_path(6)),
         "url": str(html_path(6)),
-        "tags": ["IoT Master", "IoT Platform", "Edge-Cloud"]
+        "tags": ["IoT Master", "IoT Platform", "Edge-Cloud", "Field Layer", "10.1인치", "1280x800", "Raspberry Pi", "Streamlit UI", "Node-RED", "InfluxDB", "Grafana", "MQTT", "Modbus TCP", "OPC UA", "RS485", "RS232", "SQLite DB", "Edge Layer", "Cloud Layer", "LATAM", "DX"]
     },
     {
         "id": 7,
