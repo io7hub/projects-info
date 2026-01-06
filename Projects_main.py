@@ -809,7 +809,7 @@ def main():
     
     with st.sidebar:
         
-        st.title("🔍 필터")
+        st.title("🔍 Kⁱ⁰⁷ AI AGENT")
         
         search_term = st.text_input("🔎 검색", placeholder="프로젝트명, 설명, 태그...")
         
