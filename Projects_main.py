@@ -1,76 +1,242 @@
 import streamlit as st
-from streamlit.components.v1 import html
+import streamlit.components.v1 as components
 from pathlib import Path
-import base64 # <-- 더 이상 사용하지 않아도 되지만, 기존 코드 구조 유지를 위해 남겨둠.
-import os
-# ======================================================
-# 🚀 1. PDF 렌더링을 위한 라이브러리 추가
-# (설치: pip install streamlit-pdf-viewer)
-# ======================================================
-try:
-    from streamlit_pdf_viewer import pdf_viewer
-except ImportError:
-    st.error("streamlit_pdf_viewer 라이브러리가 설치되지 않았습니다. 'pip install streamlit-pdf-viewer'로 설치해주세요.")
-    st.stop()
+from collections import Counter
+import re
 
-
-# ======================================================
-# 기본 경로 설정
-# ======================================================
-BASE_DIR = Path(__file__).resolve().parent
-IMG_DIR = BASE_DIR / "img"
-HTML_DIR = BASE_DIR / "projects"
-
-
-# ======================================================
-# 유틸 함수
-# ======================================================
-def img_path(i):
-    return IMG_DIR / f"p{i}.png"
-
-
-def html_path(i):
-    return HTML_DIR / f"p{str(i).zfill(2)}.html"
-
-
-def pdf_path(i):
-    return HTML_DIR / f"p{str(i).zfill(2)}.pdf"
-
-
-def load_html(path: Path):
-    try:
-        return path.read_text(encoding="utf-8")
-    except:
-        return "<h3>❌ HTML 파일을 불러올 수 없습니다.</h3>"
-
-
-# HTML 내부 이미지 경로 자동 복구
-def render_html_with_fixed_img(html: str):
-    # Windows/Linux 경로 호환성 확보
-    html = html.replace("img/", str(IMG_DIR).replace("\\", "/") + "/")
-    return html
-
-
-# ❌ render_pdf_base64 함수는 제거 (streamlit_pdf_viewer 사용)
-
-# ======================================================
-# 📌 Streamlit 페이지 설정
-# ======================================================
 st.set_page_config(
-    page_title="Kⁱ⁰⁷ · Portfolio_Projects",
+    page_title="Kⁱ⁰⁷ AI 기반 가치 전환 전략_270525_0916",
     page_icon="🌎",
     layout="wide",
-    initial_sidebar_state="collapsed")
-
-if "selected" not in st.session_state:
-    st.session_state.selected = None
-
+    initial_sidebar_state="expanded"
+)
 
 st.balloons()
 
-# ---------------------------------------------------------------
-# 📌 3) 프로젝트 메타데이터 (직접 입력 방식)
-# ---------------------------------------------------------------
+st.markdown("""
+<style>
+    .main {
+        margin-top: 0.5rem;    
+    }
+    
+    .block-container {
+        padding-top: 3rem;
+        padding-bottom: 0rem;
+    }    
+            
+    body, .stApp, p, h1, h2, h3, h4, .stText, .stMarkdown {
+        font-family: 'Noto Sans KR', sans-serif !important; 
+    }        
+
+    .header-container {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        padding: 2rem 2rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        text-align: center;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .header-title {
+        color: #00d9ff;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 0.8rem;
+        text-shadow: 0 2px 10px rgba(0, 217, 255, 0.3);
+        letter-spacing: -0.5px;
+    }
+    
+    .header-subtitle {
+        color: rgba(255,255,255,0.85);
+        font-size: 1.1rem;
+        margin-bottom: 1.2rem;
+        line-height: 1.6;
+        font-weight: 400;
+    }
+    
+    .header-tags {
+        display: flex;
+        justify-content: center;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+    }
+    
+    .header-tag {
+        background: rgba(0, 217, 255, 0.15);
+        padding: 0.5rem 1.2rem;
+        border-radius: 20px;
+        color: #00d9ff;
+        font-family: 'Noto Sans KR', sans-serif;             
+        font-size: 0.85rem;
+        border: 1px solid rgba(0, 217, 255, 0.3);
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+    
+    .header-tag:hover {
+        background: rgba(0, 217, 255, 0.25);
+        border-color: rgba(0, 217, 255, 0.5);
+    }
+    
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 10px;
+        text-align: center;
+        border-left: 4px solid #0066cc;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #0066cc;
+    }
+    
+    .stat-label {
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+    
+    .project-card {
+        background: #e3f2fd
+        border-radius: 10px;
+        padding: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+        height: 100%;
+    }
+    
+    .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .project-image {
+        width: 300px !important;
+        height: 200px !important;
+        object-fit: cover;
+        border: 4px solid #ffffff; 
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+        box-sizing: border-box; 
+    }
+    
+    .project-title {
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+    
+    .project-desc {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    
+    .tag-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+        margin-top: 0.5rem;
+    }
+    
+    .tag {
+        background: #e3f2fd;
+        color: #0066cc;
+        padding: 0.5rem 0.6rem;
+        border-radius: 12px;
+        font-size: 1rem;
+        border: 1px solid #bbdefb;
+    }
+    
+    .stButton > button {
+        width: 100%;
+        background: linear-gradient(135deg, #0066cc 0%, #00cc99 100%);
+        color: white;
+        border: none;
+        padding: 0.1rem 1rem;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: transform 0.2s, box-shadow 0.2s;
+        margin-top: 0.1rem;    
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 102, 204, 0.3);
+    }
+    
+    .footer {
+        background: #2c3e50;
+        color: white;
+        padding: 2rem;
+        margin-top: 4rem;
+        border-radius: 10px;
+    }
+    
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+    }
+    
+    .footer-section h4 {
+        margin-bottom: 1rem;
+        color: #00cc99;
+    }
+    
+    .footer-link {
+        color: #ecf0f1;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    
+    .footer-link:hover {
+        color: #00cc99;
+    }
+    
+    .footer-bottom {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        color: #95a5a6;
+    }
+    
+    .filter-section {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+    }
+
+    .search-result-count {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+
+def img_path(id):
+    return f"img/p{id}.png"
+
+def html_path(id):
+    return f"projects/p{id}.html"
+
 projects = [
     {
         "id": 1,
@@ -107,7 +273,7 @@ projects = [
     {
         "id": 5,
         "title": "전략 AI | AI + 온톨로지 기반 전략 플래너",
-        "desc": "AI + 온톨로지 기반 차세대 스마트 제조 솔루션_알루미늄 가공",
+        "desc": "AI + 온톨로지 기반 차세대 스마트 제조 솔루션_알루미늄 산업편",
         "img": str(img_path(5)),
         "url": str(html_path(5)),
         "tags": ["SmartFarm", "IoT"]
@@ -134,7 +300,7 @@ projects = [
         "desc": "AI-Agent + Ontology Engine + Rule Engine 통합 솔루션",
         "img": str(img_path(8)),
         "url": str(html_path(8)),
-        "tags": ["", "Welding", "AXDX", "공정지능화", "로봇용접", "온톨로지", "ONTOLOGY", "ROBOT","AION01"]
+        "tags": ["Welding", "AXDX", "공정지능화", "로봇용접", "온톨로지", "ONTOLOGY", "ROBOT", "AION01"]
     },
     {
         "id": 9,
@@ -214,7 +380,7 @@ projects = [
         "desc": "경량 IoT 플랫폼 기반의 현지 맞춤형 DX 솔루션 개발 및 전개 방안",
         "img": str(img_path(18)),
         "url": str(html_path(18)),
-        "tags": ["디지털성숙도", "데이터분석", "알림&의사결정", "대응조치&이력조회", "폐쇄루프파이프라인", "Edge", "Cloud", "DigitalMaturity", "KPIsMonitering", "IoT", "Streamlit", "Google_Chat", "Trello", "LATAM", "FabrikMonitor", "QSI", "Eco-Sensor", "MES-Lite", "DX"]
+        "tags": ["IoT", "Streamlit", "Google_Chat", "Trello", "디지털성숙도", "데이터분석", "알림&의사결정", "대응조치&이력조회", "폐쇄루프파이프라인", "Edge", "Cloud", "DigitalMaturity", "KPIsMonitering", "LATAM", "FabrikMonitor", "QSI", "Eco-Sensor", "MES-Lite", "DX"]
     },
     {
         "id": 19,
@@ -326,12 +492,12 @@ projects = [
         "desc": "Estrategias de Transformación Digital para Mejorar la Eficiencia y Productividad",
         "img": str(img_path(32)),
         "url": str(html_path(32)),
-        "tags": ["제조 AI", "Desafíos enfrentados", "Tiempo Perdidos", "Errores en cálculo manuales", "Decisiones para mejoras", "IoT", "SmartFactory", "Manufacturing Intelligence", "LATAM", "Kⁱ⁰⁷ Platform", "DX"]
+        "tags": ["IA", "Desafíos enfrentados", "Tiempo Perdidos", "IoT", "Errores en cálculo manuales", "Decisiones para mejoras", "SmartFactory", "Manufacturing Intelligence", "LATAM", "Kⁱ⁰⁷ Platform", "DX"]
     },
     {
         "id": 33,
         "title": "전략AI | 생산 ROI 기준선 분석 AGENT",
-        "desc": "보유 데이터 기반으로 AI 에이전트가 Baseline을 확립하고, 문제를 진단·시각화하여 ROI 중심의 실행 과제 우선순위를 제시하는 플랫폼",
+        "desc": "보유 데이터 기반 문제 진단·시각화 및 실행 로드맵 제시",
         "img": str(img_path(33)),
         "url": str(html_path(33)),
         "tags": ["전략 AI", "수기 데이터", "기준선 분석", "IoT 연동", "실시간 시각화", "클라우드", "LATAM", "ODA", "DX"]
@@ -353,404 +519,398 @@ projects = [
         "tags": ["제조 AI", "냉간인발", "Sankey Diagram", "BYPASS 공정", "비파괴검사", "공정분석", "AI + 룰 엔진", "DX"]
     },
 ]
-# ---------------------------------------------------------------
-# 📌 4) 프로젝트 이미지 렌더링 (300x200 고정)
-# ---------------------------------------------------------------
-def render_project_image(path: str):
-    f = Path(path)
-    if not f.exists():
-        return """
-        <div style="width:300px;height:200px;border-radius:12px;
-             background:#EEE;border:1px solid #CCC;
-             display:flex;align-items:center;justify-content:center;">
-            <span style="opacity:0.4;">No Image</span>
-        </div>
-        """
 
-    b64 = base64.b64encode(f.read_bytes()).decode()
-    return f"""
-        <img src="data:image/png;base64,{b64}"
-             style="width:300px;height:200px;object-fit:cover;
-             border-radius:12px;border:1px solid #CCC;">
-    """
+def normalize_tags(tags):
+    """태그 정규화 - 언더스코어를 공백으로, 소문자 변환"""
+    return [tag.replace("_", " ").lower() for tag in tags]
 
+def get_all_tags(projects):
+    """모든 태그 추출 및 정규화"""
+    all_tags = []
+    for project in projects:
+        all_tags.extend(normalize_tags(project["tags"]))
+    return sorted(set(all_tags))
 
-# ---------------------------------------------------------------
-# 📌 5) Global CSS (헤더 상단 여백 최소화 반영)
-# ---------------------------------------------------------------
-GLOBAL_CSS = """
-<style>
-/* 🚀 Streamlit 기본 여백 제거 (핵심 수정 부분) */
-/* .stApp 클래스는 Streamlit 앱 전체를 감싸는 컨테이너입니다. */
-/* header { display: none; } 은 상단 메뉴를 없앨 때 사용 가능 */
-.stApp {
-    padding-top: 0 !important;
-}
+def get_category(title):
+    """프로젝트 카테고리 추출"""
+    if "전략AI" in title or "전략 AI" in title:
+        return "전략 AI"
+    elif "제조AI" in title or "제조 AI" in title:
+        return "제조 AI"
+    elif "농산업AI" in title:
+        return "농산업 AI"
+    else:
+        return "기타"
 
-/* Streamlit의 메인 컨테이너 (여백의 주범) */
-.stApp > header {
-    display: none; /* Streamlit의 기본 헤더 제거 */
-}
-
-/* Streamlit이 콘텐츠를 감싸는 main 태그의 상단 패딩 제거 */
-.stApp > div:first-child > section {
-    padding-top: -0 !important;
-}
-
-/* Streamlit이 페이지 콘텐츠를 감싸는 main 태그의 상단 패딩 제거 */
-.main {
-    padding-top: -0 !important; 
-}
-
-
-/* body는 Streamlit 컨테이너의 바깥이라 영향을 덜 줍니다. */
-body {
-    background-color: #F7F9FB;
-}
-/* 🚀 1. 폰트 적용 */
-body, .stApp, p, h1, h2, h3, h4, .stText, .stMarkdown {
-    font-family: 'Noto Sans KR', sans-serif !important; 
-}
-/* 헤더 스타일 */
-.header-container {
-    width: 100%;
-    padding: 40px 10px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #005CFF, #00C06F);
-    text-align: center;
-    color: white;
-    /* 기존 margin-bottom 유지 */
-    margin-bottom: 1rem;
-}
-
-.header-title {
-    color: white;
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-
-.header-subtitle {
-    color: rgba(255,255,255,0.9);
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-}
-
-.header-tags {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-top: 1rem;
-}
-
-.header-tag {
-    background: rgba(255,255,255,0.2);
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    color: white;
-    font-size: 0.9rem;
-}
-
-.list-title {
-    background: rgba(255,255,255,0.2);
-    padding: 0.5rem 1rem;
-    border-radius: 10px;
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-/* Project Cards */
-.k_card {
-    padding: 10px;
-    border-radius: 16px;
-    background: #FFFFFF;
-    box-shadow: 0 0 6px rgba(0,0,0,0.07);
-    margin-bottom: 18px;
-    transition: 0.2s ease;
-}
-.k_card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-}
-
-/* 이미지 고정 크기 */
-.k_img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 14px;
-    background: #EEE;
-}
-
-</style>
-"""
-st.markdown(GLOBAL_CSS, unsafe_allow_html=True)
-
-
-# ---------------------------------------------------------------
-# 📌 6) Header
-# ---------------------------------------------------------------
-HEADER_HTML = """
-<div class="header-container">
-    <div class="header-title">🌎 Kinam Kim | Portfolio</div>
-    <div class="header-subtitle">
-        Kⁱ⁰⁷ 데이터로 현장을 읽고, 전략으로 연결하는 데이터 기반 가치 전환 전략가
-    </div>
-    <div class="header-tags">
-        <span class="header-tag">AI Engineering</span>
-        <span class="header-tag">IoT · Ontology</span>
-        <span class="header-tag">AX Strategy</span>
-        <span class="header-tag">Manufacturing Intelligence</span>
-    </div>
-</div>
-"""
-st.markdown(HEADER_HTML, unsafe_allow_html=True)
-
-
-# ---------------------------------------------------------------
-# 📌 7) SPA 상태 변수
-# ---------------------------------------------------------------
-if "selected" not in st.session_state:
-    st.session_state.selected = None
-
-
-# ======================================================
-# 📌 8) 상세 페이지 — 항상 최상단에서 먼저 렌더링
-# ======================================================
-if st.session_state.selected is not None:
-
-    proj = next((p for p in projects if p["id"] == st.session_state.selected), None)
-
-    if proj:
-        file_path = Path(proj["url"])
-
-        # ----------------------------------------------------
-        # 🚀 1행 3열 구조 (헤더)
-        # ----------------------------------------------------
-        col_button, col_title, col_desc = st.columns([0.15, 0.55, 0.3])
-        
-        # 1열: 돌아가기 버튼 
-        with col_button:
-            st.write("") 
-            if st.button("⬅ Back to Portfolio", use_container_width=True):
-                st.session_state.selected = None
-                st.rerun()
-
-        # 2열: 프로젝트 제목
-        with col_title:
-            st.markdown(f"## {proj['title']}")
-
-        # 3열: 프로젝트 설명
-        with col_desc:
-            st.markdown(f"<div style='margin-top: 1.5rem;'>{proj['desc']}</div>", unsafe_allow_html=True)
-
-#        st.markdown("---")
-        # ----------------------------------------------------
+def search_projects(projects, search_term, selected_categories, selected_tags):
+    """프로젝트 검색 및 필터링"""
+    filtered = projects
     
-        # 💡 [핵심 복구] HTML/PDF 상세 내용을 담는 컨테이너
-        st.markdown("<div class='k_detail_box'>", unsafe_allow_html=True)
+    # 카테고리 필터
+    if selected_categories:
+        filtered = [p for p in filtered if get_category(p["title"]) in selected_categories]
+    
+    # 태그 필터
+    if selected_tags:
+        filtered = [p for p in filtered if any(
+            tag in normalize_tags(p["tags"]) for tag in selected_tags
+        )]
+    
+    # 검색어 필터
+    if search_term:
+        search_term = search_term.lower()
+        filtered = [p for p in filtered if 
+            search_term in p["title"].lower() or 
+            search_term in p["desc"].lower() or
+            any(search_term in tag.lower() for tag in p["tags"])
+        ]
+    
+    return filtered
+
+def get_statistics(projects):
+    """프로젝트 통계 계산"""
+    categories = Counter([get_category(p["title"]) for p in projects])
+    all_tags = []
+    for p in projects:
+        all_tags.extend(normalize_tags(p["tags"]))
+    unique_tags = len(set(all_tags))
+    
+    return {
+        "total": len(projects),
+        "categories": categories,
+        "unique_tags": unique_tags,
+        "avg_tags": round(len(all_tags) / len(projects), 1)
+    }
+
+def render_header():
+    st.markdown("""
+    <div class="header-container">
+        <div class="header-title">🌎 Kⁱ⁰⁷ <span font-family: 'Noto Sans KR', sans-serif;>AI 기반 가치 전환 전략</span></div>
+        <div class="header-subtitle">
+            데이터로 현장을 읽고, AI로 전략을 실행합니다.
+        </div>
+        <div class="header-tags">
+            <span class="header-tag">✨ AI · Ontology Systems</span>
+            <span class="header-tag">🌐 IoT · Edge AI</span>
+            <span class="header-tag">📊 Data Strategy</span>
+            <span class="header-tag">🏭 Manufacturing DX</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+def render_statistics(stats, filtered_count):
+    st.markdown("""
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-number">{}</div>
+            <div class="stat-label">총 프로젝트</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{}</div>
+            <div class="stat-label">표시 중</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{}</div>
+            <div class="stat-label">고유 기술</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{}</div>
+            <div class="stat-label">평균 태그/프로젝트</div>
+        </div>
+    </div>
+    """.format(stats["total"], filtered_count, stats["unique_tags"], stats["avg_tags"]), 
+    unsafe_allow_html=True)
+
+def render_project_card(project):
+    """프로젝트 카드를 렌더링하거나 상세보기를 표시"""
+    
+    if st.session_state.get(f"show_modal_{project['id']}", False):
+        render_project_detail(project)
+        return True
+    
+    category = get_category(project["title"])
+    category_colors = {
+        "전략 AI": "#0066cc",
+        "제조 AI": "#00cc99",
+        "농산업 AI": "#ff9800",
+        "기타": "#9c27b0"
+    }
+    
+    with st.container():
+        col_text, col_img = st.columns([2, 1])
         
-        # ----------------------------------------------------
-        # 🚀 HTML 상세 페이지 렌더링 로직 (안정화)
-        # ----------------------------------------------------
-        def inject_before_close_tag(html: str, snippet: str) -> str:
-            lower = html.lower()
-            i = lower.rfind("</body>")
-            if i != -1:
-                return html[:i] + snippet + html[i:]
-            i = lower.rfind("</html>")
-            if i != -1:
-                return html[:i] + snippet + html[i:]
-            return html + snippet
+        with col_text:
+            st.markdown(f"""
+            <div style="
+                background: #1e1e1e;
+                border-radius: 10px;
+                padding: 1.2rem;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                height: 133px;
+                border-left: 4px solid {category_colors[category]};
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            ">
+                <div style="font-size: 1.1rem; font-weight: bold; margin-bottom: 0.5rem; color: #e0e0e0;">
+                    {project['title']}
+                </div>
+                <div style="color: #b0b0b0; font-size: 0.9rem; margin-bottom: 0.8rem; line-height: 1.5;">
+                    {project['desc']}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            
+            st.markdown(f"""
+            <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.5rem;">
+                {''.join([f'<span style="background: #e3f2fd; color: #0066cc; padding: 0.25rem 0.7rem; border-radius: 12px; font-size: 0.75rem; border: 1px solid #bbdefb;">{tag}</span>' for tag in project['tags'][:4]])}
+            </div>
+            """, unsafe_allow_html=True)
 
-
-        if file_path.suffix.lower() == ".html":
-
-            if file_path.exists():
-                try:
-                    raw_html = load_html(file_path)
-                    fixed = render_html_with_fixed_img(raw_html)
-
-                    # ✅ 문서 높이만큼 iframe(height) 자동 조정 스크립트
-                    # - 이미지/폰트 로딩 이후에도 1~2회 재계산
-                    # - 필요하면 cap을 걸어 과도한 높이 방지 가능
-                    auto_height_script = """
-                    <script>
-                    (function () {
-                    function docHeight() {
-                        const b = document.body;
-                        const e = document.documentElement;
-                        return Math.max(
-                        b ? b.scrollHeight : 0,
-                        e ? e.scrollHeight : 0,
-                        b ? b.offsetHeight : 0,
-                        e ? e.offsetHeight : 0
-                        );
-                    }
-
-                    function resizeFrame() {
-                        try {
-                        // 문서 기본 여백 제거(선택)
-                        document.documentElement.style.margin = "0";
-                        document.body.style.margin = "0";
-
-                        const h = docHeight() + 16;  // 약간의 여유
-
-                        // (선택) 너무 큰 문서로 인한 성능 이슈가 있으면 cap 사용
-                        // const cap = 50000; 
-                        // const finalH = Math.min(h, cap);
-
-                        const finalH = h;
-
-                        if (window.frameElement) {
-                            window.frameElement.style.height = finalH + "px";
-                            window.frameElement.style.width = "100%";
-                        }
-                        } catch (e) {}
-                    }
-
-                    // 초기 1회
-                    resizeFrame();
-
-                    // 로드 후(이미지/폰트 반영)
-                    window.addEventListener("load", function () {
-                        resizeFrame();
-                        setTimeout(resizeFrame, 100);
-                        setTimeout(resizeFrame, 300);
-                    }, { once: true });
-
-                    // DOM 변화가 있을 때만 반영 (가볍게)
-                    try {
-                        const ro = new ResizeObserver(() => resizeFrame());
-                        ro.observe(document.documentElement);
-                        ro.observe(document.body);
-                    } catch (e) {}
-                    })();
-                    </script>
-                    """
-
-                    final_html = inject_before_close_tag(fixed, auto_height_script)
-
-                    # ✅ 핵심: scrolling=False (iframe 내부 스크롤 제거)
-                    # ✅ height는 “초기값”일 뿐, 스크립트가 최종 높이를 덮어씀
-                    st.components.v1.html(final_html, height=600, scrolling=False)
-
-                except Exception as e:
-                    st.error(f"HTML 파일을 불러오는 중 오류가 발생했습니다: {e}")
-                    st.warning(f"파일 경로: {str(file_path)}")
-            else:
-                st.error(f"HTML 파일이 지정된 경로에 존재하지 않습니다: {str(file_path)}")
+           
+        
+        with col_img:
+            try:
+                from PIL import Image
+                import io
+                import base64
                 
-        # ----------------------------------------------------
-        # PDF 상세 페이지 렌더링 로직 (이전 최종 코드를 사용한다고 가정)
-        # ----------------------------------------------------
-        elif file_path.suffix.lower() == ".pdf":
-            st.write("PDF 렌더링 로직이 여기에 위치합니다.")
-            # ... (이전에 제공된 Base64 + Fallback 로직 삽입) ...
+                img = Image.open(project["img"])
+                img_resized = img.resize((200, 133), Image.LANCZOS)
+                
+                buffered = io.BytesIO()
+                img_resized.save(buffered, format="PNG")
+                img_str = base64.b64encode(buffered.getvalue()).decode()
+                
+                st.markdown(f"""
+                <img src="data:image/png;base64,{img_str}" 
+                     style="width: 200px; 
+                            height: 133px; 
+                            object-fit: cover; 
+                            border: 0.5px solid #0066cc; 
+                            border-radius: 8px; 
+                            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+                            box-sizing: border-box; 
+                            display: block;"
+                     alt="프로젝트 썸네일">
+                """, unsafe_allow_html=True)
+            except:
+                st.markdown(f"""
+                <div style="width: 200px; height: 133px; background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%); 
+                     display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+                    <span style="color: #999; font-size: 0.8rem;">이미지 준비중</span>
+                </div>
+                """, unsafe_allow_html=True)
 
-        st.markdown("</div>", unsafe_allow_html=True) # k_detail_box 닫기
+            if st.button("📄 Project Detail", key=f"view_{project['id']}", use_container_width=True):
+                st.session_state[f"show_modal_{project['id']}"] = True
+                st.rerun()      
+
+    st.markdown("---")    
+    return False
+
+
+def render_project_detail(project):
+    """프로젝트 상세보기 화면 렌더링 - 이중 스크롤 방식"""
+    
+    st.markdown(f"""
+    <div style="background: linear-gradient(135deg, #005CFF 0%, #00C06F 100%); 
+         padding: 2rem; border-radius: 10px; margin: 1rem 0 2rem 0; color: white;">
+        <h1 style="margin: 0; color: white; font-size: 2rem;">📋 {project['title']}</h1>
+        <p style="margin: 0.8rem 0 0 0; opacity: 0.9; font-size: 1.1rem;">{project['desc']}</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    try:
+        with open(project['url'], 'r', encoding='utf-8') as f:
+            html_content = f.read()
         
-        st.stop()
+        col1, col2, col3 = st.columns([3, 1, 1])
+        
+        with col1:
+            st.info("💡 iframe 내부를 스크롤하여 문서를 확인하세요. 높이를 조절할 수 있습니다.")
+        
+        with col2:
+            height_option = st.selectbox(
+                "높이",
+                ["보통 (800px)", "크게 (1200px)", "매우 크게 (1800px)"],
+                key=f"height_{project['id']}",
+                label_visibility="collapsed"
+            )
+        
+        with col3:
+            if st.button("🏠 Home", key=f"home_top_{project['id']}", use_container_width=True):
+                st.session_state[f"show_modal_{project['id']}"] = False
+                st.rerun()
+        
+        if height_option == "보통 (800px)":
+            iframe_height = 800
+        elif height_option == "크게 (1200px)":
+            iframe_height = 1200
+        else:  
+            iframe_height = 1800
+        
+        if '<html' in html_content.lower() or '<body' in html_content.lower():
+            if '<head>' in html_content:
+                modified_html = html_content.replace(
+                    '<head>',
+                    '<head><meta name="viewport" content="width=device-width, initial-scale=1.0">'
+                )
+            else:
+                modified_html = html_content
+        else:
+            modified_html = f"""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <style>
+                    body {{
+                        margin: 0;
+                        padding: 20px;
+                        width: 100%;
+                        max-width: 100%;
+                        box-sizing: border-box;
+                        overflow-x: hidden;
+                    }}
+                </style>
+            </head>
+            <body>
+                {html_content}
+            </body>
+            </html>
+            """
+        
+        components.html(modified_html, height=iframe_height, scrolling=True)
+        
+    except Exception as e:
+        st.error(f"❌ 파일을 불러올 수 없습니다: {project['url']}")
+        st.info(f"💡 파일 경로를 확인해주세요. 에러: {str(e)}")
+    
+    st.markdown("---")
+    
+    col1, col2, col3 = st.columns([1, 1, 1])
+    
+    
+    with col2:
+        if st.button("🏠 홈으로 가기", key=f"close_{project['id']}", use_container_width=True, type="primary"):
+            st.session_state[f"show_modal_{project['id']}"] = False
+            st.rerun()
+    
 
+# ================================================================
+# 
+# ================================================================
+def main():
 
-# ---------------------------------------------------------------
-# 📌 9) 기본 홈 페이지 (카드 그리드)
-# ---------------------------------------------------------------
-# -----------------------------------------------------------
-# (1) 버튼 텍스트 좌측 정렬을 위한 CSS 오버라이드
-# -----------------------------------------------------------
-st.markdown("""
-<style>
-
-div.stButton > button {
-    /* Gradient background */
-    background: linear-gradient(135deg, #1E3C72 0%, #2A5298 50%, #0E1117 100%) !important;
-
-    /* Text */
-    color: white !important;
-    font-family: 'Noto Sans KR', sans-serif !important;         
-    font-weight: 600 !important;
-    font-size: 17px !important;
-    text-align: left !important;
-    justify-content: flex-start !important;
-    padding-left: 16px !important;
-
-    /* Shape */
-    border-radius: 12px !important;
-    border: none !important;
-
-    /* Premium shadow */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25) !important;
-    transition: all 0.25s ease-in-out !important;
-}
-
-/* Hover effect: Brighter + Glow */
-div.stButton > button:hover {
-    background: linear-gradient(135deg, #264B8E 0%, #3C66B2 50%, #6B91D6 100%) !important;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(50, 120, 255, 0.45) !important;
-}         
-
-/* Active (click) effect */
-div.stButton > button:active {
-    transform: translateY(0px) !important;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.35) !important;
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-
-# -----------------------------------------------------------
-# (2) 프로젝트 카드 UI
-# -----------------------------------------------------------
-st.subheader("📁 프로젝트 목록")
-# LIAST_HTML = """
-# <div class="list-title">📁 프로젝트 목록</div>
-# """
-# st.markdown(LIAST_HTML, unsafe_allow_html=True)
-
-
-
-cols_per_row = 3
-
-for i in range(0, len(projects), cols_per_row):
-
-    cols = st.columns(cols_per_row)
-
-    for col, proj in zip(cols, projects[i:i + cols_per_row]):
-
-        # 버튼 (텍스트 좌측 정렬됨)
-        if col.button(proj["title"], key=f"btn_{proj['id']}", use_container_width=True):
-            st.session_state.selected = proj["id"]
+    render_header()
+    
+    stats = get_statistics(projects)
+    
+    with st.sidebar:
+        
+        st.title("🔍 필터")
+        
+        search_term = st.text_input("🔎 검색", placeholder="프로젝트명, 설명, 태그...")
+        
+        st.markdown("---")
+        
+        st.subheader("📁 카테고리")
+        categories = ["전략 AI", "제조 AI", "농산업 AI"]
+        selected_categories = []
+        for cat in categories:
+            if st.checkbox(f"{cat} ({stats['categories'][cat]})", key=f"cat_{cat}"):
+                selected_categories.append(cat)
+        
+        st.markdown("---")
+        
+        st.subheader("🏷️ 기술 태그")
+        all_tags = get_all_tags(projects)
+        
+        tag_counter = Counter()
+        for p in projects:
+            tag_counter.update(normalize_tags(p["tags"]))
+        popular_tags = [tag for tag, count in tag_counter.most_common(10)]
+        
+        selected_tags = st.multiselect(
+            "기술 선택 (인기 태그)",
+            options=popular_tags,
+            placeholder="태그를 선택하세요..."
+        )
+        
+        st.markdown("---")
+        
+        sort_option = st.selectbox(
+            "🔀 정렬",
+            ["오래된순", "최신순", "이름순"]
+        )
+        
+        if st.button("🔄 필터 초기화", use_container_width=True):
             st.rerun()
 
-        # 이미지 렌더링
-        img_html = render_project_image(proj["img"])
-        col.markdown(img_html, unsafe_allow_html=True)
-
-        # 제목 + 설명
-        col.markdown(f"""
-            <div style="text-align: left;font-size:18px;font-weight:650;margin-top:8px;">
-                {proj['title']}
-            </div>
-            <div style="font-size:14px;opacity:0.75;">
-                {proj['desc']}
-            </div>
+        st.markdown("---")
+        st.markdown("## 📊 포트폴리오 통계")
+        render_statistics(stats, stats['total'])
+    
+    filtered_projects = search_projects(projects, search_term, selected_categories, selected_tags)
+    
+    if sort_option == "오래된순":
+        filtered_projects = sorted(filtered_projects, key=lambda x: x["id"])
+    elif sort_option == "이름순":
+        filtered_projects = sorted(filtered_projects, key=lambda x: x["title"])
+    else:  
+        filtered_projects = sorted(filtered_projects, key=lambda x: x["id"], reverse=True)
+    
+    if search_term or selected_categories or selected_tags:
+        st.markdown(f"""
+        <div class="search-result-count">
+            🔍 <strong>{len(filtered_projects)}개</strong>의 프로젝트를 찾았습니다.
+        </div>
         """, unsafe_allow_html=True)
+    
+    st.markdown("""
+    <h2 style="background-color: rgba(255, 255, 255, 0.05); font-weight: 800;color: rgba(0, 255, 0, 0.7);margin-bottom: 1rem; padding: 0.8rem; border-radius: 8px;">
+                📂 Project List</h2>
+    """, unsafe_allow_html=True)
+    
+    if not filtered_projects:
+        st.warning("⚠️ 검색 조건에 맞는 프로젝트가 없습니다. 필터를 조정해보세요.")
+    else:
 
-    st.markdown("<hr>", unsafe_allow_html=True)
+        for project in filtered_projects:
+            if st.session_state.get(f"reopen_modal_{project['id']}", False):
+                st.session_state[f"show_modal_{project['id']}"] = True
+                st.session_state[f"reopen_modal_{project['id']}"] = False
+                break
+        
+        show_detail = False
+        for project in filtered_projects:
+            if st.session_state.get(f"show_modal_{project['id']}", False):
+                show_detail = True
+                render_project_card(project)
+                break
+        
+        if not show_detail:
+            for i in range(0, len(filtered_projects), 2):
+                col1, col2 = st.columns(2, gap="large")
+                
+                with col1:
+                    render_project_card(filtered_projects[i])
+                
+                if i + 1 < len(filtered_projects):
+                    with col2:
+                        render_project_card(filtered_projects[i + 1])
+                
+                st.markdown("<br>", unsafe_allow_html=True)
+    
+    st.markdown("---")
+    st.markdown("""
+        <div style="text-align: center; color: #6b7280; padding: 2rem;">
+            <p style="font-size: 1.2rem;">Kⁱ⁰⁷ 데이터 기반 가치 전환 전략</p>
+            This work is based on my personal field analysis of data-driven value transformation strategies.<br>
+            © 2023-2025 Data-driven VX Strategist | powered by Kⁱ⁰⁷ Ken KIM| 📧 <a href='mailto:io7hub@naver.com' style='text-decoration: none;'>io7hub@naver.com</a><br></p>   
+        </div>
+    """, unsafe_allow_html=True)     
 
-
-# ---------------------------------------------------------------
-# 📌 푸터
-# ---------------------------------------------------------------
-#    st.markdown("---")
-#    st.markdown("""
-#        <div style="text-align: center; color: #6b7280; padding: 2rem;">
-#            <p>© 2024 Data-driven VX Strategist | Kⁱ⁰⁷ | 📧 io7hub@naver.com</p>
-#            <p style="font-size: 0.875rem;">데이터 기반 가치 전환 전략가</p>
-#        </div>
-#    """, unsafe_allow_html=True)    
+if __name__ == "__main__":
+    main()
