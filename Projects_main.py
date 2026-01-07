@@ -39,6 +39,7 @@ st.markdown("""
     }
     
     .header-title {
+        font-family: 'Noto Sans KR', sans-serif;
         color: #00d9ff;
         font-size: 2.5rem;
         font-weight: 800;
