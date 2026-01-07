@@ -39,7 +39,7 @@ st.markdown("""
     }
     
     .header-title {
-        font-family: 'Noto Sans KR', sans-serif;
+        font-family: 'Noto Sans KR', sans-serif;    
         color: #00d9ff;
         font-size: 2.5rem;
         font-weight: 800;
@@ -520,6 +520,14 @@ projects = [
         "url": str(html_path(35)),
         "tags": ["제조 AI", "냉간인발", "Sankey Diagram", "BYPASS 공정", "비파괴검사", "공정분석", "AI + 룰 엔진", "DX"]
     },
+    {
+        "id": 36,
+        "title": "전략AI | 지능형 Rule-based KPIs 진단 엔진",
+        "desc": "Intelligent Rule-based KPIs Diagnostic Engine for Industrial Excellence",
+        "img": str(img_path(36)),
+        "url": str(html_path(36)),
+        "tags": ["XAI", "Rule Engine", "예지보전 시스템", "Cloud MLOps", "Model Serving", "Edge 추론", "진동 패턴", "에너지: 수요 반응", "KPIs", "불량 예측", "LLM 융합", "디지털 트윈", "엣지 컴퓨팅", "Knowledge Graph"]
+    },
 ]
 
 def normalize_tags(tags):
@@ -909,6 +917,7 @@ def main():
             This work is based on my personal field analysis of data-driven value transformation strategies.<br>
             © 2023-2025 Data-driven VX Strategist | powered by Kⁱ⁰⁷ Ken KIM| 📧 <a href='mailto:io7hub@naver.com' style='text-decoration: none;'>io7hub@naver.com</a><br></p>   
         </div>
+        <div class="w-12 h-1 bg-gradient-to-r from-blue-500 to-emerald-500 mx-auto rounded-full"></div>
     """, unsafe_allow_html=True)     
 
 if __name__ == "__main__":
