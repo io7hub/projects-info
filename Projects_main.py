@@ -816,7 +816,7 @@ def main():
     
     with st.sidebar:
         
-        st.title("Kⁱ⁰⁷ AI & Rule Engine")
+        st.title("📚 Kⁱ⁰⁷ AI & Rule")
         
         search_term = st.text_input("🔎 검색", placeholder="프로젝트명, 설명, 태그...")
         
