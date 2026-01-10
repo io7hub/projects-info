@@ -318,7 +318,7 @@ projects = [
         "desc": "고산지대 농기계 도입 및 현지화 전략",
         "img": str(img_path(10)),
         "url": str(html_path(10)),
-        "tags": ["Maquinaria Agricola", "Ecosistema Sostenible", "Sierra", "Tractor", "Kubota", "John Deere", "Localizacion", "ODA", "Agricultura", "KADI", "에콰도르", "농기계", "고산지대", "현지화"]
+        "tags": ["Maquinaria Agricola", "농기계", "Localizacion", "Sierra", "Ecosistema Sostenible", "Sierra", "Tractor", "Kubota", "John Deere", "Localizacion", "ODA", "Agricultura", "KADI", "에콰도르", "농기계", "고산지대", "현지화"]
     },
     {
         "id": 11,
