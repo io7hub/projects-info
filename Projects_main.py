@@ -5,7 +5,7 @@ from collections import Counter
 import re
 
 st.set_page_config(
-    page_title="Kⁱ⁰⁷ AI 기반 가치 전환 전략_270525_0913",
+    page_title="Kⁱ⁰⁷ AI 기반 가치 전환 전략_271225_1057",
     page_icon="🌎",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -530,6 +530,56 @@ projects = [
     },
 ]
 
+# ===== 새로운 카테고리 매핑 시스템 =====
+CATEGORY_MAPPING = {
+    "제조 지능화 & AI Agent": {
+        "ids": [1, 2, 3, 5, 8, 12, 16, 21, 22, 24, 25, 28, 29, 31, 34, 35, 36],
+        "color": "#0066cc",
+        "icon": "🤖",
+        "description": "온톨로지, LLM, 룰 엔진 기반 생산/품질 최적화 AI Agent"
+    },
+    "IoT & 엣지 인프라": {
+        "ids": [4, 6, 11, 18, 20, 23],
+        "color": "#00cc99",
+        "icon": "🌐",
+        "description": "IIoT 플랫폼, 엣지 컴퓨팅, Modbus/OPC UA 구현"
+    },
+    "DX 전략 & ODA 컨설팅": {
+        "ids": [9, 10, 19, 23, 30, 32, 33],
+        "color": "#ff9800",
+        "icon": "📊",
+        "description": "LATAM 디지털 성숙도 진단, 교육, 농산업, ODA 사업"
+    },
+    "데이터 시각화 & 분석 BI": {
+        "ids": [7, 13, 14, 15, 17, 26, 27],
+        "color": "#9c27b0",
+        "icon": "📈",
+        "description": "3D 디지털 트윈, 대시보드, SQL 분석, 시각화"
+    }
+}
+
+# ===== 핵심 기술 스택 =====
+TECH_STACK = {
+    "AI & Reasoning": ["Ontology", "LangChain", "XAI", "Rule Engine", "Knowledge Graph", "Semantic Web"],
+    "Infrastructure & IoT": ["Raspberry Pi", "Edge Computing", "MQTT", "Modbus TCP", "OPC UA", "SCADA", "PLC"],
+    "Software & Framework": ["Streamlit", "Node-RED", "MLOps", "Graphviz", "Docker", "Cloud"],
+    "Data & Analytics": ["InfluxDB", "SQLite", "Neo4j", "SQL", "Simulation", "Digital Twin"]
+}
+
+# ===== Top 10 태그 =====
+TOP_TAGS = [
+    ("DX", 16),
+    ("IoT", 14),
+    ("AI Agent", 12),
+    ("LATAM", 10),
+    ("KPIs", 10),
+    ("Ontology", 9),
+    ("Streamlit", 8),
+    ("제조AI", 7),
+    ("Strategy", 7),
+    ("Edge", 5)
+]
+
 def normalize_tags(tags):
     """태그 정규화 - 언더스코어를 공백으로, 소문자 변환"""
     return [tag.replace("_", " ").lower() for tag in tags]
@@ -541,23 +591,75 @@ def get_all_tags(projects):
         all_tags.extend(normalize_tags(project["tags"]))
     return sorted(set(all_tags))
 
+def get_project_category(project_id):
+    """프로젝트 ID로 카테고리 찾기"""
+    for category, data in CATEGORY_MAPPING.items():
+        if project_id in data["ids"]:
+            return category
+    return "기타"
+
+def analyze_project_metadata(project):
+    """
+    프로젝트 메타데이터 자동 분석 및 카테고리 추천
+    새 프로젝트 추가 시 자동으로 카테고리 분류
+    """
+    title = project.get("title", "").lower()
+    desc = project.get("desc", "").lower()
+    tags = [tag.lower() for tag in project.get("tags", [])]
+    
+    # 점수 기반 분류
+    scores = {
+        "제조 지능화 & AI Agent": 0,
+        "IoT & 엣지 인프라": 0,
+        "DX 전략 & ODA 컨설팅": 0,
+        "데이터 시각화 & 분석 BI": 0
+    }
+    
+    # 키워드 매칭 (제목/설명)
+    if any(keyword in title + desc for keyword in ["ai agent", "ontology", "langchain", "룰 엔진", "rule engine"]):
+        scores["제조 지능화 & AI Agent"] += 3
+    
+    if any(keyword in title + desc for keyword in ["iot", "edge", "raspberry", "modbus", "opc ua", "엣지"]):
+        scores["IoT & 엣지 인프라"] += 3
+    
+    if any(keyword in title + desc for keyword in ["dx", "latam", "oda", "디지털 성숙도", "컨설팅"]):
+        scores["DX 전략 & ODA 컨설팅"] += 3
+    
+    if any(keyword in title + desc for keyword in ["dashboard", "시각화", "digital twin", "3d", "bi", "streamlit"]):
+        scores["데이터 시각화 & 분석 BI"] += 3
+    
+    # 태그 기반 분석
+    for tag in tags:
+        if "ai" in tag or "agent" in tag or "ontology" in tag:
+            scores["제조 지능화 & AI Agent"] += 1
+        if "iot" in tag or "edge" in tag:
+            scores["IoT & 엣지 인프라"] += 1
+        if "dx" in tag or "latam" in tag or "oda" in tag:
+            scores["DX 전략 & ODA 컨설팅"] += 1
+        if "dashboard" in tag or "visualization" in tag or "bi" in tag:
+            scores["데이터 시각화 & 분석 BI"] += 1
+    
+    # 가장 높은 점수의 카테고리 반환
+    recommended_category = max(scores, key=scores.get)
+    confidence = scores[recommended_category]
+    
+    return {
+        "recommended_category": recommended_category,
+        "confidence": confidence,
+        "all_scores": scores
+    }
+
 def get_category(title):
-    """프로젝트 카테고리 추출"""
-    if "전략AI" in title or "전략 AI" in title:
-        return "전략 AI"
-    elif "제조AI" in title or "제조 AI" in title:
-        return "제조 AI"
-    elif "농산업AI" in title:
-        return "농산업 AI"
-    else:
-        return "기타"
+    """하위 호환성을 위한 레거시 함수 (사용 안 함)"""
+    return "기타"
 
 def search_projects(projects, search_term, selected_categories, selected_tags):
     """프로젝트 검색 및 필터링"""
     filtered = projects
     
+    # 새로운 카테고리 시스템 적용
     if selected_categories:
-        filtered = [p for p in filtered if get_category(p["title"]) in selected_categories]
+        filtered = [p for p in filtered if get_project_category(p["id"]) in selected_categories]
     
     if selected_tags:
         filtered = [p for p in filtered if any(
@@ -576,7 +678,7 @@ def search_projects(projects, search_term, selected_categories, selected_tags):
 
 def get_statistics(projects):
     """프로젝트 통계 계산"""
-    categories = Counter([get_category(p["title"]) for p in projects])
+    categories = Counter([get_project_category(p["id"]) for p in projects])
     all_tags = []
     for p in projects:
         all_tags.extend(normalize_tags(p["tags"]))
@@ -592,7 +694,7 @@ def get_statistics(projects):
 def render_header():
     st.markdown("""
     <div class="header-container">
-        <div class="header-title">🌎 Kⁱ⁰⁷ <span font-family: 'Noto Sans KR', sans-serif;>AI 기반 가치 전환 전략</span></div>
+        <div class="header-title">🌎 Kⁱ⁰⁷ AI 기반 가치 전환 전략</div>
         <div class="header-subtitle">
             데이터로 현장을 읽고, AI로 전략을 실행합니다.
         </div>
@@ -635,13 +737,10 @@ def render_project_card(project):
         render_project_detail(project)
         return True
     
-    category = get_category(project["title"])
-    category_colors = {
-        "전략 AI": "#0066cc",
-        "제조 AI": "#00cc99",
-        "농산업 AI": "#ff9800",
-        "기타": "#9c27b0"
-    }
+    # 새로운 카테고리 시스템 적용
+    category = get_project_category(project["id"])
+    category_color = CATEGORY_MAPPING.get(category, {}).get("color", "#9c27b0")
+    category_icon = CATEGORY_MAPPING.get(category, {}).get("icon", "📁")
     
     with st.container():
         col_text, col_img = st.columns([2, 1])
@@ -654,9 +753,12 @@ def render_project_card(project):
                 padding: 1.2rem;
                 box-shadow: 0 2px 8px rgba(0,0,0,0.3);
                 height: 133px;
-                border-left: 4px solid {category_colors[category]};
+                border-left: 4px solid {category_color};
                 border-bottom: 1px solid rgba(255,255,255,0.1);
             ">
+                <div style="color: {category_color}; font-weight: bold; font-size: 0.85rem; margin-bottom: 0.5rem;">
+                    {category_icon} {category}
+                </div>
                 <div style="font-size: 1.1rem; font-weight: bold; margin-bottom: 0.5rem; color: #e0e0e0;">
                     {project['title']}
                 </div>
@@ -815,58 +917,89 @@ def main():
     stats = get_statistics(projects)
     
     with st.sidebar:
-        
+              
         st.title("📚 Kⁱ⁰⁷ AI & Rule")
         
-        search_term = st.text_input("🔎 검색", placeholder="프로젝트명, 설명, 태그...")
+        # 검색
+        search_term = st.text_input("🔎 검색", placeholder="프로젝트 제목, 설명, 태그...")
         
-        st.markdown("---")
-        
-        st.subheader("📁 카테고리")
-        categories = ["전략 AI", "제조 AI", "농산업 AI"]
+        # 새로운 카테고리 시스템
+        st.markdown("### 📁 카테고리")
+        categories = list(CATEGORY_MAPPING.keys())
         selected_categories = []
-        for cat in categories:
-            if st.checkbox(f"{cat} ({stats['categories'][cat]})", key=f"cat_{cat}"):
-                selected_categories.append(cat)
+        
+        for category in categories:
+            data = CATEGORY_MAPPING[category]
+            count = len([p for p in projects if get_project_category(p["id"]) == category])
+            if st.checkbox(f"{data['icon']} {category} ({count})", key=f"cat_{category}"):
+                selected_categories.append(category)
         
         st.markdown("---")
-        
-        st.subheader("🏷️ 기술 태그")
+
+                
+        # 일반 태그 필터
+        st.markdown("### 🏷️ 태그 필터")
         all_tags = get_all_tags(projects)
         
         tag_counter = Counter()
         for p in projects:
             tag_counter.update(normalize_tags(p["tags"]))
-        popular_tags = [tag for tag, count in tag_counter.most_common(10)]
+        popular_tags = [tag for tag, count in tag_counter.most_common(15)]
         
         selected_tags = st.multiselect(
-            "기술 선택 (인기 태그)",
+            "태그 선택",
             options=popular_tags,
-            placeholder="태그를 선택하세요..."
+            placeholder="태그를 선택하세요...",
+            label_visibility="collapsed"
         )
         
         st.markdown("---")
+
         
-        sort_option = st.selectbox(
-            "🔀 정렬",
-            ["오래된순", "최신순", "이름순"]
+        # 정렬
+        st.markdown("### 🔀 정렬")
+        sort_option = st.radio(
+            "정렬 기준",
+            ["오래된순", "최신순", "제목순"],
+            label_visibility="collapsed"
         )
-        
+
         if st.button("🔄 필터 초기화", use_container_width=True):
             st.rerun()
+ 
+        st.markdown("---")            
 
+        # 핵심 기술 스택 표시
+        st.markdown("### 🔧 핵심 기술")
+        with st.expander("기술 스택 보기"):
+            for tech_category, techs in TECH_STACK.items():
+                st.markdown(f"**{tech_category}**")
+                st.markdown(", ".join(techs))
+                st.markdown("")
+        
+        # Top 10 태그
+        st.markdown("### 🏷️ Top 10 태그")
+        with st.expander("인기 태그 보기"):
+            for tag, count in TOP_TAGS:
+                st.markdown(f"• {tag} ({count}회)")
+        
         st.markdown("---")
+
+        # 통계 대시보드
         st.markdown("## 📊 포트폴리오 통계")
         render_statistics(stats, stats['total'])
+        
+        st.markdown("---")            
     
     filtered_projects = search_projects(projects, search_term, selected_categories, selected_tags)
     
-    if sort_option == "오래된순":
-        filtered_projects = sorted(filtered_projects, key=lambda x: x["id"])
-    elif sort_option == "이름순":
-        filtered_projects = sorted(filtered_projects, key=lambda x: x["title"])
-    else:  
+    # 정렬
+    if sort_option == "최신순":
         filtered_projects = sorted(filtered_projects, key=lambda x: x["id"], reverse=True)
+    elif sort_option == "오래된순":
+        filtered_projects = sorted(filtered_projects, key=lambda x: x["id"])
+    else:  # 제목순
+        filtered_projects = sorted(filtered_projects, key=lambda x: x["title"])
     
     if search_term or selected_categories or selected_tags:
         st.markdown(f"""
