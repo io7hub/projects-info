@@ -242,167 +242,167 @@ def html_path(id):
 projects = [
     {
         "id": 1,
-        "title": "전략AI | AI-Ontology Converged BI",
+        "title": "AI₀₀₁ | AI-Ontology Converged BI",
         "desc": "전사 의사결정 자동화를 위한 온톨로지 기반 차세대 BI",
         "img": str(img_path(1)),
         "url": str(html_path(1)),
-        "tags": ["Ontology", "AI_Agent", "Action_planner", "AI_Storyboard"]
+        "tags": ["Ontology", "AI_Agent", "Action_planner", "AI_Storyboard", "전략AI", "BI", "전략AI", "DX"]
     },
     {
         "id": 2,
-        "title": "제조AI | 전동기 예지보전 통합 아키텍처",
+        "title": "AI₀₀₂ | 전동기 예지보전 통합 아키텍처",
         "desc": "3D Digital Twin - PdM_Edge_MLOps_Streamlit_Architecture",
         "img": str(img_path(2)),
         "url": str(html_path(2)),
-        "tags": ["Ontology-Driven", "AI-Planner", "Strategy", "AI-Agent", "제조AI", "제조업", "생산경영", "플래너", "360610"]
+        "tags": ["Ontology-Driven", "AI-Planner", "Strategy", "AI-Agent", "제조AI", "제조업", "생산경영", "플래너", "제조AI", "360610"]
     },
     {
         "id": 3,
-        "title": "제조AI | AI Agent 기반 생산 전략 최적화",
+        "title": "AI₀₀₃ | AI Agent 기반 생산 전략 최적화",
         "desc": "기존 데이터 기반 진단(시간/할당/인력) 및 분석 시뮬레이션을 통한 최적화 모색",
         "img": str(img_path(3)),
         "url": str(html_path(3)),
-        "tags": ["제조AI", "ROI", "Simulation", "Pareto", "Risk", "Cycle Time", "Operation", "Compensation", "AI Agent", "KPI"]
+        "tags": ["제조AI", "ROI", "Simulation", "Pareto", "Risk", "Cycle Time", "Operation", "Compensation", "AI Agent", "제조AI", "KPIs"]
     },
     {
         "id": 4,
-        "title": "전략 AI | LATAM 맞춤형 IoT Master 플랫폼 구축",
+        "title": "AI₀₀₄ | LATAM 맞춤형 IoT Master 플랫폼 구축",
         "desc": "Raspberry Pi 기반 IoT Edge & SCADA 구축",
         "img": str(img_path(4)),
         "url": str(html_path(4)),
-        "tags": ["IoT Sensor", "PLC", "Streamlit", "Edge", "Modbus TCP", "HMI", "Node-RED", "MLOps", "Rest API", "Local DB", "Cloud", "SCADA"]
+        "tags": ["IoT Sensor", "PLC", "Streamlit", "Edge", "Modbus TCP", "HMI", "Node-RED", "MLOps", "Rest API", "Local DB", "Cloud", "전략AI", "SCADA"]
     },
     {
         "id": 5,
-        "title": "전략 AI | AI + 온톨로지 기반 전략 플래너",
+        "title": "AI₀₀₅ | AI + 온톨로지 기반 전략 플래너",
         "desc": "AI + 온톨로지 기반 차세대 스마트 제조 솔루션_알루미늄 산업편",
         "img": str(img_path(5)),
         "url": str(html_path(5)),
-        "tags": ["Aluminum", "Ontology", "Strategy Planner", "Rule Engine", "KPIs", "Parameter", "Analysis", "IoT"]
+        "tags": ["Aluminum", "Ontology", "Strategy Planner", "Rule Engine", "KPIs", "Parameter", "Analysis", "전략AI", "IoT"]
     },
     {
         "id": 6,
-        "title": "전략AI | Industrial IoT Master Architecture",
+        "title": "AI₀₀₆ | Industrial IoT Master Architecture",
         "desc": "네트워크 불안정과 도입 비용을 극복하는 솔루션",
         "img": str(img_path(6)),
         "url": str(html_path(6)),
-        "tags": ["IoT Master", "IoT Platform", "Edge-Cloud", "Field Layer", "10.1인치", "1280x800", "Raspberry Pi", "Streamlit UI", "Node-RED", "InfluxDB", "Grafana", "MQTT", "Modbus TCP", "OPC UA", "RS485", "RS232", "SQLite DB", "Edge Layer", "Cloud Layer", "LATAM", "DX"]
+        "tags": ["IoT Master", "IoT Platform", "Edge-Cloud", "Field Layer", "10.1인치", "1280x800", "Raspberry Pi", "Streamlit UI", "Node-RED", "InfluxDB", "Grafana", "MQTT", "Modbus TCP", "OPC UA", "RS485", "RS232", "SQLite DB", "Edge Layer", "Cloud Layer", "LATAM", "전략AI", "DX"]
     },
     {
         "id": 7,
-        "title": "제조AI | 효율 분석 기반 생산성 혁신 전략",
+        "title": "AI₀₀₇ | 효율 분석 기반 생산성 혁신 전략",
         "desc": "DATA-DRIVEN MANUFACTURING PRODUCTIVITY IMPROVEMENT",
         "img": str(img_path(7)),
         "url": str(html_path(7)),
-        "tags": ["KPIs", "Diagnosis", "Action_Plane", "LeadTime", "WIP", "OEE", "PPM", "Productivity", "Efficiency", "OTIF", "Dashboard", "IoT_Master", "DX"]
+        "tags": ["KPIs", "Diagnosis", "Action_Plane", "LeadTime", "WIP", "OEE", "PPM", "Productivity", "Efficiency", "OTIF", "Dashboard", "IoT_Master", "제조AI", "DX"]
     },
     {
         "id": 8,
-        "title": "제조AI | AI + 온톨로지 통합 분석 시스템",
+        "title": "AI₀₀₈ | AI + 온톨로지 통합 분석 시스템",
         "desc": "AI-Agent + Ontology Engine + Rule Engine 통합 솔루션",
         "img": str(img_path(8)),
         "url": str(html_path(8)),
-        "tags": ["Welding", "AXDX", "공정지능화", "로봇용접", "온톨로지", "ONTOLOGY", "ROBOT", "AION01"]
+        "tags": ["Welding", "AXDX", "공정지능화", "로봇용접", "온톨로지", "ONTOLOGY", "ROBOT", "제조AI", "AION01"]
     },
     {
         "id": 9,
-        "title": "농산업AI | Kⁱ⁰⁷ Smart Farm AI Agent",
+        "title": "AI₀₀₉ | Kⁱ⁰⁷ Smart Farm AI Agent",
         "desc": "🍓 딸기 스마트팜 AI 전략 보고서",
         "img": str(img_path(9)),
         "url": str(html_path(9)),
-        "tags": ["SmartFarm", "IoT", "Storyboard", "AI Agent", "실시간대시보드", "농가AI", "실행로드맵", "스마트팜전략"]
+        "tags": ["SmartFarm", "IoT", "Storyboard", "AI Agent", "실시간대시보드", "농가AI", "실행로드맵", "전략AI", "스마트팜전략"]
     },
     {
         "id": 10,
-        "title": "전략AI | KADI 에콰도르 농기계 ODA 사업",
+        "title": "AI₀₁₀ | KADI 에콰도르 농기계 ODA 사업",
         "desc": "고산지대 농기계 도입 및 현지화 전략",
         "img": str(img_path(10)),
         "url": str(html_path(10)),
-        "tags": ["Maquinaria Agricola", "농기계", "Localizacion", "Sierra", "Ecosistema Sostenible", "Sierra", "Tractor", "Kubota", "John Deere", "Localizacion", "ODA", "Agricultura", "KADI", "에콰도르", "농기계", "고산지대", "현지화"]
+        "tags": ["Maquinaria Agricola", "농기계", "Localizacion", "Sierra", "Ecosistema Sostenible", "Sierra", "Tractor", "Kubota", "John Deere", "Localizacion", "ODA", "Agricultura", "KADI", "에콰도르", "농기계", "고산지대", "전략AI", "현지화"]
     },
     {
         "id": 11,
-        "title": "전략AI | 생산 ROI 분석 AGENT",
+        "title": "AI₀₁₁ | 생산 ROI 분석 AGENT",
         "desc": "핵심 지표 분석을 통한 ROI 개선 시스템",
         "img": str(img_path(11)),
         "url": str(html_path(11)),
-        "tags": ["IoT_Platform", "Streamlit_UI", "KPI", "Environment", "Policy", "Packaging", "Regulation", "Monitering", "법제정비", "경량_모니터링_플랫폼", "모니터링"]
+        "tags": ["IoT_Platform", "Streamlit_UI", "KPI", "Environment", "Policy", "Packaging", "Regulation", "Monitering", "법제정비", "경량_모니터링_플랫폼", "전략AI", "모니터링"]
     },
     {
         "id": 12,
-        "title": "제조AI | LangChain 기반 Manufacturing AI Agent",
+        "title": "AI₀₁₂ | LangChain 기반 Manufacturing AI Agent",
         "desc": "온톨로지 기반 제조 AI 분석 에이전트 개발",
         "img": str(img_path(12)),
         "url": str(html_path(12)),
-        "tags": ["LangChain", "AI_Agent", "Ontology", "DX"]
+        "tags": ["LangChain", "AI_Agent", "Ontology", "제조AI", "DX"]
     },
     {
         "id": 13,
-        "title": "전략AI | Streamlit SQL Analyzer",
+        "title": "AI₀₁₃ | Streamlit SQL Analyzer",
         "desc": "Query → KPI → Chart 자동화 엔진",
         "img": str(img_path(13)),
         "url": str(html_path(13)),
-        "tags": ["AI", "Streamlit", "SQL", "BI", "KPI"]
+        "tags": ["AI", "Streamlit", "SQL", "BI", "전략AI", "KPI"]
     },
     {
         "id": 14,
-        "title": "전략AI | Industrial Diagram Studio",
+        "title": "AI₀₁₄ | Industrial Diagram Studio",
         "desc": "현장 중심 아키텍처 시각화 솔루션",
         "img": str(img_path(14)),
         "url": str(html_path(14)),
-        "tags": ["Graphviz", "KPIs", "AI", "3D Viewer", "Industrial Diagram", "Pipeline", "Workflow", "Streamlit UI", "Analytics", "Dashboard"]
+        "tags": ["Graphviz", "KPIs", "AI", "3D Viewer", "Industrial Diagram", "Pipeline", "Workflow", "Streamlit UI", "Analytics", "전략AI", "Dashboard"]
     },
     {
         "id": 15,
-        "title": "전략AI | Aluminum-Air Battery",
+        "title": "AI₀₁₅ | Aluminum-Air Battery",
         "desc": "Al-Air 전지 시제품 생산 시스템 구축 사업제안",
         "img": str(img_path(15)),
         "url": str(html_path(15)),
-        "tags": ["Al-Air_Battery", "Al_anode", "O₂_cathode", "Battery", "Research_Data", "Purity", "surface_treatment", "electrolyte", "cell_design", "typical_alloys", "high_purity_aluminum", "aluminum_alloys"]
+        "tags": ["Al-Air_Battery", "Al_anode", "O₂_cathode", "Battery", "Research_Data", "Purity", "surface_treatment", "electrolyte", "cell_design", "typical_alloys", "high_purity_aluminum", "전략AI", "aluminum_alloys"]
     },
     {
         "id": 16,
-        "title": "Kⁱᵒ⁷ 제조AI | 자동차부품 Smart Quality Planner",
+        "title": "AI₀₁₆ | 자동차부품 Smart Quality Planner",
         "desc": "AI 기반 자체 품질 관리 프레임워크 개발",
         "img": str(img_path(16)),
         "url": str(html_path(16)),
-        "tags": ["AI-Driven", "AI-Planner", "Quality", "AI-Agent", "제조AI", "자동차부품", "품질", "플래너", "361317"]
+        "tags": ["AI-Driven", "AI-Planner", "Quality", "AI-Agent", "제조AI", "자동차부품", "품질", "플래너", "전략AI", "361317"]
     },
     {
         "id": 17,
-        "title": "전략AI | Digital Twin Factory Viewer(3D)",
+        "title": "AI₀₁₇ | Digital Twin Factory Viewer(3D)",
         "desc": "Node → Edge 3D 공정 시각화 엔진",
         "img": str(img_path(17)),
         "url": str(html_path(17)),
-        "tags": ["DigitalTwin", "3D Viewer", "Strategic Pipeline", "DOT", "Strategic Decision", "Node-Edge", "AS-IS vs TO-BE", "Simulation", "Insight", "Visualization"]
+        "tags": ["DigitalTwin", "3D Viewer", "Strategic Pipeline", "DOT", "Strategic Decision", "Node-Edge", "AS-IS vs TO-BE", "Simulation", "Insight", "전략AI", "Visualization"]
     },
     {
         "id": 18,
-        "title": "전략AI | 중남미 중소기업 DX 전략",
+        "title": "AI₀₁₈ | 중남미 중소기업 DX 전략",
         "desc": "경량 IoT 플랫폼 기반의 현지 맞춤형 DX 솔루션 개발 및 전개 방안",
         "img": str(img_path(18)),
         "url": str(html_path(18)),
-        "tags": ["IoT", "Streamlit", "Google_Chat", "Trello", "디지털성숙도", "데이터분석", "알림&의사결정", "대응조치&이력조회", "폐쇄루프파이프라인", "Edge", "Cloud", "DigitalMaturity", "KPIsMonitering", "LATAM", "FabrikMonitor", "QSI", "Eco-Sensor", "MES-Lite", "DX"]
+        "tags": ["IoT", "Streamlit", "Google_Chat", "Trello", "디지털성숙도", "데이터분석", "알림&의사결정", "대응조치&이력조회", "폐쇄루프파이프라인", "Edge", "Cloud", "DigitalMaturity", "KPIsMonitering", "LATAM", "FabrikMonitor", "QSI", "Eco-Sensor", "전략AI", "MES-Lite", "DX"]
     },
     {
         "id": 19,
-        "title": "전략AI | DX Strategy for LATAM SMEs",
+        "title": "AI₀₁₉ | DX Strategy for LATAM SMEs",
         "desc": "중남미 정부·기업 대상 DX 맞춤형 컨설팅 교육 프로그램",
         "img": str(img_path(19)),
         "url": str(html_path(19)),
-        "tags": ["IoT", "PoCs", "Local Partner", "Empower People", "MES lite", "Road map", "Technology_Blueprint", "Lightweight_IoT_Architecture", "DX Education", "LATAM", "IoT_Platform", "IoT_Master", "Streamlit_UI"]
+        "tags": ["IoT", "PoCs", "Local Partner", "Empower People", "MES lite", "Road map", "Technology_Blueprint", "Lightweight_IoT_Architecture", "DX Education", "LATAM", "IoT_Platform", "IoT_Master", "전략AI", "Streamlit_UI"]
     },
     {
         "id": 20,
-        "title": "전략AI | KPIs Rule Engine Editor",
+        "title": "AI₀₂₀ | KPIs Rule Engine Editor",
         "desc": "규칙 기반 KPIs 진단 엔진 개발",
         "img": str(img_path(20)),
         "url": str(html_path(20)),
-        "tags": ["XAI", "Ruleset", "Graph-Rule", "If-Then", "Decision Matrix","Neo4j", "Low-Code", "No-Code", "Domain Knowledge", "Semantic Web Rule Language", "Reasoning", "Semantic Reasoning", "Rule_Engine", "Ontology", "KPIs", "Intelligent Knowledge Graph", "Vector DB", "Analysis", "DX"]
+        "tags": ["XAI", "Ruleset", "Graph-Rule", "If-Then", "Decision Matrix","Neo4j", "Low-Code", "No-Code", "Domain Knowledge", "Semantic Web Rule Language", "Reasoning", "Semantic Reasoning", "Rule_Engine", "Ontology", "KPIs", "Intelligent Knowledge Graph", "Vector DB", "Analysis", "전략AI", "DX"]
     },
     {
         "id": 21,
-        "title": "제조AI | 품질 리스크 정량 분석",
+        "title": "AI₀₂₁ | 품질 리스크 정량 분석",
         "desc": "FMEA와 AI 통합 기반의 Torque·Leak·Lock Force 분석 및 품질 예측",
         "img": str(img_path(21)),
         "url": str(html_path(21)),
@@ -410,123 +410,123 @@ projects = [
     },
     {
         "id": 22,
-        "title": "제조AI | Manufacturing.AI Storyboard",
+        "title": "AI₀₂₂ | Manufacturing.AI Storyboard",
         "desc": "AI-Driven Industrial Process Intelligence Framework",
         "img": str(img_path(22)),
         "url": str(html_path(22)),
-        "tags": ["AI_Planner", "Quality", "MES", "IoT_Master", "DX"]
+        "tags": ["AI_Planner", "Quality", "MES", "IoT_Master", "제조AI", "DX"]
     },
     {
         "id": 23,
-        "title": "전략AI | El Salvador SME DX Strategy",
+        "title": "AI₀₂₃ | El Salvador SME DX Strategy",
         "desc": "A Lightweight, Modular, and Action-Oriented Pipeline for Digital Transformation",
         "img": str(img_path(23)),
         "url": str(html_path(23)),
-        "tags": ["DMI", "Data&Analysis", "Alert&Discussion", "Action&Tracking", "Closed-Loop-Pipeline", "IoT", "DigitalMaturity", "LATAM", "ODA", "DX"]
+        "tags": ["DMI", "Data&Analysis", "Alert&Discussion", "Action&Tracking", "Closed-Loop-Pipeline", "IoT", "DigitalMaturity", "LATAM", "ODA", "전략AI", "DX"]
     },
     {
         "id": 24,
-        "title": "제조AI | 공정 지능화 AI-Agent — 유압설비편",
+        "title": "AI₀₂₄ | 공정 지능화 AI-Agent — 유압설비편",
         "desc": "유압 장비 사용자 스토리보드 기반 AI-Agent 개발 · Ontology 엔진 고도화",
         "img": str(img_path(24)),
         "url": str(html_path(24)),
-        "tags": ["IoT", "Edge", "Hydraulic", "DX_Planner"]
+        "tags": ["IoT", "Edge", "Hydraulic", "DX_Planner", "제조AI", "공정지능화", "유압설비", "AI-Agent" ]
     },
     {
         "id": 25,
-        "title": "전략AI | 온라인 플랫폼 분석 AI Agent",
+        "title": "AI₀₂₅ | 온라인 플랫폼 분석 AI Agent",
         "desc": "플랫폼 지표 기반 성장전략 자동 분석 AI Agent 개발",
         "img": str(img_path(25)),
         "url": str(html_path(25)),
-        "tags": ["Platform_data", "AI_Strategy_Planner", "BI", "Dashboard", "SQL"]
+        "tags": ["Platform_data", "AI_Strategy_Planner", "BI", "Dashboard", "전략AI", "SQL"]
     },
     {
         "id": 26,
-        "title": "전략AI | 데이터 기반 인사관리 시뮬레이터",
+        "title": "AI₀₂₆ | 데이터 기반 인사관리 시뮬레이터",
         "desc": "데이터 분석 기반의 액션 플랜 및 시뮬레이션 모델 개발",
         "img": str(img_path(26)),
         "url": str(html_path(26)),
-        "tags": ["HR_Analytics", "KPI", "HR_Strategy", "BI", "Simulator"]
+        "tags": ["HR_Analytics", "KPI", "HR_Strategy", "BI", "전략AI", "Simulator"]
     },
     {
         "id": 27,
-        "title": "전략AI | AI 기반 플랫폼 분석 및 성장 전략 보고서 생성",
+        "title": "AI₀₂₇ | AI 기반 플랫폼 분석 및 성장 전략 보고서 생성",
         "desc": "플랫폼의 세부 분석, 플랫폼 성장 전략, 로드맵&액션플랜 AI Agent 개발",
         "img": str(img_path(27)),
         "url": str(html_path(27)),
-        "tags": ["AI_Platform", "DataFrame", "DB", "SQL", "BI", "Visualization"]
+        "tags": ["AI_Platform", "DataFrame", "DB", "SQL", "BI", "전략AI", "Visualization"]
     },
     {
         "id": 28,
-        "title": "제조AI | 생산 효율 분석 및 로드맵 수립",
+        "title": "AI₀₂₈ | 생산 효율 분석 및 로드맵 수립",
         "desc": "부서별 가용 시간 대비 효율 진단 및 개선 전략 AI Agent 개발",
         "img": str(img_path(28)),
         "url": str(html_path(28)),
-        "tags": ["KPIs", "EPD", "EPR", "Visualization", "Productivity", "Efficiency", "Dashboard", "IoT_Master", "DX", "AI_Action_Planner", "Insight", "가용효율성", "보고효율성"]
+        "tags": ["KPIs", "EPD", "EPR", "Visualization", "Productivity", "Efficiency", "Dashboard", "IoT_Master", "DX", "AI_Action_Planner", "Insight", "가용효율성", "제조AI", "보고효율성"]
     },
     {
         "id": 29,
-        "title": "제조AI | AI 기반 HPDC 생산전략",
+        "title": "AI₀₂₉ | AI 기반 HPDC 생산전략",
         "desc": "중남미 맞춤형 고압주조(HPDC) 생산현장 DX 전용 AI Agent 개발",
         "img": str(img_path(29)),
         "url": str(html_path(29)),
-        "tags": ["HPDC", "Dinamic_Dashboard", "DX Strategy", "IoT", "AI_Action_Planner", "Insight", "LATAM", "고압주조", "생산전략", "중남미", "운영탄력성", "기술내재화", "동적시각화"]
+        "tags": ["HPDC", "Dinamic_Dashboard", "DX Strategy", "IoT", "AI_Action_Planner", "Insight", "LATAM", "고압주조", "생산전략", "중남미", "운영탄력성", "기술내재화", "제조AI", "동적시각화"]
     },
     {
         "id": 30,
-        "title": "전략AI | LATAM 파트너 디지털 성숙도 분석",
+        "title": "AI₀₃₀ | LATAM 파트너 디지털 성숙도 분석",
         "desc": "7개 파트너 기업 DX 성숙도 진단 및 시장 분석",
         "img": str(img_path(30)),
         "url": str(html_path(30)),
-        "tags": ["DMI", "Partners", "KeyInsights", "IoT", "SmartFactory", "DigitalMaturity", "LATAM", "ODA", "DX"]
+        "tags": ["DMI", "Partners", "KeyInsights", "IoT", "SmartFactory", "DigitalMaturity", "LATAM", "ODA", "전략AI", "DX"]
     },
     {
         "id": 31,
-        "title": "전략AI | LATAM 경영 전략 보고서",
+        "title": "AI₀₃₁ | LATAM 경영 전략 보고서",
         "desc": "Kⁱ⁰⁷ Manufacturing Intelligence Platform 기반 경영 전략 보고서",
         "img": str(img_path(31)),
         "url": str(html_path(31)),
-        "tags": ["전략 AI", "하이브리드 인텔리전스", "AI", "Ontology", "LangChain", "Graphviz", "3D Simulator", "LATAM", "ODA", "DX"]
+        "tags": ["전략AI", "하이브리드 인텔리전스", "AI", "Ontology", "LangChain", "Graphviz", "3D Simulator", "LATAM", "ODA", "DX"]
     },
     {
         "id": 32,
-        "title": "제조AI | Su Día Cambiará Hoy",
+        "title": "AI₀₃₂ | Su Día Cambiará Hoy",
         "desc": "Estrategias de Transformación Digital para Mejorar la Eficiencia y Productividad",
         "img": str(img_path(32)),
         "url": str(html_path(32)),
-        "tags": ["IA", "Desafíos enfrentados", "Tiempo Perdidos", "IoT", "Errores en cálculo manuales", "Decisiones para mejoras", "SmartFactory", "Manufacturing Intelligence", "LATAM", "Kⁱ⁰⁷ Platform", "DX"]
+        "tags": ["IA", "Desafíos enfrentados", "Tiempo Perdidos", "IoT", "Errores en cálculo manuales", "Decisiones para mejoras", "SmartFactory", "Manufacturing Intelligence", "LATAM", "Kⁱ⁰⁷ Platform", "제조AI", "DX"]
     },
     {
         "id": 33,
-        "title": "전략AI | 생산 ROI 기준선 분석 AGENT",
+        "title": "AI₀₃₃ | 생산 ROI 기준선 분석 AGENT",
         "desc": "보유 데이터 기반 문제 진단·시각화 및 실행 로드맵 제시",
         "img": str(img_path(33)),
         "url": str(html_path(33)),
-        "tags": ["전략 AI", "수기 데이터", "기준선 분석", "IoT 연동", "실시간 시각화", "클라우드", "LATAM", "ODA", "DX"]
+        "tags": ["전략AI", "수기 데이터", "기준선 분석", "IoT 연동", "실시간 시각화", "클라우드", "LATAM", "ODA", "DX"]
     },
     {
         "id": 34,
-        "title": "제조AI | Fe-C 상태도 실무 활용 시스템",
+        "title": "AI₀₃₄ | Fe-C 상태도 실무 활용 시스템",
         "desc": "Fe-C 상태도 기반 AI + Ontology + LangChain 통합 솔루션",
         "img": str(img_path(34)),
         "url": str(html_path(34)),
-        "tags": ["제조 AI", "Kⁱ⁰⁷ Fe-C 상태도", "AI + Ontology", "LangChain Agent", "냉간 인발 튜브", "Heat Treatment", "열처리", "DX"]
+        "tags": ["제조AI", "Kⁱ⁰⁷ Fe-C 상태도", "AI + Ontology", "LangChain Agent", "냉간 인발 튜브", "Heat Treatment", "열처리", "DX"]
     },
     {
         "id": 35,
-        "title": "제조AI | 공정 분석 및 전략적 대안 시스템",
+        "title": "AI₀₃₅ | 공정 분석 및 전략적 대안 시스템",
         "desc": "냉간인발 강관 제조공정 | 종합 검토 및 실행 계획",
         "img": str(img_path(35)),
         "url": str(html_path(35)),
-        "tags": ["제조 AI", "냉간인발", "Sankey Diagram", "BYPASS 공정", "비파괴검사", "공정분석", "AI + 룰 엔진", "DX"]
+        "tags": ["제조AI", "냉간인발", "Sankey Diagram", "BYPASS 공정", "비파괴검사", "공정분석", "AI + 룰 엔진", "DX"]
     },
     {
         "id": 36,
-        "title": "전략AI | 지능형 Rule-based KPIs 진단 엔진",
+        "title": "AI₀₃₆ | 지능형 Rule-based KPIs 진단 엔진",
         "desc": "Intelligent Rule-based KPIs Diagnostic Engine for Industrial Excellence",
         "img": str(img_path(36)),
         "url": str(html_path(36)),
-        "tags": ["XAI", "Rule Engine", "예지보전 시스템", "Cloud MLOps", "Model Serving", "Edge 추론", "진동 패턴", "에너지: 수요 반응", "KPIs", "불량 예측", "LLM 융합", "디지털 트윈", "엣지 컴퓨팅", "Knowledge Graph"]
+        "tags": ["XAI", "Rule Engine", "예지보전 시스템", "Cloud MLOps", "Model Serving", "Edge 추론", "진동 패턴", "에너지: 수요 반응", "KPIs", "불량 예측", "LLM 융합", "디지털 트윈", "엣지 컴퓨팅", "전략AI", "Knowledge Graph"]
     },
 ]
 
