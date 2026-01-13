@@ -616,16 +616,16 @@ def analyze_project_metadata(project):
     }
     
     # 키워드 매칭 (제목/설명)
-    if any(keyword in title + desc for keyword in ["ai agent", "ontology", "langchain", "룰 엔진", "rule engine"]):
+    if any(keyword in title + desc for keyword in ["AI Agent", "Ontology", "LangChain", "룰 엔진", "Rule Engine"]):
         scores["제조 지능화 & AI Agent"] += 3
     
-    if any(keyword in title + desc for keyword in ["iot", "edge", "raspberry", "modbus", "opc ua", "엣지"]):
+    if any(keyword in title + desc for keyword in ["IoT", "Edge", "Raspberry", "Modbus", "OPC", "엣지"]):
         scores["IoT & 엣지 인프라"] += 3
     
-    if any(keyword in title + desc for keyword in ["dx", "latam", "oda", "디지털 성숙도", "컨설팅"]):
+    if any(keyword in title + desc for keyword in ["DX", "LATAM", "ODA", "디지털 성숙도", "컨설팅"]):
         scores["DX 전략 & ODA 컨설팅"] += 3
     
-    if any(keyword in title + desc for keyword in ["dashboard", "시각화", "digital twin", "3d", "bi", "streamlit"]):
+    if any(keyword in title + desc for keyword in ["Dashboard", "시각화", "Digital Twin", "3D", "BI", "Streamlit"]):
         scores["데이터 시각화 & 분석 BI"] += 3
     
     # 태그 기반 분석
