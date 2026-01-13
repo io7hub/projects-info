@@ -826,6 +826,7 @@ def render_project_detail(project):
         <p style="margin: 0.8rem 0 0 0; opacity: 0.9; font-size: 1.1rem;">{project['desc']}</p>
     </div>
     """, unsafe_allow_html=True)
+    st.balloons()
     
     try:
         with open(project['url'], 'r', encoding='utf-8') as f:
@@ -848,7 +849,7 @@ def render_project_detail(project):
             if st.button("🏠 Home", key=f"home_top_{project['id']}", use_container_width=True):
                 st.session_state[f"show_modal_{project['id']}"] = False
                 st.rerun()
-                st.balloons()
+                
         
         if height_option == "보통 (800px)":
             iframe_height = 800
@@ -904,7 +905,7 @@ def render_project_detail(project):
         if st.button("🏠 홈으로 가기", key=f"close_{project['id']}", use_container_width=True, type="primary"):
             st.session_state[f"show_modal_{project['id']}"] = False
             st.rerun()
-            st.balloons()
+            
 
 # ================================================================
 # 
