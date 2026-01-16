@@ -718,7 +718,7 @@ def render_statistics(stats, filtered_count):
         </div>
         <div class="stat-card">
             <div class="stat-number">{}</div>
-            <div class="stat-label">고유 기술</div>
+            <div class="stat-label">응용 기술</div>
         </div>
         <div class="stat-card">
             <div class="stat-number">{}</div>
