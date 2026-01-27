@@ -5,7 +5,7 @@ from collections import Counter
 import re
 
 st.set_page_config(
-    page_title="Kⁱ⁰⁷ XAI 기반 가치 전환 전략_271225_1057",
+    page_title="Kⁱ⁰⁷ XAI 기반 가치 전환 전략_272709_1057",
     page_icon="🌎",
     layout="wide",
     initial_sidebar_state="expanded"
