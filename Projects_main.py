@@ -5,7 +5,7 @@ from collections import Counter
 import re
 
 st.set_page_config(
-    page_title="Kⁱ⁰⁷ AI 기반 가치 전환 전략_271225_1057",
+    page_title="Kⁱ⁰⁷ XAI 기반 가치 전환 전략_271225_1057",
     page_icon="🌎",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -692,9 +692,9 @@ def get_statistics(projects):
 def render_header():
     st.markdown("""
     <div class="header-container">
-        <div class="header-title">🌎 Kⁱ⁰⁷ AI 기반 가치 전환 전략</div>
+        <div class="header-title">🌎 Kⁱ⁰⁷ XAI 기반 가치 전환 전략</div>
         <div class="header-subtitle">
-            데이터로 현장을 읽고, AI로 전략을 실행합니다.
+            데이터로 현장을 읽고, XAI로 전략을 실행합니다.
         </div>
         <div class="header-tags">
             <span class="header-tag">✨ XAI · Ontology Systems</span>
@@ -918,13 +918,13 @@ def main():
     
     with st.sidebar:
               
-        st.title("📚 Kⁱ⁰⁷ AI & Rule")
+        st.title("📚 Kⁱ⁰⁷ XAI & Rule")
         
         # 검색
-        search_term = st.text_input("🔎 검색", placeholder="프로젝트 제목, 설명, 태그...")
+        search_term = st.text_input("🔎 XAI 검색", placeholder="프로젝트 제목, 설명, 태그...")
         
         # 새로운 카테고리 시스템
-        st.markdown("### 📁 카테고리")
+        st.markdown("### 📁 XAI 카테고리")
         categories = list(CATEGORY_MAPPING.keys())
         selected_categories = []
         
@@ -970,7 +970,7 @@ def main():
         st.markdown("---")            
 
         # 핵심 기술 스택 표시
-        st.markdown("### 🔧 핵심 기술")
+        st.markdown("### 🔧 XAI와 핵심 기술")
         with st.expander("기술 스택 보기"):
             for tech_category, techs in TECH_STACK.items():
                 st.markdown(f"**{tech_category}**")
@@ -1046,9 +1046,9 @@ def main():
     st.markdown("---")
     st.markdown("""
         <div style="text-align: center; color: #6b7280; padding: 2rem;">
-            <p style="font-size: 1.2rem;">Kⁱ⁰⁷ 데이터 기반 가치 전환 전략</p>
+            <p style="font-size: 1.2rem;">Kⁱ⁰⁷ 데이터와 XAI 기반 가치 전환 전략</p>
             This work is based on my personal field analysis of data-driven value transformation strategies.<br>
-            © 2023-2025 Data-driven VX Strategist | powered by Kⁱ⁰⁷ Ken KIM| 📧 <a href='mailto:io7hub@naver.com' style='text-decoration: none;'>io7hub@naver.com</a><br></p>   
+            © 2023-2025 Data&XAI-driven VX Strategist | powered by Kⁱ⁰⁷ Ken KIM| 📧 <a href='mailto:io7hub@naver.com' style='text-decoration: none;'>io7hub@naver.com</a><br></p>   
         </div>
         <div class="w-12 h-1 bg-gradient-to-r from-blue-500 to-emerald-500 mx-auto rounded-full"></div>
     """, unsafe_allow_html=True)     
