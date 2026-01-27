@@ -924,7 +924,7 @@ def main():
         search_term = st.text_input("🔎 XAI 검색", placeholder="프로젝트 제목, 설명, 태그...")
         
         # 새로운 카테고리 시스템
-        st.markdown("### 📁 XAI 카테고리")
+        st.markdown("### 📁 XAI 카테고리(36/71)")
         categories = list(CATEGORY_MAPPING.keys())
         selected_categories = []
         
@@ -986,7 +986,7 @@ def main():
         st.markdown("---")
 
         # 통계 대시보드
-        st.markdown("## 📊 포트폴리오 통계")
+        st.markdown("## 📊 XAI 포트폴리오 통계")
         render_statistics(stats, stats['total'])
         
         st.markdown("---")            
