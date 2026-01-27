@@ -1010,7 +1010,7 @@ def main():
     
     st.markdown("""
     <h2 style="background-color: rgba(255, 255, 255, 0.05); font-weight: 800;color: rgba(0, 255, 0, 0.7);margin-bottom: 1rem; padding: 0.8rem; border-radius: 8px;">
-                📂 Project List</h2>
+                📂 XAI Project List</h2>
     """, unsafe_allow_html=True)
     
     if not filtered_projects:
