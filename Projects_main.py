@@ -1048,7 +1048,7 @@ def main():
         <div style="text-align: center; color: #6b7280; padding: 2rem;">
             <p style="font-size: 1.2rem;">Kⁱ⁰⁷ 데이터와 XAI 기반 가치 전환 전략</p>
             This work is based on my personal field analysis of data-driven value transformation strategies.<br>
-            © 2023-2025 Data&XAI-driven VX Strategist | powered by Kⁱ⁰⁷ Ken KIM| 📧 <a href='mailto:io7hub@naver.com' style='text-decoration: none;'>io7hub@naver.com</a><br></p>   
+            © 2023-2025 Data & XAI-driven VX Strategist | powered by Kⁱ⁰⁷ Ken KIM| 📧 <a href='mailto:io7hub@naver.com' style='text-decoration: none;'>io7hub@naver.com</a><br></p>   
         </div>
         <div class="w-12 h-1 bg-gradient-to-r from-blue-500 to-emerald-500 mx-auto rounded-full"></div>
     """, unsafe_allow_html=True)     
