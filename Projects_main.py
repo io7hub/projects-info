@@ -691,7 +691,7 @@ def get_statistics(projects):
 def render_header():
     st.markdown("""
     <div class="header-container">
-        <div class="header-title">🌎 <span style="font-size: 5rem;">Kⁱ⁰⁷ XAI</span> 기반 가치 전환 전략</div>
+        <div class="header-title">🌎 <span style="font-size: 2.5rem;">Kⁱ⁰⁷ XAI</span> 기반 가치 전환 전략</div>
         <div class="header-subtitle">
             데이터로 현장을 읽고, XAI로 전략을 실행합니다.
         </div>
