@@ -22,7 +22,7 @@ st.markdown("""
         padding-bottom: 0rem;
     }    
             
-    body, .stApp, p, h1, h2, h3, h4, .stText, .stMarkdown {
+    body, .stApp, p, h1, h2, h3, h4, .stText, .stTitle, .stMarkdown {
         font-family: 'Noto Sans KR', sans-serif !important; 
     }        
 
@@ -36,8 +36,7 @@ st.markdown("""
         border: 1px solid rgba(255,255,255,0.1);
     }
     
-    .header-title {   
-        font-family: 'Noto Sans KR', sans-serif !important;     
+    .header-title {    
         color: #00d9ff;
         font-size: 2.5rem;
         font-weight: 800;
